@@ -346,8 +346,8 @@ Origami:
       light-primary-color: '#BCC6CA'
 
       # Colours. Home Assistant's own named colours, re-toned; its state colours point at these.
-      # In use: amber = lights, switches, anything plainly on; deep-orange = heating; blue = cooling, humidity;
-      # light-blue = media; cyan = fans; teal = vacuum; green = ok; orange = warning; red = error.
+      # In use: amber = lights; green = switches, anything plainly on, ok; deep-orange = heating;
+      # blue = cooling, humidity; light-blue = media; cyan = fans, open windows; teal = vacuum; orange = warning; red = error.
       amber-color: '#E6C68A'
       orange-color: '#B27C43'
       deep-orange-color: '#AE6E55'
@@ -449,8 +449,8 @@ Origami:
       light-primary-color: 'var(--ha-card-background)'
 
       # Colours. Home Assistant's own named colours, re-toned; its state colours point at these.
-      # In use: amber = lights, switches, anything plainly on; deep-orange = heating; blue = cooling, humidity;
-      # light-blue = media; cyan = fans; teal = vacuum; green = ok; orange = warning; red = error.
+      # In use: amber = lights; green = switches, anything plainly on, ok; deep-orange = heating;
+      # blue = cooling, humidity; light-blue = media; cyan = fans, open windows; teal = vacuum; orange = warning; red = error.
       amber-color: '#E6C68A'
       orange-color: '#EABA89'
       deep-orange-color: '#E2A58E'

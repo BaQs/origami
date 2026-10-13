@@ -15,7 +15,7 @@ views:
       - type: grid
         column_span: 2
         cards:
-          # Fold-out menu instead of the header, opened from the navbar
+          # Menu (Origami Header), opened by More in the navbar
           - type: custom:origami-header-card
             mode: menu
             position: top
@@ -389,7 +389,7 @@ views:
             card_height: 160px
             card_padding: 20px
             card_offset: 16px 0px 12px 0px
-            # A calm colour per condition instead of the sky, without clouds and the other effects
+            # A calm colour per condition instead of the sky. Clouds and the other effects are off, rain and snow still show.
             background_mode: color
             background_threshold_entity: weather.home
             background_thresholds:
