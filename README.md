@@ -1,8 +1,11 @@
-# ◪ Origami
+<img alt="Origami, a calm theme and dashboard for Home Assistant" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
 
-A chill Home Assistant theme, and a phone dashboard folded out of [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card). Plus a set of Bubble Card modules made for the theme.
+<p>
+<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme"><img height="28" alt="HACS: Custom" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/badge-hacs.webp"></a>
+<a href="https://www.home-assistant.io"><img height="28" alt="Home Assistant 2026.10" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/badge-ha.webp"></a>
+</p>
 
-<img width="760" alt="The Origami dashboard on a phone, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/dashboard.webp">
+A calm Home Assistant theme, and a phone dashboard folded out of [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card). Plus a set of Bubble Card modules made for the theme.
 
 | | |
 | --- | --- |
@@ -156,13 +159,15 @@ Edit mode is then in its menu, or add `?edit=1` to the address.
 
 One sections view, made for phones. Each part starts with a comment in [`dashboard.yaml`](dashboard/dashboard.yaml), like `# Favorites`.
 
+<img width="760" alt="The Origami dashboard on a phone, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/dashboard.webp">
+
 ### Greeting and menu
 
 The next event, a greeting and the notifications. With the optional Origami Header, **More** in the navbar slides a menu down from the top, over the dashboard.
 
 <img width="800" alt="The next event, the greeting and the notifications card" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/header.webp">
 
-<img width="800" alt="The fold-out menu with the server status and four buttons" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/menu.webp">
+<img width="800" alt="Tap More in the navbar and the menu slides down from the top, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/menu.webp">
 
 <details>
 <summary>How it works</summary>
