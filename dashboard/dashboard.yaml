@@ -3044,16 +3044,12 @@ views:
                           scrolling_effect: false
                           # A tap on the card opens the fan pop-up
                           tap_action:
-                            action: perform-action
-                            perform_action: script.fan_popup
-                            data:
-                              fan: fan.living_room
+                            action: navigate
+                            navigation_path: '#popup_fan'
                           button_action:
                             tap_action:
-                              action: perform-action
-                              perform_action: script.fan_popup
-                              data:
-                                fan: fan.living_room
+                              action: navigate
+                              navigation_path: '#popup_fan'
                           sub_button:
                             main:
                               - icon: mdi:power
@@ -3655,7 +3651,7 @@ views:
                           button:
                             grid-area: down
 
-          # Fan pop-up for the fan in input_select.fan_popup. script.fan_popup picks the fan and opens it.
+          # Fan pop-up, opened by the fan card in the living room
           - type: custom:bubble-card
             card_type: pop-up
             hash: '#popup_fan'
@@ -3676,18 +3672,12 @@ views:
             modules:
               - origami_popup
             styles: '.bubble-pop-up-container { mask-image: none !important; }'
-            # Opens while input_boolean.fan_popup is on
-            trigger:
-              - condition: state
-                entity: input_boolean.fan_popup
-                state: 'on'
+            # Hides the timer row again for next time
             close_action:
               action: perform-action
               perform_action: input_boolean.turn_off
               target:
-                entity_id:
-                  - input_boolean.fan_popup
-                  - input_boolean.fan_popup_timer
+                entity_id: input_boolean.fan_popup_timer
             cards:
               - type: vertical-stack
                 cards:
@@ -3721,10 +3711,12 @@ views:
                         state:
                           padding: 0px
                     buttons:
-                      - layout: name
-                        name:
-                          entity: sensor.fan_popup
+                      # The fan's name as the title
+                      - entity: fan.living_room
+                        layout: name
                         tap_action:
+                          action: none
+                        hold_action:
                           action: none
                         styles:
                           button:
@@ -3741,18 +3733,11 @@ views:
                             font-weight: var(--ha-font-weight-bold)
                             line-height: var(--ha-line-height-normal)
                             color: var(--primary-text-color)
-                      - icon: mdi:power
+                      - entity: fan.living_room
+                        icon: mdi:power
                         tooltip: On or off
-                        entity: sensor.fan_popup
-                        state:
-                          attribute: power
-                        active:
-                          - 'on'
                         tap_action:
-                          action: call-service
-                          service: script.fan_control
-                          service_data:
-                            control: toggle
+                          action: toggle
                         state_styles:
                           'on':
                             button:
@@ -3813,7 +3798,7 @@ views:
                           padding: 0px
                     buttons:
                       - icon: mdi:backspace-reverse
-                  # Speed and head, then a slider for the shown fan
+                  # Speed and head, then the slider
                   - type: entities
                     entities:
                       - type: custom:paper-buttons-row
@@ -3826,23 +3811,7 @@ views:
                           gap: var(--ha-space-2)
                           margin-bottom: var(--ha-space-3)
                         base_config:
-                          entity: sensor.fan_popup
-                          active:
-                            - 'on'
                           layout: icon
-                          tap_action:
-                            action: call-service
-                            service: script.fan_control
-                            service_data:
-                              control: direction
-                          state_styles:
-                            'on':
-                              button:
-                                background-color: var(--fill-active)
-                                box-shadow: none
-                              icon:
-                                color: var(--ha-card-background)
-                                opacity: 1
                           styles:
                             button:
                               flex: 1 1 30%
@@ -3867,13 +3836,11 @@ views:
                               font-weight: var(--ha-font-weight-medium)
                               opacity: var(--opacity-quiet)
                         buttons:
-                          # Spins while the fan runs
-                          - icon: mdi:fan
-                            state:
-                              attribute: power
+                          # On and off, spins while the fan runs
+                          - entity: fan.living_room
+                            icon: mdi:fan
                             tap_action:
-                              service_data:
-                                control: toggle
+                              action: toggle
                             state_styles:
                               'on':
                                 button:
@@ -3888,13 +3855,20 @@ views:
                                 flex: 0 0 auto
                                 width: var(--control-height)
                                 height: var(--control-height)
+                          # The speed in percent, and a word for it
                           - layout: name_state
-                            name:
-                              attribute: percentage
-                              postfix: ' %'
-                            state:
-                              attribute: level
+                            name: >-
+                              {{ state_attr('fan.living_room', 'percentage') | int(0) if is_state('fan.living_room', 'on') else 0 }} %
+                            state: >-
+                              {% set p = state_attr('fan.living_room', 'percentage') | float(0) %}
+                              {%- if not is_state('fan.living_room', 'on') %}Off
+                              {%- elif state_attr('fan.living_room', 'preset_mode') == 'nature' %}Natural breeze
+                              {%- elif p <= 34 %}Low
+                              {%- elif p <= 67 %}Medium
+                              {%- else %}High{% endif %}
                             tap_action:
+                              action: none
+                            hold_action:
                               action: none
                             styles:
                               button:
@@ -3920,17 +3894,22 @@ views:
                                 font-size: var(--ha-font-size-m)
                                 font-weight: var(--ha-font-weight-bold)
                                 color: var(--secondary-text-color)
-                          # Turns the fan's head, on fans that use direction for it. Holding repeats.
+                          # Turn the fan's head, on fans that use direction for it. Holding repeats.
                           - icon: mdi:chevron-left
                             tooltip: Turn left
                             tap_action:
+                              action: call-service
+                              service: fan.set_direction
+                              target:
+                                entity_id: fan.living_room
                               service_data:
                                 direction: reverse
                             hold_action:
                               action: call-service
-                              service: script.fan_control
+                              service: fan.set_direction
+                              target:
+                                entity_id: fan.living_room
                               service_data:
-                                control: direction
                                 direction: reverse
                               repeat: 400
                             styles:
@@ -3939,13 +3918,24 @@ views:
                                 width: calc(var(--control-height) - var(--ha-space-2))
                                 height: var(--control-height)
                                 border-radius: var(--radius-inner) 0px 0px var(--radius-inner)
+                          # Oscillation, filled while it's on
                           - icon: mdi:arrow-left-right
                             tooltip: Oscillate
-                            state:
-                              attribute: oscillating
+                            state: >-
+                              {{ 'on' if is_state('fan.living_room', 'on') and state_attr('fan.living_room', 'oscillating') else 'off' }}
                             tap_action:
+                              action: call-service
+                              service: script.fan_oscillation
                               service_data:
-                                control: oscillate
+                                fan: fan.living_room
+                            state_styles:
+                              'on':
+                                button:
+                                  background-color: var(--fill-active)
+                                  box-shadow: none
+                                icon:
+                                  color: var(--ha-card-background)
+                                  opacity: 1
                             styles:
                               button:
                                 flex: 0 0 auto
@@ -3956,13 +3946,18 @@ views:
                           - icon: mdi:chevron-right
                             tooltip: Turn right
                             tap_action:
+                              action: call-service
+                              service: fan.set_direction
+                              target:
+                                entity_id: fan.living_room
                               service_data:
                                 direction: forward
                             hold_action:
                               action: call-service
-                              service: script.fan_control
+                              service: fan.set_direction
+                              target:
+                                entity_id: fan.living_room
                               service_data:
-                                control: direction
                                 direction: forward
                               repeat: 400
                             styles:
@@ -3972,43 +3967,19 @@ views:
                                 height: var(--control-height)
                                 border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
                                 margin-left: calc(0px - var(--ha-space-2))
-                      # One slider per fan in input_select.fan_popup
-                      - type: conditional
-                        conditions:
-                          - entity: input_select.fan_popup
-                            state: fan.living_room
-                        row:
-                          type: custom:bubble-card
-                          card_type: button
-                          button_type: slider
-                          entity: fan.living_room
-                          margin: 0px
-                          show_name: false
-                          show_state: false
-                          show_icon: false
-                          scrolling_effect: false
-                          slider_value_position: hidden
-                          modules:
-                            - origami_base
-                            - origami_slider
-                      - type: conditional
-                        conditions:
-                          - entity: input_select.fan_popup
-                            state: fan.bedroom
-                        row:
-                          type: custom:bubble-card
-                          card_type: button
-                          button_type: slider
-                          entity: fan.bedroom
-                          margin: 0px
-                          show_name: false
-                          show_state: false
-                          show_icon: false
-                          scrolling_effect: false
-                          slider_value_position: hidden
-                          modules:
-                            - origami_base
-                            - origami_slider
+                      - type: custom:bubble-card
+                        card_type: button
+                        button_type: slider
+                        entity: fan.living_room
+                        margin: 0px
+                        show_name: false
+                        show_state: false
+                        show_icon: false
+                        scrolling_effect: false
+                        slider_value_position: hidden
+                        modules:
+                          - origami_base
+                          - origami_slider
                   # Mode and three speeds, as one segmented row
                   - type: custom:paper-buttons-row
                     extra_styles: >-
@@ -4022,10 +3993,7 @@ views:
                       box-shadow: none
                       --pbs-button-bg-color: var(--fill-subtle)
                     base_config:
-                      entity: sensor.fan_popup
                       layout: name
-                      active:
-                        - 'on'
                       state_styles:
                         'on':
                           button:
@@ -4040,7 +4008,8 @@ views:
                             opacity: 1
                       tap_action:
                         action: call-service
-                        service: script.fan_control
+                        target:
+                          entity_id: fan.living_room
                       styles:
                         button:
                           flex: 1
@@ -4063,15 +4032,16 @@ views:
                           font-weight: var(--ha-font-weight-bold)
                           opacity: var(--opacity-strong)
                     buttons:
+                      # The fan's presets. Use the names your fan has.
                       - layout: icon
                         icon: mdi:leaf
                         tooltip: Natural breeze
-                        state:
-                          attribute: nature
+                        state: >-
+                          {{ 'on' if is_state('fan.living_room', 'on') and state_attr('fan.living_room', 'preset_mode') == 'nature' else 'off' }}
                         tap_action:
+                          service: fan.set_preset_mode
                           service_data:
-                            control: preset
-                            preset: nature
+                            preset_mode: nature
                         styles:
                           button:
                             padding: 0px var(--ha-space-4)
@@ -4080,24 +4050,25 @@ views:
                       - layout: icon
                         icon: mdi:weather-windy
                         tooltip: Normal
-                        state:
-                          attribute: normal
+                        state: >-
+                          {{ 'on' if is_state('fan.living_room', 'on') and state_attr('fan.living_room', 'preset_mode') != 'nature' else 'off' }}
                         tap_action:
+                          service: fan.set_preset_mode
                           service_data:
-                            control: preset
-                            preset: normal
+                            preset_mode: normal
                         styles:
                           button:
                             padding: 0px var(--ha-space-4)
                             border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
                             margin-right: var(--ha-space-2)
+                      # Three speeds, the one the fan is closest to is raised
                       - name: '1'
                         tooltip: Low
-                        state:
-                          attribute: speed_1
+                        state: >-
+                          {{ 'on' if is_state('fan.living_room', 'on') and state_attr('fan.living_room', 'percentage') | float(0) <= 34 else 'off' }}
                         tap_action:
+                          service: fan.set_percentage
                           service_data:
-                            control: speed
                             percentage: 33
                         styles:
                           button:
@@ -4105,19 +4076,19 @@ views:
                             background-image: none
                       - name: '2'
                         tooltip: Medium
-                        state:
-                          attribute: speed_2
+                        state: >-
+                          {% set p = state_attr('fan.living_room', 'percentage') | float(0) %}{{ 'on' if is_state('fan.living_room', 'on') and 34 < p <= 67 else 'off' }}
                         tap_action:
+                          service: fan.set_percentage
                           service_data:
-                            control: speed
                             percentage: 66
                       - name: '3'
                         tooltip: High
-                        state:
-                          attribute: speed_3
+                        state: >-
+                          {{ 'on' if is_state('fan.living_room', 'on') and state_attr('fan.living_room', 'percentage') | float(0) > 67 else 'off' }}
                         tap_action:
+                          service: fan.set_percentage
                           service_data:
-                            control: speed
                             percentage: 100
                         styles:
                           button:
@@ -4139,15 +4110,12 @@ views:
                         gap: var(--ha-space-2)
                         padding: 0px
                       base_config:
-                        entity: sensor.fan_popup
-                        active:
-                          - 'on'
                         layout: name
                         tap_action:
                           action: call-service
-                          service: script.fan_control
-                          service_data:
-                            control: timer
+                          service: timer.start
+                          target:
+                            entity_id: timer.living_room_fan
                         state_styles:
                           'on':
                             button:
@@ -4175,11 +4143,16 @@ views:
                             font-weight: var(--ha-font-weight-medium)
                             opacity: var(--opacity-quiet)
                       buttons:
+                        # How long it still runs
                         - layout: name|state
                           name: Timer
-                          state:
-                            attribute: timer
+                          state: >-
+                            {% set t = 'timer.living_room_fan' %}{% set end = as_timestamp(state_attr(t, 'finishes_at'), 0) %}
+                            {%- if is_state(t, 'active') and end > 0 %}{% set m = ((end - as_timestamp(now())) / 60) | round(0, 'ceil') | int %}{{ m // 60 }}:{{ '%02d' | format(m % 60) }} left
+                            {%- else %}Off{% endif %}
                           tap_action:
+                            action: none
+                          hold_action:
                             action: none
                           styles:
                             button:
@@ -4201,26 +4174,25 @@ views:
                               font-weight: var(--ha-font-weight-medium)
                               opacity: var(--opacity-quiet)
                         - name: 'Off'
-                          state:
-                            attribute: timer_off
+                          state: >-
+                            {{ 'off' if is_state('timer.living_room_fan', 'active') else 'on' }}
                           tap_action:
-                            service_data:
-                              hours: 0
+                            service: timer.cancel
                         - name: 1 h
-                          state:
-                            attribute: timer_1
+                          state: >-
+                            {{ 'on' if is_state('timer.living_room_fan', 'active') and state_attr('timer.living_room_fan', 'duration') == '1:00:00' else 'off' }}
                           tap_action:
                             service_data:
-                              hours: 1
+                              duration: '01:00:00'
                         - name: 3 h
-                          state:
-                            attribute: timer_3
+                          state: >-
+                            {{ 'on' if is_state('timer.living_room_fan', 'active') and state_attr('timer.living_room_fan', 'duration') == '3:00:00' else 'off' }}
                           tap_action:
                             service_data:
-                              hours: 3
+                              duration: '03:00:00'
                         - name: 5 h
-                          state:
-                            attribute: timer_5
+                          state: >-
+                            {{ 'on' if is_state('timer.living_room_fan', 'active') and state_attr('timer.living_room_fan', 'duration') == '5:00:00' else 'off' }}
                           tap_action:
                             service_data:
-                              hours: 5
+                              duration: '05:00:00'

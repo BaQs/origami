@@ -428,7 +428,7 @@ Every room gets the same pop-up, opened by its room card. Top to bottom: what pl
 - The hash, `#popup_living_room`, is what the living room card navigates to.
 - **Media.** The TV while it's on, the speaker otherwise. A tap on the TV card opens the TV pop-up. Below it go small things of the room, here a plug as a compact row with a switch.
 - **Lights.** The header counts the lights of the room's light group that are on. **All** switches the whole group, the arrow next to it shows the scenes. The scene that was turned on last lights up.
-- **Climate.** The header shows temperature and humidity, with the dot in the room's comfort colour. A tap on the fan card opens the fan pop-up. Plus and minus move the thermostat by one degree.
+- **Climate.** The header shows temperature and humidity, with the dot in the room's comfort colour. A tap on the fan card opens the [fan pop-up](#fan). Plus and minus move the thermostat by one degree.
 - **Everything off** turns off the lights, fans, media players and switches in the room's [area](https://www.home-assistant.io/docs/organizing/areas/).
 - When the pop-up closes, the scenes are hidden again.
 
@@ -449,7 +449,7 @@ Every room gets the same pop-up, opened by its room card. Top to bottom: what pl
 | `input_boolean.living_room_scenes` | Shows the scenes |
 | `sensor.climate_living_room` | Temperature, humidity and the comfort colour |
 | `fan.living_room`, `climate.living_room` | The fan and the thermostat |
-| `script.fan_popup`, `script.thermostat_step`, `script.room_off` | Opening the fan pop-up, the thermostat steps, everything off |
+| `script.thermostat_step`, `script.room_off` | The thermostat steps and everything off |
 
 The entities are examples from my home. The scripts, toggles and `sensor.living_room_scene` are in the package, with the scene list inside the sensor. For another room, copy the pop-up, change its hash and name, and swap the entities.
 
@@ -494,7 +494,7 @@ The speaker's TV input is called `Optical In` here. Without a separate speaker, 
 
 ### Fan
 
-One pop-up for all fans: speed, oscillation, a mode and a timer.
+A pop-up for one fan: speed, oscillation, a mode and a timer. It opens with a tap on the fan card in the room.
 
 <img width="800" alt="The fan pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-fan.webp">
 
@@ -503,12 +503,11 @@ One pop-up for all fans: speed, oscillation, a mode and a timer.
 
 <br>
 
-- `script.fan_popup` puts the fan into `input_select.fan_popup` and opens the pop-up. A tap on the fan card in the room calls it.
-- It opens through `input_boolean.fan_popup`. That toggle is shared, so the pop-up opens on every screen that shows the dashboard at that moment.
-- `sensor.fan_popup` turns the fan's state into what the buttons show: `on` or `off` for each button, the percentage and a word for the speed. The title is the fan's name.
-- The fan button switches it on and off, and spins while it runs. The arrows turn the fan's head on fans that use `fan.set_direction` for it, like Xiaomi's. The middle button switches oscillation.
+- The title is the fan's name. The power button and the fan button switch it on and off, the fan spins while it runs.
+- The arrows turn the fan's head with `fan.set_direction`, on fans that use it for that, like Xiaomi's. The middle button switches oscillation.
 - The slider sets any speed. The leaf and the wind pick the presets `nature` and `normal`, 1 to 3 set 33, 66 and 100 %.
-- The timer button shows the timer row: off, 1, 3 or 5 hours. When it runs out, an automation in the package turns the fan off.
+- The timer button shows the timer row: off, 1, 3 or 5 hours. When the timer runs out, an automation in the package turns the fan off.
+- What's raised or filled comes from small templates in the buttons, like the speed closest to the fan's.
 
 </details>
 
@@ -519,20 +518,12 @@ One pop-up for all fans: speed, oscillation, a mode and a timer.
 
 | Entity | For |
 | --- | --- |
-| `fan.living_room`, `fan.bedroom` | The fans, examples from my home |
-| `input_select.fan_popup` | Which fan the pop-up shows |
-| `input_boolean.fan_popup`, `input_boolean.fan_popup_timer` | Opens the pop-up, shows the timer row |
-| `sensor.fan_popup` | Everything the buttons show |
-| `timer.fan_living_room`, `timer.fan_bedroom` | The timers |
-| `script.fan_popup`, `script.fan_control` | Opening the pop-up and the buttons |
+| `fan.living_room` | The fan, an example from my home |
+| `timer.living_room_fan` | The timer, with the automation that turns the fan off |
+| `input_boolean.fan_popup_timer` | Shows the timer row |
+| `script.fan_oscillation` | Switches oscillation on or off |
 
-Everything but the fans is in the package. For another fan:
-
-1. Add it to the options of `input_select.fan_popup`.
-2. Add a timer for it in the package. The name is `fan_` plus the fan's: `fan.bedroom` gets `timer.fan_bedroom`.
-3. Copy one of the slider rows in the pop-up and change its fan.
-
-If your fan's presets have other names, change `nature` and `normal` in the pop-up and in `sensor.fan_popup`. Fans without presets, oscillation or direction can lose those buttons.
+The timer, the toggle, the script and the automation are in the package. For another fan, replace `fan.living_room` in the pop-up and in the automation. If your fan's presets have other names, change `nature` and `normal`. Buttons your fan can't use, like the arrows, can go.
 
 </details>
 
@@ -569,7 +560,7 @@ Most of the logic is in template sensors, so most cards only show a result. They
 - Copy one `Climate | <room>` block per room and set its two source sensors.
 - The peaks and averages build sensor names from a list of rooms, like `sensor.<room>_temperature`. Name your sensors that way, or change those templates.
 - Put your lights, window contacts and speakers into the counters, `sensor.active_target`, `sensor.active_speaker` and `input_select.selected_speaker`.
-- Put your fans into `input_select.fan_popup`, each with a timer, and your scenes into `sensor.living_room_scene`.
+- Put your scenes into `sensor.living_room_scene`, and your fan into the automation **Living room fan timer**.
 - Give your devices an [area](https://www.home-assistant.io/docs/organizing/areas/), so **Everything off** in a room pop-up finds them.
 
 | Helper | Gives |
@@ -582,9 +573,9 @@ Most of the logic is in template sensors, so most cards only show a result. They
 | `sensor.active_target`, `sensor.active_speaker` | The speaker that matters and what it plays |
 | `input_boolean.room_climate_card`, `input_boolean.all_rooms`, `input_select.selected_speaker` | Toggles, and the speaker to show when nothing plays |
 | `sensor.living_room_scene`, `input_boolean.living_room_scenes` | The scene turned on last, and the scenes in the room pop-up |
-| `sensor.fan_popup`, `input_select.fan_popup`, `input_boolean.fan_popup`, `input_boolean.fan_popup_timer`, `timer.fan_*` | The fan pop-up |
-| `script.fan_popup`, `script.fan_control`, `script.volume`, `script.thermostat_step`, `script.room_off` | The pop-ups' buttons |
-| The automation **Fan timer** | Turns a fan off when its timer runs out |
+| `timer.living_room_fan`, `input_boolean.fan_popup_timer` | The fan pop-up's timer and its row |
+| `script.fan_oscillation`, `script.volume`, `script.thermostat_step`, `script.room_off` | Buttons in the pop-ups |
+| The automation **Living room fan timer** | Turns the fan off when its timer runs out |
 
 <details>
 <summary>Room climate sensor</summary>
