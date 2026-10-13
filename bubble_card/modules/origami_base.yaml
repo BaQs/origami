@@ -1,6 +1,6 @@
 origami_base:
   name: "Origami • Base"
-  version: "9.4.1"
+  version: "9.4.2"
   supported:
     - button
     - media-player
@@ -181,7 +181,7 @@ origami_base:
     }
     .bubble-name,
     .bubble-title {
-      font-size: var(--org-name-size, var(--ha-font-size-l));
+      font-size: var(--org-name-size, var(--ha-font-size-m));
       font-weight: var(--ha-font-weight-bold);
       white-space: nowrap !important;
       overflow: hidden;
@@ -191,7 +191,7 @@ origami_base:
     .bubble-artist {
       display: var(--org-state-display, block) !important;
       max-width: var(--org-text-max, 150px) !important;
-      font-size: var(--ha-font-size-m);
+      font-size: var(--ha-font-size-s);
       font-weight: var(--ha-font-weight-bold);
       color: var(--secondary-text-color);
       opacity: 1 !important;

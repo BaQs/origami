@@ -8,7 +8,7 @@ Cards that show a state get it from a [helper](helpers.md) or a module, so they 
 
 ## Greeting and menu
 
-Home Assistant's header is gone. [Origami Header](https://github.com/hazymorning/origami_header) replaces it with a menu that folds out from the top, opened from the navbar. The page starts with the next event, a greeting and the notifications.
+The page starts with the next event, a greeting and the notifications. With the optional [Origami Header](https://github.com/hazymorning/origami_header), Home Assistant's header is gone and becomes a menu that folds out from the top, opened from the navbar.
 
 <img width="800" alt="The next event, the greeting and the notifications card" src="../images/header.webp">
 
