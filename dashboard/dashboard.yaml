@@ -386,7 +386,7 @@ views:
             sun_moon_x: 33
             sun_moon_y: 20
             color_mode: theme
-            card_height: 200px
+            card_height: 160px
             card_padding: 20px
             # A calm colour per condition instead of the sky, without clouds and the other effects
             background_mode: color
@@ -446,11 +446,14 @@ views:
               rows: auto
               columns: 12
             button_containers:
-              # The house
+              # The house, 20 px from the top, right and bottom edge. The drawing
+              # doesn't fill its picture, so the offsets are negative.
               - position: custom
-                position_anchor: right
+                position_anchor: top-right
+                position_x: -32px
+                position_y: -10px
+                custom_width: 168px
                 image: demo-home-image
-                custom_width: min(208px, 52%)
               # Next sunset, or sunrise while the sun is down
               - position: custom
                 position_anchor: top-left
@@ -499,7 +502,7 @@ views:
                     width: 100%
                     elements:
                       - type: text
-                        size: 62px
+                        size: 56px
                         weight: '700'
                         color: var(--primary-text-color)
                         attribute: temperature
@@ -511,57 +514,6 @@ views:
                         size: 12px
                         weight: '500'
                         color: var(--primary-text-color)
-              # Room temperatures
-              - position: custom
-                position_anchor: bottom-right
-                gap: 22px
-                button_gap: 4px
-                buttons:
-                  - entity: sensor.climate_living_room
-                    style: vertical
-                    align: start
-                    elements:
-                      - type: text
-                        size: 12px
-                        weight: '500'
-                        color: var(--secondary-text-color)
-                        text: Living
-                      - type: text
-                        size: 16px
-                        weight: '300'
-                        color: var(--primary-text-color)
-                        precision: 0
-                        format: °
-                  - entity: sensor.climate_bedroom
-                    style: vertical
-                    align: start
-                    elements:
-                      - type: text
-                        size: 12px
-                        weight: '500'
-                        color: var(--secondary-text-color)
-                        text: Bedroom
-                      - type: text
-                        size: 16px
-                        weight: '300'
-                        color: var(--primary-text-color)
-                        precision: 0
-                        format: °
-                  - entity: sensor.climate_bathroom
-                    style: vertical
-                    align: start
-                    elements:
-                      - type: text
-                        size: 12px
-                        weight: '500'
-                        color: var(--secondary-text-color)
-                        text: Bath
-                      - type: text
-                        size: 16px
-                        weight: '300'
-                        color: var(--primary-text-color)
-                        precision: 0
-                        format: °
 
       # Favorites
       - type: grid

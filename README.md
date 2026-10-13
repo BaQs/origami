@@ -10,7 +10,7 @@ A chill Home Assistant theme, a set of Bubble Card modules made for it, and the 
 - Nothing jumps while the dashboard loads
 
 > [!NOTE]
-> This is a personal dashboard that has grown over years. Some things are done in very specific ways, mostly to avoid layout shifts. Take what you like.
+> This is a personal dashboard that has grown over years. Some things are done in very specific ways, mostly to avoid layout shifts. It's made for phones, a desktop layout is still in the works. Take what you like.
 
 [Theme only](#theme-only) · [Whole dashboard](#whole-dashboard) · [Troubleshooting](#troubleshooting) · [Reference](#reference)
 
@@ -222,3 +222,4 @@ Origami Header replaces the header, and edit mode is in its menu. **More** in th
 - [x] Theme, setup, dashboard and helpers
 - [x] Bubble modules, still experimental
 - [ ] Pop-ups: rooms, music, TV, favorites, lights and the rest
+- [ ] Desktop layout

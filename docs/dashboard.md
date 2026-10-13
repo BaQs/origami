@@ -1,6 +1,6 @@
 # Dashboard parts
 
-One sections view: a single column on phones, two on larger screens. Here's how each part works and which entities it reads. Every part starts with a comment in [`dashboard.yaml`](../dashboard/dashboard.yaml), like `# Favorites`, so you can find and copy it.
+One sections view, made for phones. The desktop layout is still a work in progress. Here's how each part works and which entities it reads. Every part starts with a comment in [`dashboard.yaml`](../dashboard/dashboard.yaml), like `# Favorites`, so you can find and copy it.
 
 Cards that show a state get it from a [helper](helpers.md) or a module, so they stay simple. Some ways of building a dashboard add lag on the first load, where you can watch the layout build itself, card-mod or template cards for example. Everything here avoids that, which sometimes leads to unusual solutions. More in [Patterns](patterns.md).
 
@@ -30,21 +30,19 @@ The notifications list a few more entities: weather warnings, the calendar, a ti
 
 ## Weather
 
-An [Origami Weather](https://github.com/hazymorning/origami_weather) card: a calm colour per condition, the house, and the temperatures that matter.
+An [Origami Weather](https://github.com/hazymorning/origami_weather) card: a calm colour per condition, the house and the temperature.
 
 <img width="800" alt="The weather card in daylight and at night" src="../images/weather.webp">
 
 - Each condition has its own background colour for light and dark mode, set in `background_thresholds`. Clouds, stars, birds, balloons and planes are off.
 - Top left is the next sunset, or the next sunrise while the sun is down. They are two buttons with a visibility condition on `sun.sun`.
 - The large number is the weather entity's temperature. For an outdoor sensor of your own, give that text element an `entity` instead of the `attribute`.
-- Bottom right are three rooms, each a [climate helper](helpers.md#room-climate-sensor) with a label.
-- The house is the card's demo house. The dashboard this comes from has a drawing of the actual home instead, with a lit window per room while its lights are on. The [Origami Weather readme](https://github.com/hazymorning/origami_weather#layouts) explains how to make one.
+- The house is the card's demo house, 20 px from the top, right and bottom edge, like the text. The dashboard this comes from has a drawing of the actual home instead, with a lit window per room while its lights are on. The [Origami Weather readme](https://github.com/hazymorning/origami_weather#layouts) explains how to make one. A picture of your own needs its own offsets.
 
 | Entity | For |
 | --- | --- |
 | `weather.home` | Condition, background colour and temperature |
 | `sun.sun` | Next sunset or sunrise |
-| `sensor.climate_living_room`, `sensor.climate_bedroom`, `sensor.climate_bathroom` | The three rooms |
 
 ## Favorites
 
@@ -74,7 +72,6 @@ A header with the home's average and the open windows, a climate table that fold
 - The zebra stripes are one gradient on the row background, sized to the row height.
 - Each room card is a paper-buttons-row. The icon chip lights up while the room's lights are on, the dot shows the comfort colour. The whole card opens the room's pop-up, the window icon has its own tap.
 - The first four rooms always show. **All rooms** toggles `input_boolean.all_rooms` for the rest.
-- On larger screens a status row with the people at home, the front door and the open windows sits above the header.
 
 | Entity | For |
 | --- | --- |
@@ -98,7 +95,6 @@ A [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) at the bot
 - The badges count playing speakers and lights that are on. Each badge cuts a small gap into the route's field.
 - Holding **Lights** opens the scenes. The active scene is amber.
 - Above the bar, Navbar Card's media player shows the speaker that matters right now, picked by `sensor.active_speaker`. A link badge on the cover marks a group, and a hold on **Music** plays or pauses.
-- On larger screens the bar sits at the right edge.
 
 | Entity | For |
 | --- | --- |
@@ -110,7 +106,3 @@ A [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) at the bot
 | `scene.living_room_*`, `sensor.living_room_scene` | The scenes and the active one |
 
 <img width="600" alt="The scenes that open from the lights route" src="../images/navbar-scenes.webp">
-
-## On a larger screen
-
-<img width="800" alt="The dashboard on a desktop screen" src="../images/desktop.webp">

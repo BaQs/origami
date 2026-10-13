@@ -4,7 +4,7 @@ Template sensors do the thinking, the cards only show the result. All of them an
 
 | Helper | Gives | Read by |
 | --- | --- | --- |
-| `sensor.climate_<room>` | Rounded temperature and humidity, rank, comfort colour | Climate table, room cards, weather |
+| `sensor.climate_<room>` | Rounded temperature and humidity, rank, comfort colour | Climate table, room cards |
 | `sensor.climate_temperature_peaks`, `sensor.climate_humidity_peaks` | Warmest and most humid room, the lowest as attribute | The room sensors |
 | `sensor.temperature_average`, `sensor.humidity_average` | Averages over all rooms | `sensor.climate_home` |
 | `sensor.climate_home` | Averages, open windows, front door | Rooms header, status row |
