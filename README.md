@@ -5,7 +5,7 @@
 
 A calm theme for Home Assistant, and the phone dashboard I built with it, mostly from [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card). Plus Bubble Card modules in the same style.
 
-<img alt="Four phones with the Origami dashboard, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
+<img alt="The Origami dashboard on two phones, one in light and one in dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
 
 | | |
 | --- | --- |
