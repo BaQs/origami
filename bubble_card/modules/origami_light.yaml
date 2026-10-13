@@ -1,6 +1,6 @@
 origami_light:
   name: "Origami • Light"
-  version: "5.1.1"
+  version: "5.1.2"
   supported:
     - button
   description: "Lights: Base + Toggle + Light. Compact now lives in Base. Set rows: 1.375 on big lights, rows: 1 on compact ones, on every instance including pop-ups. Colour comes from Base (Home Assistant's state colour); this module adds the slider fill in that colour, the value position and the state line. In dark mode the fill stays neutral and the colour sits in the slider mark, because Bubble keeps light text on the fill and any warm colour dark enough for light text turns brown."
@@ -11,7 +11,7 @@ origami_light:
     }
     .bubble-range-value {
       right: calc(var(--tile-size) + var(--ha-space-3));
-      font-size: var(--ha-font-size-m);
+      font-size: var(--ha-font-size-s);
       font-weight: var(--ha-font-weight-bold);
     }
     ${(() => {
