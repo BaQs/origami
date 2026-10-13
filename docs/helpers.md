@@ -1,6 +1,6 @@
 # Helpers
 
-Template sensors do the thinking, the cards only show the result. All of them and the toggles are in [`packages/origami.yaml`](../packages/origami.yaml), set up in [step 5](../README.md#whole-dashboard) of the readme.
+Template sensors do the thinking, the cards only show the result. All of them and the toggles are in [`packages/origami.yaml`](../packages/origami.yaml), set up in [steps 1 and 2](../README.md#dashboard) of the readme.
 
 | Helper | Gives | Read by |
 | --- | --- | --- |
