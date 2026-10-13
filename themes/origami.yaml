@@ -1,43 +1,55 @@
-# Origami Theme
+# Origami theme. Tokens first, then Home Assistant surfaces, then third party plumbing.
 
 Origami:
 
-  # Border, radius
-  border-width: 'var(--ha-border-width-sm, 1px)'
-  border-color: 'color-mix(in srgb, var(--text-color) var(--border-contrast), transparent)'
+  # Space
+  ha-space-1: '4px'
+  ha-space-2: '8px'
+  ha-space-3: '12px'
+  ha-space-4: '16px'
+  ha-space-5: '20px'
+  card-padding: 'var(--ha-space-3, 12px)'
+  control-padding-x: 'var(--ha-space-4, 16px)'
+  view-bleed: 'var(--ha-space-6, 24px)'
+
+  # Radii
+  ha-card-border-radius: '22px'
+  radius-inner: 'calc(var(--ha-card-border-radius) / 1.3)'
+  radius-circle: 'var(--ha-border-radius-circle, 50%)'
+  radius-small: '8px'
+
+  # Borders
+  border-width: '0'
+  border-color: 'color-mix(in srgb, var(--primary-text-color) var(--border-contrast), transparent)'
   card-ring: 'inset 0 0 0 var(--border-width) var(--border-color)'
-  card-elevation: 'var(--card-shadow), var(--card-ring)'
   separator: 'var(--border-width) solid var(--fill-strong)'
 
-  border-radius: '22px'
-  br-inner: 'calc(var(--border-radius) / 1.3)'
-  br-pill: 'var(--ha-border-radius-pill, 9999px)'
-  br-circle: 'var(--ha-border-radius-circle, 50%)'
+  # Elevation
+  # Flat is for cards inside popups: shadow without the lift.
+  card-elevation: 'var(--card-shadow), var(--card-ring)'
+  card-elevation-flat: 'var(--card-shadow-flat), var(--card-ring)'
 
-  # Fills
-  fill-subtle: 'color-mix(in srgb, var(--text-color) 6%, transparent)'
-  fill-strong: 'color-mix(in srgb, var(--text-color) 12%, transparent)'
-  fill-loud: 'color-mix(in srgb, var(--text-color) 30%, transparent)'
-  fill-active: 'var(--accent-color)'
-  fill-accent-quiet: 'var(--accent-color-background)'
-  accent-color-background: 'color-mix(in srgb, var(--accent-color) 20%, transparent)'
-  glow-accent: 'color-mix(in srgb, var(--accent-color) 40%, transparent)'
+  # Chrome and fills
+  # Fills mix from fill-base, not from text color, so they stay warm.
+  # Strength comes from fill-contrast per mode: a light tint on near-black reads louder than a dark tint on white.
+  toggle-on: 'color-mix(in srgb, var(--primary-text-color) 85%, var(--ha-card-background))'
+  fill-subtle: 'color-mix(in srgb, var(--fill-base) var(--fill-contrast), transparent)'
+  fill-strong: 'color-mix(in srgb, var(--fill-base) 12%, transparent)'
+  fill-loud: 'color-mix(in srgb, var(--fill-base) 30%, transparent)'
+  fill-active: 'var(--toggle-on)'
+  accent-color-background: 'var(--ok-tint)'
+  glow-accent: 'color-mix(in srgb, var(--toggle-on) 30%, transparent)'
+
+  # Quiet tile: the calm counterpart to a card. The tile is a flat fill; its icon chip is the raised paper.
+  tile-background: 'var(--fill-subtle)'
+  tile-chip-background: 'var(--ha-card-background)'
+  tile-chip-shadow: 'var(--ha-card-box-shadow)'
 
   # Opacity
   opacity-disabled: '.3'
   opacity-quiet: '.45'
   opacity-muted: '.6'
   opacity-strong: '.8'
-
-  # Spacing
-  gap-xs: 'var(--ha-space-1, 4px)'
-  gap: 'var(--ha-space-2, 8px)'
-  gap-lg: 'var(--ha-space-3, 12px)'
-  section-gap: 'var(--ha-space-5, 20px)'
-  card-padding: 'var(--ha-space-3, 12px)'
-  card-padding-lg: 'var(--ha-space-4, 16px)'
-  control-padding-x: 'var(--ha-space-4, 16px)'
-  view-bleed: 'var(--ha-space-6, 24px)'
 
   # Sizes
   control-height-mini: 'var(--ha-space-8, 32px)'
@@ -56,6 +68,29 @@ Origami:
   icon-size-m: 'var(--ha-space-6, 24px)'
   icon-size-l: 'var(--ha-space-7, 28px)'
   icon-size-xl: 'var(--ha-space-12, 48px)'
+  ha-font-size-xxl: '26px'
+  ha-font-size-xl: '22px'
+  ha-font-size-l: '18px'
+  ha-font-size-m: '16px'
+  ha-font-size-s: '14px'
+  ha-font-size-xs: '14px'
+  
+  # Type
+  primary-font-family: "'Montserrat', sans-serif"
+  ha-font-family-body: 'var(--primary-font-family)'
+  ha-font-family-code: 'var(--primary-font-family)'
+  mdc-typography-font-family: 'var(--primary-font-family)'
+  mdc-typography-button-font-family: 'var(--primary-font-family)'
+  md-ref-typeface-plain: 'var(--primary-font-family)'
+  ha-font-weight-light: '500'
+  ha-font-weight-normal: '500'
+  ha-font-weight-medium: '500'
+  ha-font-weight-bold: '700'
+  ha-line-height-condensed: '1.1'
+  ha-line-height-normal: '1.3'
+  ha-line-height-expanded: '1.6'
+  font-size-compact: 'var(--ha-font-size-s)'
+  font-size-headline: 'var(--ha-font-size-3xl)'
 
   # Motion
   duration-fast: 'var(--ha-animation-duration-fast, 150ms)'
@@ -65,94 +100,63 @@ Origami:
   ease-standard: 'cubic-bezier(.22, 1, .36, 1)'
   transition-interactive: 'background-color var(--duration-normal) ease, color var(--duration-normal) ease, box-shadow var(--duration-normal) ease'
   press-scale: '0.96'
-  rise-offset: '10px'
 
   # Blur
   blur-soft: 'blur(12px)'
   blur-strong: 'blur(18px)'
 
-  # Progress tracks
+  # Tracks
   track-height: '10px'
   track-height-sm: '6px'
   track-color: 'var(--fill-strong)'
   track-transition: 'width var(--duration-bar) var(--ease-standard)'
   track-transition-full: 'margin-left var(--duration-bar) var(--ease-standard), width var(--duration-bar) var(--ease-standard), left var(--duration-bar) var(--ease-standard)'
 
-  # Horizontal scroller
+  # Scroller
   scroller-bleed: 'var(--view-bleed)'
   scroller-padding: 'var(--scroller-bleed) var(--scroller-bleed) var(--ha-space-10, 40px)'
   scroller-mask: 'linear-gradient(to right, transparent 0px, black var(--scroller-bleed), black calc(100% - var(--ha-space-12, 48px)), transparent 100%)'
-
-  # Typography
-  primary-font-family: "'Montserrat', sans-serif"
-  ha-font-family-body: 'var(--primary-font-family)'
-  ha-font-family-code: 'var(--primary-font-family)'
-  mdc-typography-font-family: 'var(--primary-font-family)'
-  mdc-typography-button-font-family: 'var(--primary-font-family)'
-  md-ref-typeface-plain: 'var(--primary-font-family)'
-
-  ha-font-weight-light: '500'
-  ha-font-weight-normal: '500'
-  ha-font-weight-medium: '500'
-  ha-font-weight-bold: '700'
-  ha-line-height-condensed: '1.1'
-  ha-line-height-normal: '1.3'
-  ha-line-height-expanded: '1.6'
-
-  font-size-compact: 'var(--ha-font-size-s)'
-  font-size-title: 'var(--ha-font-size-xl)'
-  font-size-headline: 'var(--ha-font-size-3xl)'
-  font-size-display: 'var(--ha-font-size-3xl)'
-  font-weight-regular: 'var(--ha-font-weight-medium)'
-  font-weight-medium: 'var(--ha-font-weight-medium)'
-  font-weight-bold: 'var(--ha-font-weight-bold)'
-  font-weight-heavy: 'var(--ha-font-weight-bold)'
-
-  ha-heading-card-title-font-weight: 'var(--ha-font-weight-bold)'
-  md-list-item-label-text-weight: 'var(--ha-font-weight-medium)'
-  md-list-item-label-text-color: 'var(--text-color)'
 
   # Layout
   row-gap: '0px'
   column-gap: 'var(--ha-space-6, 24px)'
   header-height: 'var(--ha-space-15, 60px)'
+  view-container-padding-top: 'var(--ha-space-4, 16px)'
+  view-container-padding-bottom: 'var(--ha-space-4, 16px)'
   ha-view-sections-column-gap: 'var(--column-gap)'
   ha-view-sections-narrow-column-gap: 'var(--column-gap)'
   ha-view-sections-row-gap: 'var(--row-gap)'
-  grid-card-gap: 'var(--gap-lg)'
-  horizontal-stack-card-gap: 'var(--gap-lg)'
-  vertical-stack-card-gap: 'var(--gap-lg)'
+  grid-card-gap: 'var(--ha-space-3)'
+  horizontal-stack-card-gap: 'var(--ha-space-3)'
+  vertical-stack-card-gap: 'var(--ha-space-3)'
   masonry-view-card-margin: '0px'
 
   # Cards
-  card-background-color: 'var(--card-background)'
-  ha-card-background: 'var(--card-background)'
-  ha-card-border-radius: 'var(--border-radius)'
+  card-background-color: 'var(--ha-card-background)'
   ha-card-border-width: '0px'
   ha-card-border-color: 'var(--border-color)'
   ha-card-box-shadow: 'var(--card-elevation)'
-  ha-badge-border-radius: 'var(--br-inner)'
+  ha-badge-border-radius: 'var(--radius-inner)'
   card-item-background: 'var(--fill-subtle)'
   ha-color-form-background: 'var(--fill-subtle)'
   outline-color: 'var(--border-color)'
   divider-color: 'var(--background-color)'
-  gradient-background: 'linear-gradient(180deg, transparent 0%, var(--card-background) 100%)'
+  gradient-background: 'linear-gradient(180deg, transparent 0%, var(--ha-card-background) 100%)'
 
-  # Background, text
+  # Text and background
   primary-background-color: 'var(--background-color)'
   clear-background-color: 'var(--background-color)'
-  text-color-active: '#FFFFFF'
-  secondary-text-color: 'color-mix(in srgb, var(--text-color) 60%, transparent)'
-  primary-text-color: 'var(--text-color)'
+  lovelace-background: 'linear-gradient(180deg, var(--app-header-background-color) var(--safe-area-inset-top, 0px), var(--primary-background-color) 60%) fixed'
+  text-color-active: 'var(--ha-card-background)'
   text-primary-color: 'var(--text-color-active)'
   ha-color-text-secondary: 'var(--secondary-text-color)'
   disabled-color: 'var(--disabled-text-color)'
 
-  # Header, footer
+  # Header and footer
   app-header-background-color: 'var(--dashboard-background)'
   app-header-backdrop-filter: 'var(--blur-soft)'
-  app-header-text-color: 'var(--text-color)'
-  app-header-edit-text-color: 'var(--text-color)'
+  app-header-text-color: 'var(--primary-text-color)'
+  app-header-edit-text-color: 'var(--primary-text-color)'
   app-header-selection-bar-color: 'var(--accent-color)'
   app-theme-color: 'var(--dashboard-background)'
   ha-tab-active-text-color: 'var(--accent-color)'
@@ -161,29 +165,85 @@ Origami:
 
   # Sidebar
   sidebar-background-color: 'var(--card-item-background)'
-  sidebar-text-color: 'var(--text-color)'
-  sidebar-icon-color: 'var(--text-color)'
+  sidebar-text-color: 'var(--primary-text-color)'
+  sidebar-icon-color: 'var(--primary-text-color)'
   sidebar-selected-icon-color: 'var(--accent-color)'
 
   # States
-  state-icon-color: 'var(--text-color)'
-  state-active-color: 'var(--accent-color)'
-  state-cover-closed-color: 'var(--green-color)'
-  state-media_player-paused-color: 'var(--grey-color)'
-  state-person-not_home-color: 'var(--indigo-color)'
-  state-alarm_control_panel-disarmed-color: 'var(--green-color)'
+  # Which colour a device takes is Home Assistant's own mapping: state-light-active-color is amber,
+  # state-climate-heat-color is deep-orange, state-media_player-active-color is light-blue, and so on.
+  # The named colours are set per mode below. Only deliberate exceptions are listed here;
+  # to recolour a domain, add its state-<domain>-active-color line.
+  # Honey (amber) belongs to lamps only. Home Assistant also hands it to switches, binary sensors and
+  # anything that is simply "on" (input_boolean, automation, script, ...), so those get green here.
+  state-icon-color: 'var(--primary-text-color)'
+  state-light-active-color: 'var(--amber-color)'
+  state-active-color: 'var(--green-color)'
+  state-switch-active-color: 'var(--state-active-color)'
+  state-binary_sensor-active-color: 'var(--state-active-color)'
+  state-binary_sensor-window-on-color: 'var(--cyan-color)'
+  state-media_player-paused-color: 'var(--secondary-text-color)'
+  state-cover-closed-color: 'var(--accent-color)'
+  state-person-not_home-color: 'var(--secondary-text-color)'
+  state-alarm_control_panel-disarmed-color: 'var(--accent-color)'
   history-unavailable-color: 'transparent'
   history-unknown-color: 'var(--dark-grey-color)'
 
-  # Sensors
-  humidity-background: 'color-mix(in srgb, var(--humidity-accent) 14%, transparent)'
-  temperature-background: 'color-mix(in srgb, var(--temperature-accent) 12%, transparent)'
+  # Semantic colour
+  # Colour means "on", and it sits in the glyph. A colour is one value per mode, held in Home Assistant's
+  # own names (the named colours in the modes below). Everything else is derived from it:
+  #   the field behind a coloured glyph is tint: whatever colour the glyph has, thinned to tint-strength
+  #   (set color to the state colour and background-color to var(--tint) on the same element),
+  #   badges and slider fills are the colour thinned to fill-strength, with on-fill on top.
+  # Lamps are the one exception. Amber is a light colour, so on a light page it turns brown as soon as it is
+  # dark enough to read as a glyph. In light mode the light moves into the chip instead: lamp chips are
+  # lamp-ink on lamp-field, set per mode below (in dark mode they resolve to the usual glyph on tint).
+  # Text on solid amber is on-amber, dark in both modes.
+  success-color: 'var(--green-color)'
+  warning-color: 'var(--orange-color)'
+  error-color: 'var(--red-color)'
+  on-fill: 'var(--primary-text-color)'
+  on-amber: '#2F2D2A'
+  tint: 'color-mix(in srgb, currentColor var(--tint-strength), var(--ha-card-background))'
+
+  # Old names, kept so nothing breaks until every card reads HA's state colours. They go in the last step.
+  lamp-color: 'var(--state-light-active-color)'
+  heat-color: 'var(--state-climate-heat-color)'
+  water-color: 'var(--state-climate-cool-color)'
+  media-color: 'var(--state-media_player-active-color)'
+  ok-color: 'var(--success-color)'
+  lamp-tint: 'color-mix(in srgb, var(--lamp-color) var(--tint-strength), var(--ha-card-background))'
+  heat-tint: 'color-mix(in srgb, var(--heat-color) var(--tint-strength), var(--ha-card-background))'
+  water-tint: 'color-mix(in srgb, var(--water-color) var(--tint-strength), var(--ha-card-background))'
+  media-tint: 'color-mix(in srgb, var(--media-color) var(--tint-strength), var(--ha-card-background))'
+  ok-tint: 'color-mix(in srgb, var(--ok-color) var(--tint-strength), var(--ha-card-background))'
+  lamp-fill: 'color-mix(in srgb, var(--lamp-color) var(--fill-strength), var(--ha-card-background))'
+  heat-fill: 'color-mix(in srgb, var(--heat-color) var(--fill-strength), var(--ha-card-background))'
+  water-fill: 'color-mix(in srgb, var(--water-color) var(--fill-strength), var(--ha-card-background))'
+  media-fill: 'color-mix(in srgb, var(--media-color) var(--fill-strength), var(--ha-card-background))'
+  ok-fill: 'color-mix(in srgb, var(--ok-color) var(--fill-strength), var(--ha-card-background))'
+  error-fill: 'color-mix(in srgb, var(--error-color) var(--fill-strength), var(--ha-card-background))'
+  lamp-wash: 'var(--lamp-fill)'
+  heat-wash: 'var(--heat-fill)'
+  water-wash: 'var(--water-fill)'
+  media-wash: 'var(--media-fill)'
+  ok-wash: 'var(--ok-fill)'
+  accent-light-on: 'var(--lamp-ink)'
+  accent-light-on-background: 'var(--lamp-field)'
+  temperature-accent: 'var(--heat-color)'
+  temperature-background: 'var(--heat-tint)'
+  thermometer-accent: 'var(--heat-color)'
+  thermometer-background: 'var(--heat-tint)'
+  humidity-accent: 'var(--water-color)'
+  humidity-background: 'var(--water-tint)'
+  media-accent: 'var(--media-color)'
+  media-background: 'var(--media-tint)'
 
   # Controls
-  control-switch-on-color: 'var(--accent-color)'
+  control-switch-on-color: 'var(--toggle-on)'
   control-switch-off-color: 'var(--grey-color)'
   slider-track-color: 'var(--scrollbar-thumb-color)'
-  wa-color-on-normal: 'var(--text-color)'
+  wa-color-on-normal: 'var(--primary-text-color)'
   ha-ripple-color: 'var(--card-item-background)'
   ha-ripple-hover-color: 'var(--accent-color-background)'
   ha-ripple-pressed-color: 'var(--accent-color-background)'
@@ -191,8 +251,8 @@ Origami:
   ha-ripple-pressed-opacity: '0.2'
 
   # Inputs
-  input-ink-color: 'var(--text-color)'
-  input-label-ink-color: 'var(--text-color)'
+  input-ink-color: 'var(--primary-text-color)'
+  input-label-ink-color: 'var(--primary-text-color)'
   input-fill-color: 'var(--fill-subtle)'
   input-idle-line-color: 'var(--background-color)'
   input-hover-line-color: 'var(--primary-color)'
@@ -210,23 +270,26 @@ Origami:
   # Material
   mdc-theme-primary: 'var(--primary-color)'
   mdc-theme-secondary: 'var(--accent-color)'
-  mdc-theme-surface: 'var(--card-background)'
+  mdc-theme-surface: 'var(--ha-card-background)'
   mdc-theme-on-secondary: 'var(--text-color-active)'
-  mdc-theme-on-surface: 'var(--text-color)'
+  mdc-theme-on-surface: 'var(--primary-text-color)'
   mdc-theme-text-primary-on-background: 'var(--primary-text-color)'
   mdc-theme-text-secondary-on-background: 'var(--secondary-text-color)'
   mdc-theme-text-hint-on-background: 'var(--secondary-text-color)'
   mdc-theme-text-icon-on-background: 'var(--secondary-text-color)'
+  ha-heading-card-title-font-weight: 'var(--ha-font-weight-bold)'
+  md-list-item-label-text-weight: 'var(--ha-font-weight-medium)'
+  md-list-item-label-text-color: 'var(--primary-text-color)'
 
   # Buttons
-  ha-color-fill-primary-quiet-resting: 'var(--card-background)'
-  button-color-fill-normal-hover: 'color-mix(in srgb, var(--accent-color) 26%, var(--card-background) 74%)'
+  ha-color-fill-primary-quiet-resting: 'var(--ha-card-background)'
+  button-color-fill-normal-hover: 'color-mix(in srgb, var(--accent-color) 26%, var(--ha-card-background) 74%)'
   button-color-fill-normal-active: 'color-mix(in srgb, var(--accent-color) 34%, var(--background-color) 66%)'
   info-color: 'var(--accent-color)'
 
   # Dialogs
-  ha-dialog-border-radius: 'var(--border-radius)'
-  ha-dialog-surface-background: 'color-mix(in srgb, var(--card-background) 92%, transparent)'
+  ha-dialog-border-radius: 'var(--ha-card-border-radius)'
+  ha-dialog-surface-background: 'color-mix(in srgb, var(--ha-card-background) 92%, transparent)'
   ha-dialog-surface-backdrop-filter: 'var(--blur-strong)'
   dialog-backdrop-filter: 'var(--blur-strong)'
   dialog-box-shadow: 'var(--shadow-elevated)'
@@ -234,10 +297,7 @@ Origami:
   mdc-dialog-scroll-divider-color: 'var(--divider-color)'
 
   # Paper Buttons Row
-  # rgb-* needs a triplet, a hex value kills the color.
-  # Name, state and icon inherit the button color, so color lines in the cards are pointless.
-  # Background and active state stay local on purpose: put them in the row-level styles
-  # per card, then `active:` handles it and you don't need state_styles.
+  # The rgb ones need a triplet, a hex kills the color.
   pbs-button-color: 'var(--primary-text-color)'
   pbs-button-rgb-color: 'var(--rgb-primary-text-color)'
   pbs-button-rgb-state-color: 'var(--rgb-primary-text-color)'
@@ -245,44 +305,37 @@ Origami:
   rgb-state-default-color: 'var(--rgb-primary-text-color)'
 
   # Bubble Card
-  # Draws everything itself on .bubble-container, so --ha-card-* has no effect here.
-  # Every surface needs its own --bubble-* counterpart.
-  bubble-main-background-color: 'var(--card-background)'
+  # Ignores the ha-card vars and paints itself, so every surface gets its own.
+  bubble-main-background-color: 'var(--ha-card-background)'
   bubble-secondary-background-color: 'var(--card-item-background)'
   bubble-icon-background-color: 'var(--card-item-background)'
   bubble-pop-up-main-background-color: 'var(--popup-background)'
   bubble-backdrop-background-color: 'var(--backdrop-background-color)'
-  bubble-border-radius: 'var(--border-radius)'
+  bubble-border-radius: 'var(--ha-card-border-radius)'
   bubble-accent-color: 'var(--accent-color)'
-  bubble-light-color: 'var(--accent-light-on)'
+  bubble-light-color: 'var(--lamp-wash)'
   bubble-line-background-color: 'var(--secondary-text-color)'
   bubble-sub-button-light-background-color: 'var(--accent-color-background)'
-  bubble-select-list-background-color: 'var(--card-background)'
-  bubble-select-main-background-color: 'var(--card-background)'
-  bubble-media-player-main-background-color: 'var(--card-background)'
+  bubble-select-list-background-color: 'var(--ha-card-background)'
+  bubble-select-main-background-color: 'var(--ha-card-background)'
+  bubble-media-player-main-background-color: 'var(--ha-card-background)'
   bubble-select-list-width: '140px'
-
-  # Optional: gives bubble cards the ring and shadow of the other cards, but also hits the
-  # pop-up header (rendered as a "button") and the separator. Only all four together, plus
-  # the "flat_popup_header" module.
-  # bubble-border: 'var(--border-width) solid var(--border-color)'
-  # bubble-box-shadow: 'var(--card-shadow)'
-  # bubble-separator-box-shadow: 'none'
-  # bubble-pop-up-border: 'none'
-
   modes:
 
     light:
-      border-contrast: '10%'
+      border-contrast: '8%'
 
       # Surfaces
       background-color: '#F6F5F3'
       dashboard-background: '#F2F0EB'
-      card-background: '#FFFFFF'
-      popup-background: '#ECEAE8'
+      ha-card-background: '#FFFFFF'
+      popup-background: '#F0EEEA'
 
       # Text, icons
-      text-color: '#595755'
+      primary-text-color: '#4F4C49'
+      secondary-text-color: 'color-mix(in srgb, var(--primary-text-color) 78%, transparent)'
+      fill-base: '#8A7A64'
+      fill-contrast: '8%'
       icon-color: '#BDBBB8'
       disabled-text-color: '#BDBBB8'
 
@@ -291,29 +344,56 @@ Origami:
       accent-color: '#8DA399'
       dark-primary-color: '#4A5B63'
       light-primary-color: '#BCC6CA'
-      accent-light-on: '#D6C6B0'
-      accent-light-on-background: 'color-mix(in srgb, var(--accent-light-on) 30%, transparent)'
 
-      # Sensors
-      thermometer-accent: 'rgba(192, 108, 82, 0.85)'
-      thermometer-background: 'rgba(192, 108, 82, 0.1)'
-      temperature-accent: '#C68F66'
-      humidity-accent: '#76A0AD'
+      # Colours. Home Assistant's own named colours, re-toned; its state colours point at these.
+      # In use: amber = lights, switches, anything plainly on; deep-orange = heating; blue = cooling, humidity;
+      # light-blue = media; cyan = fans; teal = vacuum; green = ok; orange = warning; red = error.
+      amber-color: '#E6C68A'
+      orange-color: '#B27C43'
+      deep-orange-color: '#AE6E55'
+      red-color: '#A75050'
+      pink-color: '#A3747C'
+      purple-color: '#8C7185'
+      deep-purple-color: '#766481'
+      indigo-color: '#606883'
+      blue-color: '#587397'
+      light-blue-color: '#668A9F'
+      cyan-color: '#668F90'
+      teal-color: '#527B71'
+      green-color: '#758671'
+      light-green-color: '#7E8C6F'
+      lime-color: '#828A60'
+      yellow-color: '#98894A'
+      brown-color: '#725F4F'
+      light-grey-color: '#BFBDBA'
+      grey-color: '#94928E'
+      dark-grey-color: '#605D5A'
+      blue-grey-color: '#77828A'
+      tint-strength: '14%'
+      fill-strength: '32%'
+      wash-strength: '55%'
+      weather-wash: '45%'
 
-      # Shadows
-      shadow-color: 'rgba(0, 0, 0, 0.06)'
-      card-shadow: '0px 4px 20px var(--shadow-color)'
-      card-shadow-color: 'rgba(0, 0, 0, 0.15)'
-      card-item-shadow: '0 1px 2px rgba(60, 50, 40, 0.1)'
-      shadow-elevated: '0 10px 36px rgba(0, 0, 0, 0.18)'
-      navbar-shadow: '0px -2px 8px rgba(0, 0, 0, 0.04), 0px -6px 16px rgba(0, 0, 0, 0.06), 0px -12px 32px rgba(0, 0, 0, 0.04)'
+      # Lamps: the light sits in the chip, the glyph is ink.
+      lamp-field: '#F7E8CA'
+      lamp-ink: 'var(--primary-text-color)'
+
+      # Shadows: contact plus key, blur about triple the offset, nothing bleeds upward.
+      shadow-tint: '60, 50, 40'
+      shadow-contact: '0 1px 2px rgba(var(--shadow-tint), 0.04)'
+      card-shadow: 'var(--shadow-contact), 0 4px 12px -4px rgba(var(--shadow-tint), 0.07)'
+      card-shadow-flat: 'var(--shadow-contact)'
+      card-shadow-color: 'rgba(var(--shadow-tint), 0.15)'
+      card-item-shadow: '0 1px 2px rgba(var(--shadow-tint), 0.1)'
+      shadow-elevated: '0 2px 6px -2px rgba(var(--shadow-tint), 0.08), 0 16px 40px -12px rgba(var(--shadow-tint), 0.22)'
+      navbar-shadow: '0px -1px 2px rgba(var(--shadow-tint), 0.03), 0px -8px 24px -8px rgba(var(--shadow-tint), 0.1)'
 
       # Header
       app-header-edit-background-color: 'color-mix(in srgb, var(--popup-background) 90%, transparent)'
 
       # Misc
       scrollbar-thumb-color: 'rgb(210, 210, 205)'
-      album-cover-gradient: 'rgba(255, 255, 255, 0.6)'
+      album-cover-gradient: 'rgba(255, 255, 255, 0.55)'
 
       # Buttons, dialogs
       ha-color-fill-primary-loud-hover: 'color-mix(in srgb, var(--accent-color) 90%, #344046 10%)'
@@ -323,9 +403,13 @@ Origami:
       # RGB helpers
       rgb-primary-color: '141, 163, 153'
       rgb-accent-color: '141, 163, 153'
-      rgb-primary-text-color: '89, 87, 85'
-      rgb-secondary-text-color: '117, 114, 111'
+      rgb-primary-text-color: '79, 76, 73'
+      rgb-secondary-text-color: '118, 115, 113'
       rgb-card-background-color: '255, 255, 255'
+      rgb-error-color: '167, 80, 80'
+      rgb-warning-color: '178, 124, 67'
+      rgb-success-color: '117, 134, 113'
+      rgb-info-color: '141, 163, 153'
 
       # Primary color scale
       ha-color-primary-05: '#0A1610'
@@ -344,44 +428,76 @@ Origami:
       border-contrast: '6%'
 
       # Surfaces
-      background-color: '#161719'
-      dashboard-background: '#161719'
-      card-background: '#202124'
-      popup-background: '#161719'
+      background-color: '#181715'
+      dashboard-background: '#181715'
+      # Card sits two fill steps above the bg, so buttons on the bg never catch up with cards.
+      ha-card-background: '#2F2D2A'
+      popup-background: '#181715'
 
       # Text, icons
-      text-color: '#E1E3E6'
-      icon-color: '#9BA1A6'
-      disabled-text-color: '#61656B'
+      primary-text-color: '#E5E3DD'
+      secondary-text-color: 'color-mix(in srgb, var(--primary-text-color) 64%, transparent)'
+      fill-base: 'var(--primary-text-color)'
+      fill-contrast: '5%'
+      icon-color: '#A09E9A'
+      disabled-text-color: '#65635F'
 
       # Accent
       primary-color: '#83A794'
       accent-color: '#6A8778'
       dark-primary-color: '#3D5C4C'
-      light-primary-color: 'var(--card-background)'
-      accent-light-on: '#C0A87E'
-      accent-light-on-background: 'color-mix(in srgb, var(--accent-light-on) 10%, transparent)'
+      light-primary-color: 'var(--ha-card-background)'
 
-      # Sensors
-      thermometer-accent: 'rgba(210, 162, 120, 0.85)'
-      thermometer-background: 'rgba(210, 162, 120, 0.1)'
-      temperature-accent: '#D2A278'
-      humidity-accent: '#8FB7C2'
+      # Colours. Home Assistant's own named colours, re-toned; its state colours point at these.
+      # In use: amber = lights, switches, anything plainly on; deep-orange = heating; blue = cooling, humidity;
+      # light-blue = media; cyan = fans; teal = vacuum; green = ok; orange = warning; red = error.
+      amber-color: '#E6C68A'
+      orange-color: '#EABA89'
+      deep-orange-color: '#E2A58E'
+      red-color: '#DA8282'
+      pink-color: '#D8A9B1'
+      purple-color: '#C6ABBF'
+      deep-purple-color: '#B5A3C0'
+      indigo-color: '#9EA7C3'
+      blue-color: '#93ADCF'
+      light-blue-color: '#A5C6DA'
+      cyan-color: '#A1C6C7'
+      teal-color: '#8EB4AB'
+      green-color: '#AFC0AC'
+      light-green-color: '#B9C7AA'
+      lime-color: '#C5CCA4'
+      yellow-color: '#DCCE96'
+      brown-color: '#AE9A8B'
+      light-grey-color: '#ADAAA7'
+      grey-color: '#888682'
+      dark-grey-color: '#575552'
+      blue-grey-color: '#8F9AA2'
+      tint-strength: '4%'
+      fill-strength: '30%'
+      wash-strength: '35%'
+      weather-wash: '15%'
 
-      # Shadows
-      shadow-color: 'rgba(0, 0, 0, 0.8)'
-      card-shadow: '0 4px 8px 0 rgba(0, 0, 0, 0.9), 0 2px 4px 0 var(--shadow-color)'
-      card-shadow-color: 'rgba(0, 0, 0, 0.65)'
-      card-item-shadow: '0 2px 4px 0 rgba(0, 0, 0, 0.9), 0 1px 2px 0 var(--shadow-color)'
-      shadow-elevated: '0 10px 36px rgba(0, 0, 0, 0.55)'
-      navbar-shadow: '0px -6px 25px rgba(0, 0, 0, 0.6)'
+      # Lamps: the light sits in the glyph, the chip is the usual tint.
+      lamp-field: 'color-mix(in srgb, var(--state-light-active-color) var(--tint-strength), var(--ha-card-background))'
+      lamp-ink: 'var(--state-light-active-color)'
+
+      # Shadows: elevation here is mostly tone, the shadow just backs it up.
+      shadow-tint: '0, 0, 0'
+      shadow-hairline: 'inset 0 1px 0 rgba(255, 255, 255, 0.03)'
+      shadow-contact: '0 1px 2px rgba(var(--shadow-tint), 0.35)'
+      card-shadow: 'var(--shadow-hairline), var(--shadow-contact), 0 6px 16px -6px rgba(var(--shadow-tint), 0.45)'
+      card-shadow-flat: 'var(--shadow-hairline), var(--shadow-contact)'
+      card-shadow-color: 'rgba(var(--shadow-tint), 0.65)'
+      card-item-shadow: 'var(--shadow-hairline), 0 1px 2px rgba(var(--shadow-tint), 0.4)'
+      shadow-elevated: '0 2px 6px -2px rgba(var(--shadow-tint), 0.5), 0 20px 48px -12px rgba(var(--shadow-tint), 0.7)'
+      navbar-shadow: '0px -1px 2px rgba(var(--shadow-tint), 0.3), 0px -10px 28px -8px rgba(var(--shadow-tint), 0.55)'
 
       # Header
-      app-header-edit-background-color: 'color-mix(in srgb, var(--card-background) 90%, transparent)'
+      app-header-edit-background-color: 'color-mix(in srgb, var(--ha-card-background) 90%, transparent)'
 
       # Misc
       scrollbar-thumb-color: 'rgb(100, 100, 100)'
-      album-cover-gradient: 'rgba(0, 0, 0, 0.4)'
+      album-cover-gradient: 'rgba(0, 0, 0, 0.35)'
 
       # Buttons, dialogs
       ha-color-fill-primary-loud-hover: 'color-mix(in srgb, var(--accent-color) 90%, #000000 10%)'
@@ -390,10 +506,14 @@ Origami:
 
       # RGB helpers
       rgb-primary-color: '131, 167, 148'
-      rgb-accent-color: '131, 167, 148'
-      rgb-primary-text-color: '225, 227, 230'
-      rgb-secondary-text-color: '138, 143, 150'
-      rgb-card-background-color: '32, 33, 36'
+      rgb-accent-color: '106, 135, 120'
+      rgb-primary-text-color: '229, 227, 221'
+      rgb-secondary-text-color: '163, 161, 157'
+      rgb-card-background-color: '47, 45, 42'
+      rgb-error-color: '218, 130, 130'
+      rgb-warning-color: '234, 186, 137'
+      rgb-success-color: '175, 192, 172'
+      rgb-info-color: '106, 135, 120'
 
       # Primary color scale
       ha-color-primary-05: '#0B120E'
