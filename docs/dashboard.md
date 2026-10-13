@@ -37,15 +37,14 @@ An [Origami Weather](https://github.com/hazymorning/origami_weather) card: a cal
 - Each condition has its own background colour for light and dark mode, set in `background_thresholds`. Clouds, stars, birds, balloons and planes are off.
 - Top left is the next sunset, or the next sunrise while the sun is down. They are two buttons with a visibility condition on `sun.sun`.
 - The large number is the weather entity's temperature. For an outdoor sensor of your own, give that text element an `entity` instead of the `attribute`.
-- Bottom right are three rooms. Each is a temperature sensor with a label.
-- The small ring top right marks north.
+- Bottom right are three rooms, each a [climate helper](helpers.md#room-climate-sensor) with a label.
 - The house is the card's demo house. The dashboard this comes from has a drawing of the actual home instead, with a lit window per room while its lights are on. The [Origami Weather readme](https://github.com/hazymorning/origami_weather#layouts) explains how to make one.
 
 | Entity | For |
 | --- | --- |
 | `weather.home` | Condition, background colour and temperature |
 | `sun.sun` | Next sunset or sunrise |
-| `sensor.living_room_temperature`, `sensor.bedroom_temperature`, `sensor.bathroom_temperature` | The three rooms |
+| `sensor.climate_living_room`, `sensor.climate_bedroom`, `sensor.climate_bathroom` | The three rooms |
 
 ## Favorites
 

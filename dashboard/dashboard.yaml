@@ -386,7 +386,7 @@ views:
             sun_moon_x: 33
             sun_moon_y: 20
             color_mode: theme
-            card_height: 260px
+            card_height: 200px
             card_padding: 20px
             # A calm colour per condition instead of the sky, without clouds and the other effects
             background_mode: color
@@ -499,12 +499,12 @@ views:
                     width: 100%
                     elements:
                       - type: text
-                        size: 68px
+                        size: 62px
+                        weight: '700'
                         color: var(--primary-text-color)
                         attribute: temperature
                         precision: 0
                         format: °
-                        weight: '600'
                   - entity: weather.home
                     elements:
                       - type: text
@@ -517,7 +517,7 @@ views:
                 gap: 22px
                 button_gap: 4px
                 buttons:
-                  - entity: sensor.living_room_temperature
+                  - entity: sensor.climate_living_room
                     style: vertical
                     align: start
                     elements:
@@ -532,7 +532,7 @@ views:
                         color: var(--primary-text-color)
                         precision: 0
                         format: °
-                  - entity: sensor.bedroom_temperature
+                  - entity: sensor.climate_bedroom
                     style: vertical
                     align: start
                     elements:
@@ -547,7 +547,7 @@ views:
                         color: var(--primary-text-color)
                         precision: 0
                         format: °
-                  - entity: sensor.bathroom_temperature
+                  - entity: sensor.climate_bathroom
                     style: vertical
                     align: start
                     elements:
@@ -562,28 +562,6 @@ views:
                         color: var(--primary-text-color)
                         precision: 0
                         format: °
-              # A small compass with north marked
-              - position: custom
-                position_anchor: top-right
-                buttons:
-                  - entity: sun.sun
-                    type: ring
-                    ring_start: 25
-                    ring_needle: true
-                    ring_width: 1
-                    ring_color: var(--secondary-text-color)
-                    ring_marker_size: 12
-                    ring_marker_icon_size: 16
-                    ring_values:
-                      - value: 0
-                        marker_icon: mdi:alpha-n
-                        marker_icon_color: var(--primary-text-color)
-                    padding: 9px
-                    elements:
-                      - type: icon
-                        icon: mdi:circle-small
-                        icon_size: 12px
-                        color: var(--secondary-text-color)
 
       # Favorites
       - type: grid
