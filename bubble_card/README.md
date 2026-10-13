@@ -1,6 +1,6 @@
 # Origami modules for Bubble Card
 
-Eleven [Bubble Card](https://github.com/Clooos/Bubble-Card) modules that give its cards the Origami look: the same frame, type, colours and controls as the rest of the dashboard. They read the theme's tokens, so they need the [Origami theme](../README.md#theme-only).
+Eleven [Bubble Card](https://github.com/Clooos/Bubble-Card) modules that give its cards the Origami look: the same frame, type, colours and controls as the rest of the dashboard. They read the theme's tokens, so they need the [Origami theme](../README.md#setup).
 
 > [!WARNING]
 > These modules are experimental. I'm not really happy with them yet: CSS is my specialty, but Bubble Card's CSS is hard to untangle, especially how card heights behave. I still haven't quite figured that out. It all works fine though.
@@ -616,7 +616,7 @@ sub_button:
           before: '20:59:59'
 ```
 
-The [favorites](../docs/dashboard.md#favorites) show more.
+The [favorites](../README.md#favorites) show more.
 
 </details>
 
