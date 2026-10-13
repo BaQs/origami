@@ -1,0 +1,507 @@
+# Origami helpers as a package. Copy this file to /config/packages/ and rename the entities to yours.
+# Packages need this once in configuration.yaml:
+#
+# homeassistant:
+#   packages: !include_dir_named packages
+
+input_boolean:
+  # Opens the climate table under the rooms header
+  room_climate_card:
+    name: Room climate table
+    icon: mdi:table
+  # Shows the rooms beyond the first four
+  all_rooms:
+    name: All rooms
+    icon: mdi:home-group
+
+input_select:
+  # Fallback for the active speaker when nothing plays
+  selected_speaker:
+    name: Selected speaker
+    options:
+      - media_player.living_room
+      - media_player.bedroom
+      - media_player.office
+
+template:
+  - sensor:
+      # Room climate, one per room. Copy the block and swap the source sensors.
+      # The balcony uses the same block, the weather card reads its temperature.
+      - name: Climate | Living room
+        unique_id: climate_living_room
+        icon: mdi:thermometer
+        state: >
+          {% set t = states('sensor.living_room_temperature') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature: >
+            {% set t = states('sensor.living_room_temperature') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity: >
+            {% set h = states('sensor.living_room_humidity') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          temp_rank: >
+            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'living_room')
+               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'living_room')
+               else 'normal' }}
+          humidity_rank: >
+            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'living_room')
+               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'living_room')
+               else 'normal' }}
+          color_code: >
+            {% set t = states('sensor.living_room_temperature') | float(20) %}
+            {% if t < 16 %}var(--blue-color)
+            {% elif t < 19 %}var(--cyan-color)
+            {% elif t < 24 %}var(--green-color)
+            {% elif t < 27 %}var(--orange-color)
+            {% else %}var(--red-color){% endif %}
+
+      - name: Climate | Bedroom
+        unique_id: climate_bedroom
+        icon: mdi:thermometer
+        state: >
+          {% set t = states('sensor.bedroom_temperature') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature: >
+            {% set t = states('sensor.bedroom_temperature') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity: >
+            {% set h = states('sensor.bedroom_humidity') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          temp_rank: >
+            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'bedroom')
+               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'bedroom')
+               else 'normal' }}
+          humidity_rank: >
+            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'bedroom')
+               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'bedroom')
+               else 'normal' }}
+          color_code: >
+            {% set t = states('sensor.bedroom_temperature') | float(20) %}
+            {% if t < 16 %}var(--blue-color)
+            {% elif t < 19 %}var(--cyan-color)
+            {% elif t < 24 %}var(--green-color)
+            {% elif t < 27 %}var(--orange-color)
+            {% else %}var(--red-color){% endif %}
+
+      - name: Climate | Office
+        unique_id: climate_office
+        icon: mdi:thermometer
+        state: >
+          {% set t = states('sensor.office_temperature') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature: >
+            {% set t = states('sensor.office_temperature') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity: >
+            {% set h = states('sensor.office_humidity') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          temp_rank: >
+            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'office')
+               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'office')
+               else 'normal' }}
+          humidity_rank: >
+            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'office')
+               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'office')
+               else 'normal' }}
+          color_code: >
+            {% set t = states('sensor.office_temperature') | float(20) %}
+            {% if t < 16 %}var(--blue-color)
+            {% elif t < 19 %}var(--cyan-color)
+            {% elif t < 24 %}var(--green-color)
+            {% elif t < 27 %}var(--orange-color)
+            {% else %}var(--red-color){% endif %}
+
+      - name: Climate | Bathroom
+        unique_id: climate_bathroom
+        icon: mdi:thermometer
+        state: >
+          {% set t = states('sensor.bathroom_temperature') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature: >
+            {% set t = states('sensor.bathroom_temperature') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity: >
+            {% set h = states('sensor.bathroom_humidity') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          temp_rank: >
+            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'bathroom')
+               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'bathroom')
+               else 'normal' }}
+          humidity_rank: >
+            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'bathroom')
+               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'bathroom')
+               else 'normal' }}
+          color_code: >
+            {% set t = states('sensor.bathroom_temperature') | float(20) %}
+            {% if t < 16 %}var(--blue-color)
+            {% elif t < 19 %}var(--cyan-color)
+            {% elif t < 24 %}var(--green-color)
+            {% elif t < 27 %}var(--orange-color)
+            {% else %}var(--red-color){% endif %}
+
+      - name: Climate | Kitchen
+        unique_id: climate_kitchen
+        icon: mdi:thermometer
+        state: >
+          {% set t = states('sensor.kitchen_temperature') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature: >
+            {% set t = states('sensor.kitchen_temperature') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity: >
+            {% set h = states('sensor.kitchen_humidity') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          temp_rank: >
+            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'kitchen')
+               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'kitchen')
+               else 'normal' }}
+          humidity_rank: >
+            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'kitchen')
+               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'kitchen')
+               else 'normal' }}
+          color_code: >
+            {% set t = states('sensor.kitchen_temperature') | float(20) %}
+            {% if t < 16 %}var(--blue-color)
+            {% elif t < 19 %}var(--cyan-color)
+            {% elif t < 24 %}var(--green-color)
+            {% elif t < 27 %}var(--orange-color)
+            {% else %}var(--red-color){% endif %}
+
+      - name: Climate | Small bathroom
+        unique_id: climate_small_bathroom
+        icon: mdi:thermometer
+        state: >
+          {% set t = states('sensor.small_bathroom_temperature') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature: >
+            {% set t = states('sensor.small_bathroom_temperature') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity: >
+            {% set h = states('sensor.small_bathroom_humidity') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          temp_rank: >
+            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'small_bathroom')
+               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'small_bathroom')
+               else 'normal' }}
+          humidity_rank: >
+            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'small_bathroom')
+               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'small_bathroom')
+               else 'normal' }}
+          color_code: >
+            {% set t = states('sensor.small_bathroom_temperature') | float(20) %}
+            {% if t < 16 %}var(--blue-color)
+            {% elif t < 19 %}var(--cyan-color)
+            {% elif t < 24 %}var(--green-color)
+            {% elif t < 27 %}var(--orange-color)
+            {% else %}var(--red-color){% endif %}
+
+      - name: Climate | Balcony
+        unique_id: climate_balcony
+        icon: mdi:thermometer
+        state: >
+          {% set t = states('sensor.balcony_temperature') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature: >
+            {% set t = states('sensor.balcony_temperature') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity: >
+            {% set h = states('sensor.balcony_humidity') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          temp_rank: >
+            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'balcony')
+               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'balcony')
+               else 'normal' }}
+          humidity_rank: >
+            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'balcony')
+               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'balcony')
+               else 'normal' }}
+          color_code: >
+            {% set t = states('sensor.balcony_temperature') | float(20) %}
+            {% if t < 16 %}var(--blue-color)
+            {% elif t < 19 %}var(--cyan-color)
+            {% elif t < 24 %}var(--green-color)
+            {% elif t < 27 %}var(--orange-color)
+            {% else %}var(--red-color){% endif %}
+
+      # Warmest and coldest, most humid and driest room
+      - name: Climate | Temperature peaks
+        unique_id: climate_temperature_peaks
+        icon: mdi:thermometer
+        state: >
+          {% set ns = namespace(p=[]) %}
+          {% for r in ['living_room', 'bedroom', 'office', 'bathroom', 'kitchen', 'small_bathroom'] %}
+            {% set v = states('sensor.' ~ r ~ '_temperature') | float(none) %}
+            {% if v is not none %}{% set ns.p = ns.p + [(v, r)] %}{% endif %}
+          {% endfor %}
+          {{ (ns.p | max)[1] if ns.p | count > 1 and (ns.p | max)[0] > (ns.p | min)[0] else 'none' }}
+        attributes:
+          lowest: >
+            {% set ns = namespace(p=[]) %}
+            {% for r in ['living_room', 'bedroom', 'office', 'bathroom', 'kitchen', 'small_bathroom'] %}
+              {% set v = states('sensor.' ~ r ~ '_temperature') | float(none) %}
+              {% if v is not none %}{% set ns.p = ns.p + [(v, r)] %}{% endif %}
+            {% endfor %}
+            {{ (ns.p | min)[1] if ns.p | count > 1 and (ns.p | max)[0] > (ns.p | min)[0] else 'none' }}
+
+      - name: Climate | Humidity peaks
+        unique_id: climate_humidity_peaks
+        icon: mdi:water-percent
+        state: >
+          {% set ns = namespace(p=[]) %}
+          {% for r in ['living_room', 'bedroom', 'office', 'bathroom', 'kitchen', 'small_bathroom'] %}
+            {% set v = states('sensor.' ~ r ~ '_humidity') | float(none) %}
+            {% if v is not none %}{% set ns.p = ns.p + [(v, r)] %}{% endif %}
+          {% endfor %}
+          {{ (ns.p | max)[1] if ns.p | count > 1 and (ns.p | max)[0] > (ns.p | min)[0] else 'none' }}
+        attributes:
+          lowest: >
+            {% set ns = namespace(p=[]) %}
+            {% for r in ['living_room', 'bedroom', 'office', 'bathroom', 'kitchen', 'small_bathroom'] %}
+              {% set v = states('sensor.' ~ r ~ '_humidity') | float(none) %}
+              {% if v is not none %}{% set ns.p = ns.p + [(v, r)] %}{% endif %}
+            {% endfor %}
+            {{ (ns.p | min)[1] if ns.p | count > 1 and (ns.p | max)[0] > (ns.p | min)[0] else 'none' }}
+
+      # Averages over all rooms
+      - name: Temperature average
+        unique_id: temperature_average
+        unit_of_measurement: "°C"
+        device_class: temperature
+        state: >
+          {% set v = ['living_room', 'bedroom', 'office', 'bathroom', 'kitchen', 'small_bathroom']
+             | map('regex_replace', '^(.*)$', 'sensor.\\1_temperature') | map('states')
+             | map('float', none) | reject('none') | list %}
+          {{ (v | sum / v | count) | round(1) if v else none }}
+
+      - name: Humidity average
+        unique_id: humidity_average
+        unit_of_measurement: "%"
+        device_class: humidity
+        state: >
+          {% set v = ['living_room', 'bedroom', 'office', 'bathroom', 'kitchen', 'small_bathroom']
+             | map('regex_replace', '^(.*)$', 'sensor.\\1_humidity') | map('states')
+             | map('float', none) | reject('none') | list %}
+          {{ (v | sum / v | count) | round(0) if v else none }}
+
+      # Whole home
+      - name: Climate | Home
+        unique_id: climate_home
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.temperature_average') | float(none) %}
+          {{ t | round(1) if t is not none else '?' }}
+        attributes:
+          temperature_average: >
+            {% set t = states('sensor.temperature_average') | float(none) %}
+            {{ t | round(0) | int if t is not none else '?' }}
+          humidity_average: >
+            {% set h = states('sensor.humidity_average') | float(none) %}
+            {{ h | round(0) | int if h is not none else '?' }}
+          windows_open: >
+            {% set w = states('sensor.windows_open_count') %}
+            {{ '?' if w in ['unknown', 'unavailable'] else w }}
+          front_door_open: >
+            {{ states('binary_sensor.front_door') }}
+
+      - name: Windows open count
+        unique_id: windows_open_count
+        icon: mdi:window-open-variant
+        state: >
+          {{ ['binary_sensor.living_room_balcony_door', 'binary_sensor.bedroom_window',
+              'binary_sensor.bathroom_window', 'binary_sensor.kitchen_window',
+              'binary_sensor.small_bathroom_window']
+             | select('is_state', 'on') | list | count }}
+
+      # Greeting
+      - name: Greetings
+        unique_id: greetings
+        icon: mdi:hand-wave
+        state: >
+          {% set h = now().hour %}
+          {% if h < 5 %}still awake?
+          {% elif h < 11 %}good morning
+          {% elif h < 14 %}hey there
+          {% elif h < 18 %}good afternoon
+          {% elif h < 22 %}good evening
+          {% else %}good night{% endif %}
+
+      # Counters for the navbar badges
+      - name: Lights on count
+        unique_id: lights_on_count
+        icon: mdi:lightbulb-group
+        state: >
+          {{ ['light.living_room', 'light.bedroom', 'light.office',
+              'light.bathroom', 'light.kitchen', 'light.small_bathroom']
+             | select('is_state', 'on') | list | count }}
+
+      - name: Active speaker count
+        unique_id: active_speaker_count
+        icon: mdi:speaker-multiple
+        state: >
+          {{ ['media_player.living_room', 'media_player.bedroom', 'media_player.office']
+             | select('is_state', ['playing', 'buffering']) | list | count }}
+
+      # The speaker that matters right now, for the navbar's now playing bar.
+      # Written for LinkPlay speakers with Music Assistant (_mass) and DLNA (_dlna) twins.
+      # Playing beats TV and Bluetooth, those beat paused, paused beats the selected speaker.
+      # A playing group master wins over its members.
+      - name: Active target
+        unique_id: active_target
+        icon: mdi:target
+        state: >
+          {% set players = ['media_player.living_room', 'media_player.office',
+             'media_player.bedroom'] %}
+          {% set dead = ['off', 'standby', 'unknown', 'unavailable', ''] %}
+          {% set ns = namespace(playing=[], physical=[], paused=[]) %}
+
+          {% for p in players %}
+            {% set s = states(p) %}
+            {% set src = state_attr(p, 'source') | default('', true)
+               | lower | replace('-', ' ') %}
+            {% set is_physical = 'optical' in src or 'coax' in src
+               or 'hdmi' in src or 'line in' in src or 'bluetooth' in src %}
+            {% if s not in dead %}
+              {% if s in ['playing', 'buffering', 'on'] %}
+                {% set ns.playing = ns.playing + [p] %}
+              {% elif is_physical %}
+                {% set ns.physical = ns.physical + [p] %}
+              {% elif s == 'paused' %}
+                {% set ns.paused = ns.paused + [p] %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {% set m = states('sensor.speaker_group_master') %}
+          {% set chain = ns.playing + ns.physical + ns.paused
+             + [states('input_select.selected_speaker')] %}
+          {{ m if m in ns.playing else (chain | first) }}
+
+      # The speaker that is actually playing, not the selected one.
+      # Every metadata read first checks that the entity is live right now.
+      # Music Assistant and DLNA entities keep their last media_title when idle,
+      # so an unguarded `or` chain gets stuck on an old track.
+      - name: Active speaker
+        unique_id: active_speaker
+        icon: mdi:speaker-play
+        state: >
+          {{ states('sensor.active_target') }}
+        attributes:
+
+          # playing_art | playing_plain | paused_art | paused_plain
+          # tv_art | tv_plain | off
+          chip: >
+            {% set z = states('sensor.active_target') %}
+            {% set s = states(z) %}
+            {% set src = state_attr(z, 'source') | default('', true)
+               | lower | replace('-', ' ') %}
+            {% set live = ['playing', 'paused', 'buffering'] %}
+
+            {% if s in ['off', 'standby', 'unknown', 'unavailable'] %}
+              off
+            {% elif 'optical' in src or 'coax' in src
+                 or 'hdmi' in src or 'line in' in src %}
+              {% set tvart = state_attr('sensor.tv_source', 'artwork')
+                 | default('none', true) %}
+              {{ 'tv_art' if tvart not in ['none', 'unknown', ''] else 'tv_plain' }}
+            {% else %}
+              {% set status = 'playing' if s in ['playing', 'buffering', 'on']
+                 else ('paused' if s == 'paused' else 'off') %}
+              {% set cover = (state_attr(z ~ '_mass', 'entity_picture')
+                    if states(z ~ '_mass') in live else none)
+                 or (state_attr(z ~ '_dlna', 'entity_picture_local')
+                    if states(z ~ '_dlna') in live else none)
+                 or (state_attr(z ~ '_dlna', 'entity_picture')
+                    if states(z ~ '_dlna') in live else none) %}
+              {{ 'off' if status == 'off'
+                 else status ~ ('_art' if cover else '_plain') }}
+            {% endif %}
+
+          # yes or no, for the group badge
+          group: >
+            {% set z = states('sensor.active_target') %}
+            {% set members = state_attr(z, 'group_members') or [] %}
+            {{ 'yes' if (members | reject('equalto', z) | list | length) > 0
+               else 'no' }}
+
+          # Short name, with a count when grouped: "Living +2"
+          speaker: >
+            {% set z = states('sensor.active_target') %}
+            {% set short = {
+              'media_player.living_room': 'Living',
+              'media_player.office':      'Office',
+              'media_player.bedroom':     'Bedroom' } %}
+            {% set n = short.get(z, state_attr(z, 'friendly_name'))
+               | default('Speaker', true) %}
+            {% set members = state_attr(z, 'group_members') or [] %}
+            {% set others = members | reject('equalto', z) | list | length %}
+            {{ n ~ (' +' ~ others if others > 0 else '') }}
+
+          # Ready-to-show text, never empty, never stale
+          title: >
+            {% set z = states('sensor.active_target') %}
+            {% set s = states(z) %}
+            {% set src = state_attr(z, 'source') | default('', true)
+               | lower | replace('-', ' ') %}
+            {% set live = ['playing', 'paused', 'buffering'] %}
+            {% set dead = ['off', 'standby', 'unavailable', 'unknown'] %}
+
+            {% if s in dead %}
+              Nothing playing
+            {% elif 'bluetooth' in src %}
+              Bluetooth
+            {% elif 'optical' in src or 'coax' in src
+                 or 'hdmi' in src or 'line in' in src %}
+              {{ state_attr('sensor.tv_source', 'display')
+                 | default('TV', true) }}
+            {% else %}
+              {% set t = (state_attr(z ~ '_mass', 'media_title')
+                    if states(z ~ '_mass') in live else none)
+                 or (state_attr(z, 'media_title') if s in live else none)
+                 or (state_attr(z ~ '_dlna', 'media_title')
+                    if states(z ~ '_dlna') in live else none) %}
+              {% set a = (state_attr(z ~ '_mass', 'media_artist')
+                    if states(z ~ '_mass') in live else none)
+                 or (state_attr(z, 'media_artist') if s in live else none)
+                 or (state_attr(z ~ '_dlna', 'media_artist')
+                    if states(z ~ '_dlna') in live else none) %}
+              {% if t and ('http://' in t or 'https://' in t) %}
+                {% set t = none %}
+              {% endif %}
+              {{ (t ~ ' | ' ~ a) if (t and a)
+                 else (t if t
+                 else ({'paused': 'Paused', 'buffering': 'Buffering'})
+                       .get(s, 'Nothing playing')) }}
+            {% endif %}
+
+          # TV artwork on physical sources, the music cover otherwise.
+          # Bluetooth stays empty on purpose.
+          artwork: >
+            {% set z = states('sensor.active_target') %}
+            {% set src = state_attr(z, 'source') | default('', true)
+               | lower | replace('-', ' ') %}
+            {% set live = ['playing', 'paused', 'buffering'] %}
+
+            {% if 'optical' in src or 'coax' in src
+               or 'hdmi' in src or 'line in' in src %}
+              {{ state_attr('sensor.tv_source', 'artwork')
+                 | default('none', true) }}
+            {% elif 'bluetooth' in src %}
+              none
+            {% else %}
+              {{ (state_attr(z ~ '_mass', 'entity_picture')
+                    if states(z ~ '_mass') in live else none)
+                 or (state_attr(z ~ '_dlna', 'entity_picture_local')
+                    if states(z ~ '_dlna') in live else none)
+                 or (state_attr(z ~ '_dlna', 'entity_picture')
+                    if states(z ~ '_dlna') in live else none)
+                 or (state_attr(z, 'entity_picture')
+                    if states(z) in live else none)
+                 or 'none' }}
+            {% endif %}
