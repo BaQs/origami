@@ -2674,3 +2674,1553 @@ views:
               .navbar-card.mobile .route .button {
                 height: 100% !important;
               }
+
+      # Pop-ups. Hidden until something opens them.
+      - type: grid
+        column_span: 1
+        cards:
+          # Living room pop-up, opened by the living room card. Copy it for the other rooms.
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: '#popup_living_room'
+            name: Living room
+            button_type: name
+            show_header: true
+            show_name: true
+            show_icon: false
+            card_layout: large
+            buttons_position: right
+            scrolling_effect: false
+            margin: 7px
+            margin_top_mobile: 22px
+            margin_top_desktop: 30%
+            bg_color: transparent
+            bg_opacity: '100'
+            bg_blur: '0'
+            shadow_opacity: '12'
+            hide_backdrop: false
+            modules:
+              - default
+              - origami_popup
+            origami_popup:
+              subtitle_style: text
+            # Folds the scenes away again for next time
+            close_action:
+              action: perform-action
+              perform_action: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.living_room_scenes
+            cards:
+              - type: vertical-stack
+                cards:
+                  # Media: the TV while it's on, the speaker otherwise
+                  - type: vertical-stack
+                    cards:
+                      - type: conditional
+                        conditions:
+                          - condition: state
+                            entity: media_player.living_room_tv
+                            state_not:
+                              - 'off'
+                              - standby
+                              - unavailable
+                              - unknown
+                        card:
+                          type: custom:bubble-card
+                          card_type: media-player
+                          button_type: state
+                          entity: media_player.living_room_tv
+                          name: TV
+                          icon: mdi:television
+                          modules:
+                            - origami_base
+                            - origami_media
+                          origami_media:
+                            art_entity: media_player.living_room_tv_cast
+                            app_entity: media_player.living_room_tv
+                          hide:
+                            power_button: true
+                            previous_button: true
+                            next_button: true
+                            volume_button: true
+                            play_pause_button: true
+                          tap_action:
+                            action: navigate
+                            navigation_path: '#popup_tv'
+                          button_action:
+                            tap_action:
+                              action: navigate
+                              navigation_path: '#popup_tv'
+                          sub_button:
+                            main:
+                              - icon: mdi:power
+                                show_background: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: media_player.toggle
+                                  target:
+                                    entity_id: media_player.living_room_tv
+                            bottom:
+                              - entity: media_player.living_room
+                                sub_button_type: slider
+                                always_visible: true
+                          rows: '2.2'
+                          state_content: state
+                      - type: conditional
+                        conditions:
+                          - condition: state
+                            entity: media_player.living_room_tv
+                            state:
+                              - 'off'
+                              - standby
+                              - unavailable
+                              - unknown
+                        card:
+                          type: custom:bubble-card
+                          card_type: media-player
+                          button_type: state
+                          entity: media_player.living_room
+                          name: Speaker
+                          icon: mdi:speaker
+                          scrolling_effect: true
+                          modules:
+                            - origami_base
+                            - origami_media
+                          origami_base:
+                            group: true
+                          hide:
+                            power_button: true
+                            previous_button: true
+                            next_button: true
+                            volume_button: true
+                            play_pause_button: true
+                          tap_action:
+                            action: more-info
+                          button_action:
+                            tap_action:
+                              action: more-info
+                          sub_button:
+                            main:
+                              # Play or pause, whichever fits
+                              - icon: mdi:play
+                                show_background: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: media_player.media_play_pause
+                                  target:
+                                    entity_id: media_player.living_room
+                                visibility:
+                                  - condition: state
+                                    entity: media_player.living_room
+                                    state_not: playing
+                              - icon: mdi:pause
+                                show_background: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: media_player.media_play_pause
+                                  target:
+                                    entity_id: media_player.living_room
+                                visibility:
+                                  - condition: state
+                                    entity: media_player.living_room
+                                    state: playing
+                              - icon: mdi:skip-next
+                                show_background: false
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: media_player.media_next_track
+                                  target:
+                                    entity_id: media_player.living_room
+                              # Bluetooth as source, filled while it's on
+                              - icon: mdi:bluetooth
+                                show_background: false
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: media_player.select_source
+                                  target:
+                                    entity_id: media_player.living_room
+                                  data:
+                                    source: Bluetooth
+                                visibility:
+                                  - condition: state
+                                    entity: media_player.living_room
+                                    attribute: source
+                                    state_not: Bluetooth
+                              - icon: mdi:bluetooth-connect
+                                show_background: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: media_player.select_source
+                                  target:
+                                    entity_id: media_player.living_room
+                                  data:
+                                    source: Bluetooth
+                                visibility:
+                                  - condition: state
+                                    entity: media_player.living_room
+                                    attribute: source
+                                    state: Bluetooth
+                            bottom:
+                              - entity: media_player.living_room
+                                sub_button_type: slider
+                                always_visible: true
+                          rows: '2.2'
+                          state_content: state
+                      # A plug as a compact row with a switch
+                      - type: custom:bubble-card
+                        card_type: button
+                        button_type: switch
+                        entity: switch.living_room_console
+                        name: Console
+                        icon: mdi:controller
+                        modules:
+                          - origami_base
+                        origami_base:
+                          compact: true
+                          toggle: true
+                          tile: true
+                        sub_button:
+                          main:
+                            - icon: mdi:circle
+                              show_background: true
+                              tap_action:
+                                action: toggle
+                        rows: 1
+
+                  # Lights: how many are on, all of them, and the scenes
+                  - type: vertical-stack
+                    cards:
+                      - type: custom:bubble-card
+                        card_type: separator
+                        name: Lights
+                        modules:
+                          - origami_header
+                        origami_header:
+                          icon_size: var(--icon-size-s)
+                        grid_options:
+                          rows: auto
+                        sub_button:
+                          main:
+                            # Counts the lights in the group that are on
+                            - entity: light.living_room
+                              icon: mdi:chevron-right
+                              show_name: true
+                              content_layout: icon-right
+                              show_background: false
+                              origami_header:
+                                name: >-
+                                  ${(ids => (n => n ? n + ' of ' + ids.length + ' on' : 'All off')(ids.filter((id) => states(id) === 'on').length))(attr.entity_id ?? [])}
+                              tap_action:
+                                action: more-info
+                      - type: custom:bubble-card
+                        card_type: button
+                        button_type: switch
+                        entity: light.living_room
+                        name: All
+                        icon: mdi:lightbulb-multiple
+                        modules:
+                          - origami_base
+                          - origami_light
+                        origami_base:
+                          tile: true
+                        scrolling_effect: false
+                        tap_action:
+                          action: more-info
+                        button_action:
+                          tap_action:
+                            action: more-info
+                        sub_button:
+                          main:
+                            # Shows and hides the scenes below
+                            - entity: input_boolean.living_room_scenes
+                              icon: mdi:chevron-down
+                              show_background: true
+                              tap_action:
+                                action: toggle
+                            - icon: mdi:power
+                              show_background: true
+                              tap_action:
+                                action: perform-action
+                                perform_action: light.toggle
+                                target:
+                                  entity_id: light.living_room
+                        state_content:
+                          - state
+                          - brightness
+                        rows: 1.375
+                      - type: conditional
+                        conditions:
+                          - condition: state
+                            entity: input_boolean.living_room_scenes
+                            state: 'on'
+                        card:
+                          type: custom:bubble-card
+                          card_type: sub-buttons
+                          modules:
+                            - origami_button
+                          origami_button:
+                            columns: 2
+                            animate: true
+                            padding: var(--ha-space-1) 0 0 0
+                            # The scene that was turned on last lights up
+                            active: "{{ states('sensor.living_room_scene') }}"
+                          sub_button:
+                            main: []
+                            bottom:
+                              - name: Evening
+                                icon: mdi:weather-sunset-down
+                                show_name: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: scene.turn_on
+                                  target:
+                                    entity_id: scene.living_room_evening
+                              - name: Late
+                                icon: mdi:weather-night-partly-cloudy
+                                show_name: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: scene.turn_on
+                                  target:
+                                    entity_id: scene.living_room_late
+                              - name: Night
+                                icon: mdi:weather-night
+                                show_name: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: scene.turn_on
+                                  target:
+                                    entity_id: scene.living_room_night
+                              - name: Dinner
+                                icon: mdi:silverware-fork-knife
+                                show_name: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: scene.turn_on
+                                  target:
+                                    entity_id: scene.living_room_dinner
+
+                  # Climate: temperature and humidity, the fan and the heating
+                  - type: vertical-stack
+                    cards:
+                      - type: custom:bubble-card
+                        card_type: separator
+                        name: Climate
+                        modules:
+                          - origami_header
+                        origami_header:
+                          # The dot takes the comfort colour
+                          icon_color: '{{ state_attr("sensor.climate_living_room", "color_code") }}'
+                        grid_options:
+                          rows: auto
+                        sub_button:
+                          main:
+                            - entity: sensor.climate_living_room
+                              icon: mdi:circle
+                              show_name: true
+                              show_background: false
+                              origami_header:
+                                name: ${attr.temperature}° / ${attr.humidity} %
+                              tap_action:
+                                action: more-info
+                      - type: conditional
+                        conditions:
+                          - condition: state
+                            entity: fan.living_room
+                            state_not: unavailable
+                        card:
+                          type: custom:bubble-card
+                          card_type: button
+                          button_type: switch
+                          entity: fan.living_room
+                          name: Fan
+                          icon: mdi:fan
+                          modules:
+                            - origami_base
+                            - origami_fan
+                          origami_base:
+                            group: true
+                            tile: true
+                          scrolling_effect: false
+                          # A tap on the card opens the fan pop-up
+                          tap_action:
+                            action: perform-action
+                            perform_action: script.fan_popup
+                            data:
+                              fan: fan.living_room
+                          button_action:
+                            tap_action:
+                              action: perform-action
+                              perform_action: script.fan_popup
+                              data:
+                                fan: fan.living_room
+                          sub_button:
+                            main:
+                              - icon: mdi:power
+                                show_background: true
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: fan.toggle
+                                  target:
+                                    entity_id: fan.living_room
+                              - name: '1'
+                                show_icon: false
+                                show_name: true
+                                show_background: false
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: fan.set_percentage
+                                  target:
+                                    entity_id: fan.living_room
+                                  data:
+                                    percentage: 33
+                              - name: '2'
+                                show_icon: false
+                                show_name: true
+                                show_background: false
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: fan.set_percentage
+                                  target:
+                                    entity_id: fan.living_room
+                                  data:
+                                    percentage: 66
+                              - name: '3'
+                                show_icon: false
+                                show_name: true
+                                show_background: false
+                                tap_action:
+                                  action: perform-action
+                                  perform_action: fan.set_percentage
+                                  target:
+                                    entity_id: fan.living_room
+                                  data:
+                                    percentage: 100
+                          state_content:
+                            - state
+                            - percentage
+                          rows: 1.375
+                      - type: custom:bubble-card
+                        card_type: button
+                        button_type: switch
+                        entity: climate.living_room
+                        name: Thermostat
+                        icon: mdi:thermostat
+                        modules:
+                          - origami_base
+                          - origami_climate
+                        origami_base:
+                          group: true
+                          tile: true
+                        scrolling_effect: false
+                        tap_action:
+                          action: more-info
+                        button_action:
+                          tap_action:
+                            action: more-info
+                        sub_button:
+                          main:
+                            - icon: mdi:minus
+                              show_background: true
+                              tap_action:
+                                action: perform-action
+                                perform_action: script.thermostat_step
+                                data:
+                                  thermostat: climate.living_room
+                                  step: -1
+                            - entity: climate.living_room
+                              css_class: readout
+                              show_icon: false
+                              show_name: false
+                              show_background: false
+                              state_content: temperature
+                              tap_action:
+                                action: more-info
+                            - icon: mdi:plus
+                              show_background: true
+                              tap_action:
+                                action: perform-action
+                                perform_action: script.thermostat_step
+                                data:
+                                  thermostat: climate.living_room
+                                  step: 1
+                        state_content: []
+                        rows: 1.375
+
+                  # Everything in the room off, as a quiet text button
+                  - type: custom:bubble-card
+                    card_type: sub-buttons
+                    modules:
+                      - origami_button
+                    origami_button:
+                      background: false
+                      align: center
+                      muted: true
+                      icon_size: var(--icon-size-xs)
+                      padding: var(--ha-space-6) 0 100px 0
+                    sub_button:
+                      main: []
+                      bottom:
+                        - name: Everything off
+                          icon: mdi:power
+                          show_name: true
+                          tap_action:
+                            action: perform-action
+                            perform_action: script.room_off
+                            data:
+                              area: living_room
+                    rows: 1.75
+
+          # TV pop-up, opened by TV in the navbar and the TV card in the living room
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: '#popup_tv'
+            name: TV
+            button_type: name
+            show_icon: false
+            margin_top: 40px
+            margin_top_mobile: 72px
+            margin_top_desktop: 300px
+            bg_opacity: 100
+            shadow_opacity: '12'
+            popup_mode: adaptive-dialog
+            with_bottom_offset: true
+            performance_mode: performance
+            modules:
+              - origami_popup
+            # The picture of what's playing, blurred behind the pop-up
+            styles: |-
+              ${(() => {
+                const cast = hass.states["media_player.living_room_tv_cast"];
+                const art = cast?.attributes?.entity_picture_local ?? cast?.attributes?.entity_picture;
+                const on = ["playing", "paused", "buffering"].includes(cast?.state);
+                const url = on && typeof art === "string" && art ? 'url("' + art.replace(/"/g, "%22") + '")' : null;
+                return `.bubble-pop-up-background::after {
+                  content: "";
+                  position: absolute;
+                  inset: 0;
+                  z-index: 0;
+                  border-radius: inherit;
+                  background-image: ${url ?? "none"};
+                  background-size: cover;
+                  background-position: center;
+                  filter: blur(50px) saturate(170%);
+                  opacity: ${url ? "0.16" : "0"};
+                  pointer-events: none;
+                  clip-path: inset(0 round var(--bubble-pop-up-border-radius, var(--bubble-border-radius, 42px)) var(--bubble-pop-up-border-radius, var(--bubble-border-radius, 42px)) 0 0);
+                  transition: opacity var(--duration-normal, 0.3s) ease;
+                }
+                .bubble-pop-up-container > * {
+                  position: relative;
+                  z-index: 1;
+                }`;
+              })()}
+            cards:
+              - type: vertical-stack
+                cards:
+                  # The TV: app or what's cast, power, and the speaker's volume
+                  - type: custom:bubble-card
+                    card_type: media-player
+                    button_type: state
+                    entity: media_player.living_room_tv
+                    name: TV
+                    icon: mdi:television
+                    modules:
+                      - origami_base
+                      - origami_media
+                      - '!default'
+                    origami_media:
+                      art_entity: media_player.living_room_tv_cast
+                      app_entity: media_player.living_room_tv
+                    scrolling_effect: false
+                    slider_live_update: false
+                    cover_background: false
+                    hide:
+                      power_button: true
+                      previous_button: true
+                      next_button: true
+                      volume_button: true
+                      play_pause_button: true
+                    tap_action:
+                      action: more-info
+                    button_action:
+                      tap_action:
+                        action: more-info
+                    sub_button:
+                      main:
+                        - icon: mdi:power
+                          show_background: true
+                          tap_action:
+                            action: perform-action
+                            perform_action: media_player.toggle
+                            target:
+                              entity_id: media_player.living_room_tv
+                      bottom:
+                        - entity: media_player.living_room
+                          sub_button_type: slider
+                          always_visible: true
+                          custom_height: 26
+                    rows: '2.2'
+                    state_content: state
+
+                  # Input, TV sound through the speaker, and the volume in steps
+                  - type: custom:paper-buttons-row
+                    extra_styles: >-
+                      paper-button:active { background-color: var(--fill-strong) !important }
+                      paper-button[data-state="optical in" i], paper-button[data-state="optical in" i] + paper-button { background-image: none !important }
+                    styles:
+                      align-items: stretch
+                      margin: var(--ha-space-2) 0px
+                      padding: 0px
+                      background-color: transparent
+                      box-shadow: none
+                      --pbs-button-bg-color: var(--fill-subtle)
+                    base_config:
+                      layout: icon
+                      tap_action:
+                        action: call-service
+                        service: script.volume
+                      styles:
+                        button:
+                          flex: 1
+                          height: var(--control-height)
+                          padding: 0px
+                          border-radius: 0px
+                          box-shadow: none
+                          background-image: linear-gradient(var(--fill-loud), var(--fill-loud))
+                          background-repeat: no-repeat
+                          background-size: 2px 50%
+                          background-position: left center
+                          transition: var(--transition-interactive)
+                        icon:
+                          --mdc-icon-size: var(--icon-size-m)
+                          margin-right: 0px
+                          opacity: var(--opacity-strong)
+                    buttons:
+                      - icon: mdi:import
+                        tooltip: Input
+                        tap_action:
+                          service: remote.send_command
+                          target:
+                            entity_id: remote.living_room_tv
+                          service_data:
+                            command: TV_INPUT
+                        styles:
+                          button:
+                            border-radius: var(--radius-inner) 0px 0px var(--radius-inner)
+                            background-image: none
+                      # Raised while the speaker plays the TV
+                      - layout: name
+                        name: TV
+                        tooltip: TV sound through the speaker
+                        state:
+                          entity: media_player.living_room
+                          attribute: source
+                        active:
+                          - optical in
+                        state_styles:
+                          optical in:
+                            button:
+                              background-color: var(--ha-card-background)
+                              box-shadow: var(--ha-card-box-shadow)
+                              z-index: 1
+                            name:
+                              color: var(--primary-text-color)
+                              opacity: 1
+                        tap_action:
+                          service: media_player.select_source
+                          target:
+                            entity_id: media_player.living_room
+                          service_data:
+                            source: Optical In
+                        styles:
+                          button:
+                            margin-right: var(--ha-space-3)
+                            border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
+                          name:
+                            padding: 0px
+                            font-size: var(--ha-font-size-l)
+                            font-weight: var(--ha-font-weight-bold)
+                      # Tap 1 %, double tap 5 %, hold 10 %
+                      - icon: mdi:minus
+                        tooltip: Quieter
+                        tap_action:
+                          service_data:
+                            speaker: media_player.living_room
+                            step: -0.01
+                        double_tap_action:
+                          action: call-service
+                          service: script.volume
+                          service_data:
+                            speaker: media_player.living_room
+                            step: -0.05
+                        hold_action:
+                          action: call-service
+                          service: script.volume
+                          service_data:
+                            speaker: media_player.living_room
+                            step: -0.1
+                        styles:
+                          button:
+                            border-radius: var(--radius-inner) 0px 0px var(--radius-inner)
+                            background-image: none
+                      # The volume, or a muted icon. A tap mutes.
+                      - layout: state|icon
+                        icon: mdi:volume-off
+                        tooltip: Mute
+                        state: >-
+                          {% set s = 'media_player.living_room' %}{{ 'off' if states(s) in ['unavailable', 'unknown', 'off']
+                          else 'muted' if state_attr(s, 'is_volume_muted')
+                          else ((state_attr(s, 'volume_level') | float(0)) * 100) | round(0) | int }}
+                        state_text:
+                          'off': –
+                          muted: ' '
+                        state_styles:
+                          muted:
+                            state:
+                              transform: scale(0)
+                            icon:
+                              transform: scale(1)
+                        tap_action:
+                          service_data:
+                            speaker: media_player.living_room
+                            mute: true
+                        hold_action:
+                          action: more-info
+                          entity: media_player.living_room
+                        styles:
+                          button:
+                            position: relative
+                          state:
+                            padding: 0px
+                            font-size: var(--ha-font-size-l)
+                            font-weight: var(--ha-font-weight-bold)
+                            font-variant-numeric: tabular-nums
+                            transition: transform var(--duration-normal) ease
+                          icon:
+                            --mdc-icon-size: var(--icon-size-s)
+                            position: absolute
+                            transform: scale(0)
+                            transition: transform var(--duration-normal) ease
+                      - icon: mdi:plus
+                        tooltip: Louder
+                        tap_action:
+                          service_data:
+                            speaker: media_player.living_room
+                            step: 0.01
+                        double_tap_action:
+                          action: call-service
+                          service: script.volume
+                          service_data:
+                            speaker: media_player.living_room
+                            step: 0.05
+                        hold_action:
+                          action: call-service
+                          service: script.volume
+                          service_data:
+                            speaker: media_player.living_room
+                            step: 0.1
+                        styles:
+                          button:
+                            border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
+
+                  # Apps that scroll sideways. The running one is filled.
+                  - type: custom:paper-buttons-row
+                    extra_styles: >-
+                      paper-button.button-active { background-color: var(--fill-active) !important; box-shadow: none !important }
+                      paper-button.button-active span { color: var(--ha-card-background) !important; opacity: 1 !important }
+                    styles:
+                      justify-content: start
+                      gap: var(--ha-space-2)
+                      margin: calc(var(--scroller-bleed) * -1)
+                      padding: var(--scroller-padding)
+                      overflow-x: scroll
+                      overscroll-behavior-x: contain
+                      scroll-snap-type: x mandatory
+                      scrollbar-width: none
+                      mask-image: var(--scroller-mask)
+                    base_config:
+                      layout: name
+                      state:
+                        entity: media_player.living_room_tv
+                        attribute: app_id
+                      tap_action:
+                        action: call-service
+                        service: media_player.select_source
+                        target:
+                          entity_id: media_player.living_room_tv
+                      styles:
+                        button:
+                          scroll-snap-align: start
+                          scroll-margin-left: var(--scroller-bleed)
+                          padding: calc(var(--control-padding-x) / 1.4) var(--control-padding-x)
+                          border-radius: var(--ha-card-border-radius)
+                          background-color: var(--fill-subtle)
+                          box-shadow: var(--card-ring)
+                          transition: var(--transition-interactive)
+                        name:
+                          padding: 0px
+                          font-size: var(--ha-font-size-m)
+                          font-weight: var(--ha-font-weight-normal)
+                          white-space: nowrap
+                    buttons:
+                      - name: Netflix
+                        active:
+                          - com.netflix.ninja
+                        tap_action:
+                          service_data:
+                            source: Netflix
+                      - name: YouTube
+                        active:
+                          - com.google.android.youtube.tv
+                        tap_action:
+                          service_data:
+                            source: YouTube
+                      - name: Prime Video
+                        active:
+                          - com.amazon.amazonvideo.livingroom
+                        tap_action:
+                          service_data:
+                            source: Prime Video
+                      - name: Disney+
+                        active:
+                          - com.disney.disneyplus
+                        tap_action:
+                          service_data:
+                            source: Disney+
+                      - name: Spotify
+                        active:
+                          - com.spotify.tv.android
+                        tap_action:
+                          service_data:
+                            source: Spotify
+                      - name: Plex
+                        active:
+                          - com.plexapp.android
+                        tap_action:
+                          service_data:
+                            source: Plex
+
+                  # The remote: back, home and a round pad. Holding an arrow repeats it.
+                  - type: custom:paper-buttons-row
+                    extra_styles: 'paper-button:active { transform: scale(var(--press-scale)) }'
+                    styles:
+                      display: grid
+                      grid-template-columns: 1fr var(--control-height-lg) var(--control-height-lg) var(--control-height-lg) 1fr
+                      grid-template-rows: repeat(3, var(--control-height-lg))
+                      grid-template-areas: '"back . up . home" ". left ok right ." ". . down . ."'
+                      gap: var(--ha-space-2)
+                      margin-top: var(--ha-space-2)
+                      align-items: center
+                      justify-items: center
+                    base_config:
+                      layout: icon
+                      tap_action:
+                        action: call-service
+                        service: remote.send_command
+                        target:
+                          entity_id: remote.living_room_tv
+                      hold_action:
+                        action: call-service
+                        service: remote.send_command
+                        target:
+                          entity_id: remote.living_room_tv
+                        repeat: 300
+                      styles:
+                        button:
+                          width: var(--control-height)
+                          height: var(--control-height)
+                          padding: 0px
+                          border-radius: var(--radius-inner)
+                          background-color: transparent
+                          box-shadow: none
+                        icon:
+                          --mdc-icon-size: var(--icon-size-l)
+                          margin-right: 0px
+                          opacity: var(--opacity-strong)
+                        name:
+                          padding: 0px
+                    buttons:
+                      # The round pad behind the arrows
+                      - layout: name
+                        name: ' '
+                        tooltip: false
+                        tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        styles:
+                          button:
+                            grid-row: 1 / 4
+                            grid-column: 2 / 5
+                            width: calc(var(--control-height-lg) * 3 + var(--ha-space-2) * 2)
+                            height: calc(var(--control-height-lg) * 3 + var(--ha-space-2) * 2)
+                            border-radius: var(--radius-circle)
+                            background-color: var(--fill-subtle)
+                            box-shadow: var(--card-ring)
+                            pointer-events: none
+                      - icon: mdi:arrow-left
+                        tooltip: Back
+                        tap_action:
+                          service_data:
+                            command: BACK
+                        hold_action:
+                          action: none
+                        styles:
+                          button:
+                            grid-area: back
+                            justify-self: start
+                            width: var(--control-height-sm)
+                            height: var(--control-height-sm)
+                            border-radius: var(--ha-card-border-radius)
+                            background-color: var(--fill-subtle)
+                            box-shadow: var(--card-ring)
+                          icon:
+                            --mdc-icon-size: var(--icon-size-m)
+                      - icon: mdi:home
+                        tooltip: Home
+                        tap_action:
+                          service_data:
+                            command: HOME
+                        hold_action:
+                          action: none
+                        styles:
+                          button:
+                            grid-area: home
+                            justify-self: end
+                            width: var(--control-height-sm)
+                            height: var(--control-height-sm)
+                            border-radius: var(--ha-card-border-radius)
+                            background-color: var(--fill-subtle)
+                            box-shadow: var(--card-ring)
+                          icon:
+                            --mdc-icon-size: var(--icon-size-m)
+                      - icon: mdi:chevron-up
+                        tap_action:
+                          service_data:
+                            command: DPAD_UP
+                        hold_action:
+                          service_data:
+                            command: DPAD_UP
+                        styles:
+                          button:
+                            grid-area: up
+                      - icon: mdi:chevron-left
+                        tap_action:
+                          service_data:
+                            command: DPAD_LEFT
+                        hold_action:
+                          service_data:
+                            command: DPAD_LEFT
+                        styles:
+                          button:
+                            grid-area: left
+                      - layout: name
+                        name: OK
+                        tap_action:
+                          service_data:
+                            command: DPAD_CENTER
+                        hold_action:
+                          action: none
+                        styles:
+                          button:
+                            grid-area: ok
+                            width: var(--control-height-lg)
+                            height: var(--control-height-lg)
+                            border-radius: var(--radius-circle)
+                            background-color: var(--ha-card-background)
+                            box-shadow: var(--ha-card-box-shadow)
+                          name:
+                            font-size: var(--ha-font-size-m)
+                            font-weight: var(--ha-font-weight-bold)
+                            opacity: var(--opacity-muted)
+                      - icon: mdi:chevron-right
+                        tap_action:
+                          service_data:
+                            command: DPAD_RIGHT
+                        hold_action:
+                          service_data:
+                            command: DPAD_RIGHT
+                        styles:
+                          button:
+                            grid-area: right
+                      - icon: mdi:chevron-down
+                        tap_action:
+                          service_data:
+                            command: DPAD_DOWN
+                        hold_action:
+                          service_data:
+                            command: DPAD_DOWN
+                        styles:
+                          button:
+                            grid-area: down
+
+          # Fan pop-up for the fan in input_select.fan_popup. script.fan_popup picks the fan and opens it.
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: '#popup_fan'
+            name: Fan
+            show_header: false
+            show_close_button: false
+            show_name: false
+            show_icon: false
+            card_layout: large
+            margin: 7px
+            bg_color: var(--popup-background)
+            bg_opacity: '100'
+            bg_blur: '10'
+            shadow_opacity: '20'
+            hide_backdrop: false
+            popup_mode: fit-content
+            with_bottom_offset: true
+            modules:
+              - origami_popup
+            styles: '.bubble-pop-up-container { mask-image: none !important; }'
+            # Opens while input_boolean.fan_popup is on
+            trigger:
+              - condition: state
+                entity: input_boolean.fan_popup
+                state: 'on'
+            close_action:
+              action: perform-action
+              perform_action: input_boolean.turn_off
+              target:
+                entity_id:
+                  - input_boolean.fan_popup
+                  - input_boolean.fan_popup_timer
+            cards:
+              - type: vertical-stack
+                cards:
+                  # The fan's name, power, timer and close
+                  - type: custom:paper-buttons-row
+                    extra_styles: |
+                      paper-button:active { transform: scale(var(--press-scale)) }
+                    styles:
+                      margin: var(--ha-space-5) 0 var(--ha-space-2) 0
+                      display: grid
+                      grid-template-columns: auto 1fr auto auto auto
+                      grid-template-areas: '"title title power timer close" "chip . power timer close"'
+                      align-items: flex-start
+                      gap: var(--ha-space-1) var(--ha-space-3)
+                    base_config:
+                      layout: icon
+                      styles:
+                        button:
+                          width: var(--control-height-icon)
+                          height: var(--control-height-icon)
+                          padding: 0px
+                          justify-content: center
+                          border-radius: var(--radius-circle)
+                          background-color: var(--fill-subtle)
+                          box-shadow: none
+                        icon:
+                          --mdc-icon-size: var(--icon-size-xs)
+                          margin-right: 0px
+                        name:
+                          padding: 0px
+                        state:
+                          padding: 0px
+                    buttons:
+                      - layout: name
+                        name:
+                          entity: sensor.fan_popup
+                        tap_action:
+                          action: none
+                        styles:
+                          button:
+                            grid-area: title
+                            width: auto
+                            height: auto
+                            justify-content: flex-start
+                            background-color: transparent
+                            box-shadow: none
+                            pointer-events: none
+                          name:
+                            padding: 0px
+                            font-size: var(--font-size-headline)
+                            font-weight: var(--ha-font-weight-bold)
+                            line-height: var(--ha-line-height-normal)
+                            color: var(--primary-text-color)
+                      - icon: mdi:power
+                        tooltip: On or off
+                        entity: sensor.fan_popup
+                        state:
+                          attribute: power
+                        active:
+                          - 'on'
+                        tap_action:
+                          action: call-service
+                          service: script.fan_control
+                          service_data:
+                            control: toggle
+                        state_styles:
+                          'on':
+                            button:
+                              background-color: var(--fill-active)
+                            icon:
+                              color: var(--ha-card-background)
+                              opacity: 1
+                        styles:
+                          button:
+                            grid-area: power
+                      - entity: input_boolean.fan_popup_timer
+                        icon: mdi:timer-outline
+                        tooltip: Timer
+                        tap_action:
+                          action: toggle
+                        state_styles:
+                          'on':
+                            button:
+                              background-color: var(--fill-active)
+                            icon:
+                              color: var(--ha-card-background)
+                              opacity: 1
+                        styles:
+                          button:
+                            grid-area: timer
+                      - icon: mdi:close
+                        tooltip: Close
+                        tap_action:
+                          action: navigate
+                          navigation_path: '#'
+                        styles:
+                          button:
+                            grid-area: close
+                            margin-left: var(--ha-space-2)
+                            background-color: transparent
+                          icon:
+                            --mdc-icon-size: var(--icon-size-l)
+                            color: var(--primary-text-color)
+                            opacity: var(--opacity-muted)
+                  # An empty row that keeps the spacing even
+                  - type: custom:paper-buttons-row
+                    base_config:
+                      layout: icon
+                      tap_action:
+                        action: none
+                      styles:
+                        button:
+                          min-height: 0px
+                          max-height: 0px
+                          padding: 0px
+                          justify-content: flex-start
+                          pointer-events: none
+                        icon:
+                          --mdc-icon-size: 0px
+                        name:
+                          padding: 0px
+                        state:
+                          padding: 0px
+                    buttons:
+                      - icon: mdi:backspace-reverse
+                  # Speed and head, then a slider for the shown fan
+                  - type: entities
+                    entities:
+                      - type: custom:paper-buttons-row
+                        extra_styles: |
+                          paper-button:active { transform: scale(var(--press-scale)) }
+                        styles:
+                          display: flex
+                          flex-wrap: wrap
+                          align-items: center
+                          gap: var(--ha-space-2)
+                          margin-bottom: var(--ha-space-3)
+                        base_config:
+                          entity: sensor.fan_popup
+                          active:
+                            - 'on'
+                          layout: icon
+                          tap_action:
+                            action: call-service
+                            service: script.fan_control
+                            service_data:
+                              control: direction
+                          state_styles:
+                            'on':
+                              button:
+                                background-color: var(--fill-active)
+                                box-shadow: none
+                              icon:
+                                color: var(--ha-card-background)
+                                opacity: 1
+                          styles:
+                            button:
+                              flex: 1 1 30%
+                              min-width: 0px
+                              height: var(--control-height-row)
+                              padding: 0px
+                              justify-content: center
+                              border-radius: var(--radius-inner)
+                              background-color: var(--fill-subtle)
+                              box-shadow: none
+                            icon:
+                              --mdc-icon-size: var(--icon-size-m)
+                              margin-right: 0px
+                              opacity: var(--opacity-muted)
+                            name:
+                              padding: 0px
+                              font-size: var(--ha-font-size-s)
+                              font-weight: var(--ha-font-weight-bold)
+                            state:
+                              padding: 0px
+                              font-size: var(--ha-font-size-s)
+                              font-weight: var(--ha-font-weight-medium)
+                              opacity: var(--opacity-quiet)
+                        buttons:
+                          # Spins while the fan runs
+                          - icon: mdi:fan
+                            state:
+                              attribute: power
+                            tap_action:
+                              service_data:
+                                control: toggle
+                            state_styles:
+                              'on':
+                                button:
+                                  background-color: var(--fill-active)
+                                  box-shadow: none
+                                icon:
+                                  color: var(--ha-card-background)
+                                  opacity: 1
+                                  animation: rotating 2.4s linear infinite
+                            styles:
+                              button:
+                                flex: 0 0 auto
+                                width: var(--control-height)
+                                height: var(--control-height)
+                          - layout: name_state
+                            name:
+                              attribute: percentage
+                              postfix: ' %'
+                            state:
+                              attribute: level
+                            tap_action:
+                              action: none
+                            styles:
+                              button:
+                                flex: 1 1 0px
+                                min-width: 0px
+                                height: auto
+                                margin-left: var(--ha-space-2)
+                                align-items: center
+                                justify-content: flex-start
+                                background-color: transparent
+                                box-shadow: none
+                                pointer-events: none
+                              name:
+                                align-self: flex-start
+                                padding: 0px
+                                font-size: var(--ha-font-size-2xl)
+                                font-weight: var(--ha-font-weight-bold)
+                                line-height: var(--ha-line-height-condensed)
+                              state:
+                                align-self: flex-start
+                                margin-top: var(--ha-space-1)
+                                padding: 0px
+                                font-size: var(--ha-font-size-m)
+                                font-weight: var(--ha-font-weight-bold)
+                                color: var(--secondary-text-color)
+                          # Turns the fan's head, on fans that use direction for it. Holding repeats.
+                          - icon: mdi:chevron-left
+                            tooltip: Turn left
+                            tap_action:
+                              service_data:
+                                direction: reverse
+                            hold_action:
+                              action: call-service
+                              service: script.fan_control
+                              service_data:
+                                control: direction
+                                direction: reverse
+                              repeat: 400
+                            styles:
+                              button:
+                                flex: 0 0 auto
+                                width: calc(var(--control-height) - var(--ha-space-2))
+                                height: var(--control-height)
+                                border-radius: var(--radius-inner) 0px 0px var(--radius-inner)
+                          - icon: mdi:arrow-left-right
+                            tooltip: Oscillate
+                            state:
+                              attribute: oscillating
+                            tap_action:
+                              service_data:
+                                control: oscillate
+                            styles:
+                              button:
+                                flex: 0 0 auto
+                                max-width: calc(var(--control-height) - var(--ha-space-2) * 2)
+                                height: var(--control-height)
+                                border-radius: 0px
+                                margin-left: calc(0px - var(--ha-space-2))
+                          - icon: mdi:chevron-right
+                            tooltip: Turn right
+                            tap_action:
+                              service_data:
+                                direction: forward
+                            hold_action:
+                              action: call-service
+                              service: script.fan_control
+                              service_data:
+                                control: direction
+                                direction: forward
+                              repeat: 400
+                            styles:
+                              button:
+                                flex: 0 0 auto
+                                width: calc(var(--control-height) - var(--ha-space-2))
+                                height: var(--control-height)
+                                border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
+                                margin-left: calc(0px - var(--ha-space-2))
+                      # One slider per fan in input_select.fan_popup
+                      - type: conditional
+                        conditions:
+                          - entity: input_select.fan_popup
+                            state: fan.living_room
+                        row:
+                          type: custom:bubble-card
+                          card_type: button
+                          button_type: slider
+                          entity: fan.living_room
+                          margin: 0px
+                          show_name: false
+                          show_state: false
+                          show_icon: false
+                          scrolling_effect: false
+                          slider_value_position: hidden
+                          modules:
+                            - origami_base
+                            - origami_slider
+                      - type: conditional
+                        conditions:
+                          - entity: input_select.fan_popup
+                            state: fan.bedroom
+                        row:
+                          type: custom:bubble-card
+                          card_type: button
+                          button_type: slider
+                          entity: fan.bedroom
+                          margin: 0px
+                          show_name: false
+                          show_state: false
+                          show_icon: false
+                          scrolling_effect: false
+                          slider_value_position: hidden
+                          modules:
+                            - origami_base
+                            - origami_slider
+                  # Mode and three speeds, as one segmented row
+                  - type: custom:paper-buttons-row
+                    extra_styles: >-
+                      paper-button:active { background-color: var(--fill-strong) !important }
+                      paper-button[data-state="on"], paper-button[data-state="on"] + paper-button { background-image: none !important }
+                    styles:
+                      align-items: stretch
+                      margin: 0px 0px var(--ha-space-3) 0px
+                      padding: 0px
+                      background-color: transparent
+                      box-shadow: none
+                      --pbs-button-bg-color: var(--fill-subtle)
+                    base_config:
+                      entity: sensor.fan_popup
+                      layout: name
+                      active:
+                        - 'on'
+                      state_styles:
+                        'on':
+                          button:
+                            background-color: var(--ha-card-background)
+                            box-shadow: var(--ha-card-box-shadow)
+                            z-index: 1
+                          icon:
+                            color: var(--primary-text-color)
+                            opacity: 1
+                          name:
+                            color: var(--primary-text-color)
+                            opacity: 1
+                      tap_action:
+                        action: call-service
+                        service: script.fan_control
+                      styles:
+                        button:
+                          flex: 1
+                          height: var(--control-height)
+                          padding: 0px
+                          border-radius: 0px
+                          box-shadow: none
+                          background-image: linear-gradient(var(--fill-loud), var(--fill-loud))
+                          background-repeat: no-repeat
+                          background-size: 2px 50%
+                          background-position: left center
+                          transition: var(--transition-interactive)
+                        icon:
+                          --mdc-icon-size: var(--icon-size-s)
+                          margin-right: 0px
+                          opacity: var(--opacity-strong)
+                        name:
+                          padding: 0px
+                          font-size: var(--ha-font-size-m)
+                          font-weight: var(--ha-font-weight-bold)
+                          opacity: var(--opacity-strong)
+                    buttons:
+                      - layout: icon
+                        icon: mdi:leaf
+                        tooltip: Natural breeze
+                        state:
+                          attribute: nature
+                        tap_action:
+                          service_data:
+                            control: preset
+                            preset: nature
+                        styles:
+                          button:
+                            padding: 0px var(--ha-space-4)
+                            border-radius: var(--radius-inner) 0px 0px var(--radius-inner)
+                            background-image: none
+                      - layout: icon
+                        icon: mdi:weather-windy
+                        tooltip: Normal
+                        state:
+                          attribute: normal
+                        tap_action:
+                          service_data:
+                            control: preset
+                            preset: normal
+                        styles:
+                          button:
+                            padding: 0px var(--ha-space-4)
+                            border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
+                            margin-right: var(--ha-space-2)
+                      - name: '1'
+                        tooltip: Low
+                        state:
+                          attribute: speed_1
+                        tap_action:
+                          service_data:
+                            control: speed
+                            percentage: 33
+                        styles:
+                          button:
+                            border-radius: var(--radius-inner) 0px 0px var(--radius-inner)
+                            background-image: none
+                      - name: '2'
+                        tooltip: Medium
+                        state:
+                          attribute: speed_2
+                        tap_action:
+                          service_data:
+                            control: speed
+                            percentage: 66
+                      - name: '3'
+                        tooltip: High
+                        state:
+                          attribute: speed_3
+                        tap_action:
+                          service_data:
+                            control: speed
+                            percentage: 100
+                        styles:
+                          button:
+                            border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
+                  # Timer, shown with the timer button: turns the fan off after 1, 3 or 5 hours
+                  - type: conditional
+                    conditions:
+                      - condition: state
+                        entity: input_boolean.fan_popup_timer
+                        state: 'on'
+                    card:
+                      type: custom:paper-buttons-row
+                      extra_styles: |
+                        paper-button:active { transform: scale(var(--press-scale)) }
+                      styles:
+                        display: flex
+                        flex-wrap: wrap
+                        align-items: center
+                        gap: var(--ha-space-2)
+                        padding: 0px
+                      base_config:
+                        entity: sensor.fan_popup
+                        active:
+                          - 'on'
+                        layout: name
+                        tap_action:
+                          action: call-service
+                          service: script.fan_control
+                          service_data:
+                            control: timer
+                        state_styles:
+                          'on':
+                            button:
+                              background-color: var(--fill-active)
+                              box-shadow: none
+                            name:
+                              color: var(--ha-card-background)
+                              opacity: 1
+                        styles:
+                          button:
+                            flex: 1 1 0px
+                            min-width: 0px
+                            height: var(--control-height-row)
+                            padding: 0px var(--ha-space-2)
+                            justify-content: center
+                            border-radius: var(--radius-inner)
+                            background-color: var(--fill-subtle)
+                          name:
+                            padding: 0px
+                            font-size: var(--ha-font-size-s)
+                            font-weight: var(--ha-font-weight-bold)
+                          state:
+                            padding: 0px
+                            font-size: var(--ha-font-size-s)
+                            font-weight: var(--ha-font-weight-medium)
+                            opacity: var(--opacity-quiet)
+                      buttons:
+                        - layout: name|state
+                          name: Timer
+                          state:
+                            attribute: timer
+                          tap_action:
+                            action: none
+                          styles:
+                            button:
+                              flex: 1 1 100%
+                              height: var(--control-height-mini)
+                              padding: 0px
+                              justify-content: flex-start
+                              background-color: transparent
+                              box-shadow: none
+                              pointer-events: none
+                            name:
+                              padding: 0px
+                              font-size: var(--ha-font-size-l)
+                              font-weight: var(--ha-font-weight-bold)
+                            state:
+                              margin-left: auto
+                              padding: 0px
+                              font-size: var(--ha-font-size-s)
+                              font-weight: var(--ha-font-weight-medium)
+                              opacity: var(--opacity-quiet)
+                        - name: 'Off'
+                          state:
+                            attribute: timer_off
+                          tap_action:
+                            service_data:
+                              hours: 0
+                        - name: 1 h
+                          state:
+                            attribute: timer_1
+                          tap_action:
+                            service_data:
+                              hours: 1
+                        - name: 3 h
+                          state:
+                            attribute: timer_3
+                          tap_action:
+                            service_data:
+                              hours: 3
+                        - name: 5 h
+                          state:
+                            attribute: timer_5
+                          tap_action:
+                            service_data:
+                              hours: 5

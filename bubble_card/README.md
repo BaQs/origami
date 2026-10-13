@@ -683,6 +683,6 @@ sub_button:
 cards: []  # the cards of the pop-up
 ```
 
-The theme sets the pop-up's background. The pop-ups of this dashboard get their own documentation later.
+The theme sets the pop-up's background. The dashboard's pop-ups are explained in the main README under [Pop-ups](../README.md#pop-ups).
 
 </details>

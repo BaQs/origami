@@ -16,7 +16,7 @@ A calm theme for Home Assistant, and the phone dashboard I built with it, mostly
 > [!NOTE]
 > This is my own dashboard, grown over years. The entities are from my home: swap them for yours and leave out what you don't need. Some parts are built in unusual ways so nothing jumps while the page loads, see [Under the hood](#under-the-hood). A desktop layout is still in the works.
 
-[Setup](#setup) · [Dashboard](#dashboard) · [Bubble modules](#bubble-modules) · [Under the hood](#under-the-hood) · [Help](#help)
+[Setup](#setup) · [Dashboard](#dashboard) · [Pop-ups](#pop-ups) · [Bubble modules](#bubble-modules) · [Under the hood](#under-the-hood) · [Help](#help)
 
 ## Setup
 
@@ -90,8 +90,8 @@ Open each one, confirm with **Add** if asked, then **Download**.
 | | For | |
 | --- | --- | --- |
 | [Origami](https://github.com/hazymorning/origami) | The theme | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme) |
-| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Greeting, server card, room cards and climate table | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
-| [Bubble Card](https://github.com/Clooos/Bubble-Card) | Favorites and section headers | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card&category=plugin) |
+| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Greeting, server card, room cards, climate table, the TV remote and the fan pop-up | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
+| [Bubble Card](https://github.com/Clooos/Bubble-Card) | Favorites, section headers and the pop-ups | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card&category=plugin) |
 | [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools) | Loads the Bubble modules | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card-Tools&category=integration) |
 | [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) | The bar at the bottom | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=joseluis9595&repository=lovelace-navbar-card&category=plugin) |
 | [Origami Notifications](https://github.com/hazymorning/origami_notifications) | The notifications next to the greeting | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_notifications&category=plugin) |
@@ -150,7 +150,7 @@ Edit mode is then in the menu, or add `?edit=1` to the address.
 
 <br>
 
-The dashboard is set up for my home. In the raw editor, Ctrl+F (⌘F on a Mac) finds an entity like `light.living_room`, so you can replace it with yours. Delete what you don't have, like a tile, a room or a navbar route. Each part below lists the entities it uses.
+The dashboard is set up for my home. In the raw editor, Ctrl+F (⌘F on a Mac) finds an entity like `light.living_room`, so you can replace it with yours, also in the pop-ups at the end. Delete what you don't have, like a tile, a room or a navbar route. Each part below lists the entities it uses.
 
 Then change the same entities in `/config/packages/origami.yaml`: temperature and humidity sensors, windows, the front door, lights and speakers. The helpers it creates, like `sensor.climate_living_room`, are read by the dashboard, so rename those in both files or not at all. Restart.
 
@@ -160,7 +160,7 @@ Then change the same entities in `/config/packages/origami.yaml`: temperature an
 
 ## Dashboard
 
-One sections view, made for phones. Each part starts with a comment in [`dashboard.yaml`](dashboard/dashboard.yaml), like `# Favorites`. Some taps open a pop-up, for example a tap on a room card. The pop-ups aren't in this repository yet, so those taps do nothing for now.
+One sections view, made for phones. Each part starts with a comment in [`dashboard.yaml`](dashboard/dashboard.yaml), like `# Favorites`. Some taps open a [pop-up](#pop-ups). The living room, the TV and the fan pop-ups are included. The others, like music, lights or the other rooms, aren't yet, so those taps do nothing for now.
 
 <img width="760" alt="The Origami dashboard on a phone, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/dashboard.webp">
 
@@ -313,7 +313,7 @@ A card for each room. The first four always show, **All rooms** shows the rest.
 
 <br>
 
-- Each room card is one Paper Buttons Row. A tap anywhere on it opens the room's pop-up.
+- Each room card is one Paper Buttons Row. A tap anywhere on it opens the room's [pop-up](#room).
 - The icon lights up while the room's light is on.
 - Below the name: a dot coloured by the room's temperature, from blue when cold to red when hot. Then a window icon if the room has a window contact, and temperature and humidity.
 - The rooms header shows the average temperature and how many windows are open. A tap on either, or on the arrow, opens or closes the climate table.
@@ -383,7 +383,7 @@ A [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) with music
 <br>
 
 - Music and TV turn light blue while a speaker plays or the TV is on, Lights turns amber while a light is on. Badges on Music and Lights count them.
-- Hold **Music** to play or pause the active speaker, unless it plays the TV. Hold **TV** for the TV's controls.
+- Hold **Music** to play or pause the active speaker, unless it plays the TV. A tap on **TV** opens the [TV pop-up](#tv), hold it for the TV's own controls.
 - Hold **Lights** for a menu: all lights on or off, and the living room scenes. The active scene is amber.
 - **More** opens the menu from Origami Header. Admins see a dot on it while updates are waiting.
 - The card above shows the speaker that matters right now, from `sensor.active_speaker`, or the TV.
@@ -407,6 +407,132 @@ A [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) with music
 | `scene.living_room_*`, `sensor.living_room_scene` | The scenes and which one is active |
 
 All examples from my home, apart from the helpers. Delete the routes and scenes you don't need.
+
+</details>
+
+## Pop-ups
+
+Three [Bubble Card](https://github.com/Clooos/Bubble-Card) pop-ups: a room, the TV and the fan. They're at the end of [`dashboard.yaml`](dashboard/dashboard.yaml), under `# Pop-ups`. A pop-up opens when a tap navigates to its hash, like `#popup_tv`, and closes with the cross or a swipe down. The scripts and helpers they use are in the [package](packages/origami.yaml).
+
+### Room
+
+Every room gets the same pop-up, opened by its room card. Top to bottom: what plays in the room, the lights, the climate. The living room is the example, copy it for the other rooms.
+
+<img width="800" alt="The living room pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-room.webp">
+
+<details>
+<summary>How it works</summary>
+
+<br>
+
+- The hash, `#popup_living_room`, is what the living room card navigates to.
+- **Media.** The TV while it's on, the speaker otherwise. A tap on the TV card opens the TV pop-up. Below it go small things of the room, here a plug as a compact row with a switch.
+- **Lights.** The header counts the lights of the room's light group that are on. **All** switches the whole group, the arrow next to it shows the scenes. The scene that was turned on last lights up.
+- **Climate.** The header shows temperature and humidity, with the dot in the room's comfort colour. A tap on the fan card opens the fan pop-up. Plus and minus move the thermostat by one degree.
+- **Everything off** turns off the lights, fans, media players and switches in the room's [area](https://www.home-assistant.io/docs/organizing/areas/).
+- When the pop-up closes, the scenes are hidden again.
+
+</details>
+
+<details>
+<summary>What it uses here</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `media_player.living_room_tv`, `media_player.living_room_tv_cast` | The TV card, see [TV](#tv) |
+| `media_player.living_room` | The speaker and both volume sliders |
+| `switch.living_room_console` | The plug |
+| `light.living_room` | A light group of the room. The header counts its members. |
+| `scene.living_room_*`, `sensor.living_room_scene` | The scenes, and which one was turned on last |
+| `input_boolean.living_room_scenes` | Shows the scenes |
+| `sensor.climate_living_room` | Temperature, humidity and the comfort colour |
+| `fan.living_room`, `climate.living_room` | The fan and the thermostat |
+| `script.fan_popup`, `script.thermostat_step`, `script.room_off` | Opening the fan pop-up, the thermostat steps, everything off |
+
+The entities are examples from my home. The scripts, toggles and `sensor.living_room_scene` are in the package, with the scene list inside the sensor. For another room, copy the pop-up, change its hash and name, and swap the entities.
+
+</details>
+
+### TV
+
+A remote for the TV, opened by **TV** in the navbar or the TV card in the room.
+
+<img width="800" alt="The TV pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-tv.webp">
+
+<details>
+<summary>How it works</summary>
+
+<br>
+
+- **Top.** The TV with what's on, its power button and the volume of the speaker it plays through. The picture of what's playing shows blurred behind the pop-up.
+- **Sound.** The input button, then **TV**, which switches the speaker to the TV's sound. It's raised while the speaker is on that input. Minus and plus change the volume by 1 %, by 5 % on a double tap and by 10 % when held. A tap on the number mutes.
+- **Apps.** They scroll sideways, the running one is filled. A tap starts it with `media_player.select_source`.
+- **Remote.** Back, home and a round pad with OK. Holding an arrow repeats it.
+
+The commands, like `DPAD_UP`, `DPAD_CENTER` and `TV_INPUT`, are the ones of the [Android TV Remote](https://www.home-assistant.io/integrations/androidtv_remote/) integration. Other remotes use their own names, and the apps need the names of your TV's sources.
+
+</details>
+
+<details>
+<summary>What it uses here</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `media_player.living_room_tv` | The TV and its apps, from Android TV Remote |
+| `remote.living_room_tv` | The remote, from Android TV Remote |
+| `media_player.living_room_tv_cast` | What's playing and its picture, from Google Cast |
+| `media_player.living_room` | The speaker the TV plays through, for the volume |
+| `script.volume` | Volume in steps and mute, from the package |
+
+The speaker's TV input is called `Optical In` here. Without a separate speaker, point the volume buttons and the slider at the TV and delete the **TV** button.
+
+</details>
+
+### Fan
+
+One pop-up for all fans: speed, oscillation, a mode and a timer.
+
+<img width="800" alt="The fan pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-fan.webp">
+
+<details>
+<summary>How it works</summary>
+
+<br>
+
+- `script.fan_popup` puts the fan into `input_select.fan_popup` and opens the pop-up. A tap on the fan card in the room calls it.
+- It opens through `input_boolean.fan_popup`. That toggle is shared, so the pop-up opens on every screen that shows the dashboard at that moment.
+- `sensor.fan_popup` turns the fan's state into what the buttons show: `on` or `off` for each button, the percentage and a word for the speed. The title is the fan's name.
+- The fan button switches it on and off, and spins while it runs. The arrows turn the fan's head on fans that use `fan.set_direction` for it, like Xiaomi's. The middle button switches oscillation.
+- The slider sets any speed. The leaf and the wind pick the presets `nature` and `normal`, 1 to 3 set 33, 66 and 100 %.
+- The timer button shows the timer row: off, 1, 3 or 5 hours. When it runs out, an automation in the package turns the fan off.
+
+</details>
+
+<details>
+<summary>What it uses here</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `fan.living_room`, `fan.bedroom` | The fans, examples from my home |
+| `input_select.fan_popup` | Which fan the pop-up shows |
+| `input_boolean.fan_popup`, `input_boolean.fan_popup_timer` | Opens the pop-up, shows the timer row |
+| `sensor.fan_popup` | Everything the buttons show |
+| `timer.fan_living_room`, `timer.fan_bedroom` | The timers |
+| `script.fan_popup`, `script.fan_control` | Opening the pop-up and the buttons |
+
+Everything but the fans is in the package. For another fan:
+
+1. Add it to the options of `input_select.fan_popup`.
+2. Add a timer for it in the package. The name is `fan_` plus the fan's: `fan.bedroom` gets `timer.fan_bedroom`.
+3. Copy one of the slider rows in the pop-up and change its fan.
+
+If your fan's presets have other names, change `nature` and `normal` in the pop-up and in `sensor.fan_popup`. Fans without presets, oscillation or direction can lose those buttons.
 
 </details>
 
@@ -438,11 +564,13 @@ Eleven modules give Bubble Card the Origami look. They're still experimental. Op
 
 <br>
 
-Most of the logic is in template sensors, so most cards only show a result. They're all in [`packages/origami.yaml`](packages/origami.yaml). To use them in your home:
+Most of the logic is in template sensors, so most cards only show a result. They're all in [`packages/origami.yaml`](packages/origami.yaml), with the scripts the pop-ups use. To use them in your home:
 
 - Copy one `Climate | <room>` block per room and set its two source sensors.
 - The peaks and averages build sensor names from a list of rooms, like `sensor.<room>_temperature`. Name your sensors that way, or change those templates.
 - Put your lights, window contacts and speakers into the counters, `sensor.active_target`, `sensor.active_speaker` and `input_select.selected_speaker`.
+- Put your fans into `input_select.fan_popup`, each with a timer, and your scenes into `sensor.living_room_scene`.
+- Give your devices an [area](https://www.home-assistant.io/docs/organizing/areas/), so **Everything off** in a room pop-up finds them.
 
 | Helper | Gives |
 | --- | --- |
@@ -453,6 +581,10 @@ Most of the logic is in template sensors, so most cards only show a result. They
 | `sensor.greetings` | The greeting |
 | `sensor.active_target`, `sensor.active_speaker` | The speaker that matters and what it plays |
 | `input_boolean.room_climate_card`, `input_boolean.all_rooms`, `input_select.selected_speaker` | Toggles, and the speaker to show when nothing plays |
+| `sensor.living_room_scene`, `input_boolean.living_room_scenes` | The scene turned on last, and the scenes in the room pop-up |
+| `sensor.fan_popup`, `input_select.fan_popup`, `input_boolean.fan_popup`, `input_boolean.fan_popup_timer`, `timer.fan_*` | The fan pop-up |
+| `script.fan_popup`, `script.fan_control`, `script.volume`, `script.thermostat_step`, `script.room_off` | The pop-ups' buttons |
+| The automation **Fan timer** | Turns a fan off when its timer runs out |
 
 <details>
 <summary>Room climate sensor</summary>
@@ -794,6 +926,15 @@ The modules aren't loaded. Check that Bubble Card Tools is added as an integrati
 </details>
 
 <details>
+<summary>A tap doesn't open a pop-up</summary>
+
+<br>
+
+The pop-up has to be in the same view as the button, and its `hash` has to match the tap's `navigation_path`, like `#popup_tv`. The included pop-ups are at the end of `dashboard.yaml`, under `# Pop-ups`. Bubble Card has to be installed.
+
+</details>
+
+<details>
 <summary>A value shows ?</summary>
 
 <br>
@@ -815,7 +956,8 @@ Add `https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=sw
 
 - [x] Theme, dashboard and helpers
 - [x] Bubble modules, still experimental
-- [ ] Pop-ups: rooms, music, TV, favorites, lights and the rest
+- [x] Pop-ups: a room, the TV and the fan
+- [ ] More pop-ups: music, lights, favorites, the server and the rest
 - [ ] Desktop layout
 
 ## License

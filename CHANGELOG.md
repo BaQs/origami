@@ -4,12 +4,13 @@
 
 <img alt="The Origami dashboard on two phones, one in light and one in dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
 
-1.0 was the theme and one very long README. 2.0 unfolds it into files you can use: the dashboard, its helpers, the font and Bubble Card modules, with a new README that walks through every part.
+1.0 was the theme and one very long README. 2.0 unfolds it into files you can use: the dashboard and its first pop-ups, the helpers, the font and Bubble Card modules, with a new README that walks through every part.
 
 ### New
 
 - **Dashboard.** The phone dashboard in one file, [`dashboard/dashboard.yaml`](dashboard/dashboard.yaml): greeting and notifications, weather, favorites, rooms, a climate table and a navbar.
-- **Helpers.** The template sensors behind it as a package, [`packages/origami.yaml`](packages/origami.yaml): room climate, averages, counters, the greeting and the active speaker.
+- **Helpers.** The template sensors and scripts behind it as a package, [`packages/origami.yaml`](packages/origami.yaml): room climate, averages, counters, the greeting, the active speaker and the pop-ups.
+- **Pop-ups.** A room, a TV remote and a fan pop-up, with the scripts and helpers behind them.
 - **Bubble Card modules.** Eleven modules that give Bubble Card the Origami look. Still experimental.
 - **Montserrat included.** The font ships in `www/fonts` and loads from your Home Assistant instead of Google's servers.
 - **New README.** Setup step by step, a screenshot of every part, and what each part uses.

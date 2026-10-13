@@ -13,6 +13,18 @@ input_boolean:
   all_rooms:
     name: All rooms
     icon: mdi:home-group
+  # Shows the scene buttons in the living room pop-up
+  living_room_scenes:
+    name: Living room scenes
+    icon: mdi:palette-outline
+  # Opens the fan pop-up, for the fan in input_select.fan_popup
+  fan_popup:
+    name: Fan pop-up
+    icon: mdi:fan
+  # Shows the timer row in the fan pop-up
+  fan_popup_timer:
+    name: Fan pop-up timer
+    icon: mdi:timer-outline
 
 input_select:
   # Fallback for the active speaker when nothing plays
@@ -22,6 +34,23 @@ input_select:
       - media_player.living_room
       - media_player.bedroom
       - media_player.office
+  # The fan the fan pop-up shows. One option per fan.
+  fan_popup:
+    name: Fan pop-up
+    options:
+      - fan.living_room
+      - fan.bedroom
+
+# One timer per fan for the fan pop-up, named fan_ plus the fan's name: fan.bedroom gets timer.fan_bedroom
+timer:
+  fan_living_room:
+    name: Living room fan timer
+    icon: mdi:timer-outline
+    restore: true
+  fan_bedroom:
+    name: Bedroom fan timer
+    icon: mdi:timer-outline
+    restore: true
 
 template:
   - sensor:
@@ -309,6 +338,81 @@ template:
           {% elif h < 22 %}good evening
           {% else %}good night{% endif %}
 
+      # The living room scene that was turned on last, like evening. None while the lights are off.
+      - name: Living room scene
+        unique_id: living_room_scene
+        icon: mdi:palette-outline
+        state: >
+          {% set ns = namespace(id='none', t=0) %}
+          {% for s in ['scene.living_room_evening', 'scene.living_room_dinner', 'scene.living_room_movie',
+                       'scene.living_room_late', 'scene.living_room_night'] %}
+            {% set t = as_timestamp(states(s), 0) %}
+            {% if t > ns.t %}{% set ns.t = t %}{% set ns.id = s %}{% endif %}
+          {% endfor %}
+          {{ ns.id.replace('scene.living_room_', '') if is_state('light.living_room', 'on') else 'none' }}
+
+      # Everything the fan pop-up shows, for the fan in input_select.fan_popup.
+      # The buttons light up on 'on'.
+      - name: Fan popup
+        unique_id: fan_popup
+        icon: mdi:fan
+        state: >
+          {% set f = states('input_select.fan_popup') %}
+          {{ state_attr(f, 'friendly_name') or 'Fan' }}
+        attributes:
+          entity: >
+            {{ states('input_select.fan_popup') }}
+          power: >
+            {{ 'on' if is_state(states('input_select.fan_popup'), 'on') else 'off' }}
+          percentage: >
+            {% set f = states('input_select.fan_popup') %}
+            {{ state_attr(f, 'percentage') | float(0) | round(0) | int if is_state(f, 'on') else 0 }}
+          level: >
+            {% set f = states('input_select.fan_popup') %}
+            {% set p = state_attr(f, 'percentage') | float(0) %}
+            {% if not is_state(f, 'on') %}Off
+            {% elif state_attr(f, 'preset_mode') == 'nature' %}Natural breeze
+            {% elif p <= 34 %}Low
+            {% elif p <= 67 %}Medium
+            {% else %}High{% endif %}
+          oscillating: >
+            {% set f = states('input_select.fan_popup') %}
+            {{ 'on' if is_state(f, 'on') and state_attr(f, 'oscillating') else 'off' }}
+          nature: >
+            {% set f = states('input_select.fan_popup') %}
+            {{ 'on' if is_state(f, 'on') and state_attr(f, 'preset_mode') == 'nature' else 'off' }}
+          normal: >
+            {% set f = states('input_select.fan_popup') %}
+            {{ 'on' if is_state(f, 'on') and state_attr(f, 'preset_mode') != 'nature' else 'off' }}
+          speed_1: >
+            {% set f = states('input_select.fan_popup') %}
+            {{ 'on' if is_state(f, 'on') and state_attr(f, 'percentage') | float(0) <= 34 else 'off' }}
+          speed_2: >
+            {% set f = states('input_select.fan_popup') %}
+            {% set p = state_attr(f, 'percentage') | float(0) %}
+            {{ 'on' if is_state(f, 'on') and 34 < p <= 67 else 'off' }}
+          speed_3: >
+            {% set f = states('input_select.fan_popup') %}
+            {{ 'on' if is_state(f, 'on') and state_attr(f, 'percentage') | float(0) > 67 else 'off' }}
+          timer: >
+            {% set t = 'timer.fan_' ~ states('input_select.fan_popup').split('.')[-1] %}
+            {% set end = as_timestamp(state_attr(t, 'finishes_at'), 0) %}
+            {% if is_state(t, 'active') and end > 0 %}
+              {% set m = ((end - as_timestamp(now())) / 60) | round(0, 'ceil') | int %}
+              {{ m // 60 }}:{{ '%02d' | format(m % 60) }} left
+            {% else %}Off{% endif %}
+          timer_off: >
+            {{ 'off' if is_state('timer.fan_' ~ states('input_select.fan_popup').split('.')[-1], 'active') else 'on' }}
+          timer_1: >
+            {% set t = 'timer.fan_' ~ states('input_select.fan_popup').split('.')[-1] %}
+            {{ 'on' if is_state(t, 'active') and state_attr(t, 'duration') == '1:00:00' else 'off' }}
+          timer_3: >
+            {% set t = 'timer.fan_' ~ states('input_select.fan_popup').split('.')[-1] %}
+            {{ 'on' if is_state(t, 'active') and state_attr(t, 'duration') == '3:00:00' else 'off' }}
+          timer_5: >
+            {% set t = 'timer.fan_' ~ states('input_select.fan_popup').split('.')[-1] %}
+            {{ 'on' if is_state(t, 'active') and state_attr(t, 'duration') == '5:00:00' else 'off' }}
+
       # Counters for the navbar badges
       - name: Lights on count
         unique_id: lights_on_count
@@ -481,3 +585,201 @@ template:
                     if states(z) in live else none)
                  or 'none' }}
             {% endif %}
+
+script:
+  # Opens the fan pop-up for one fan
+  fan_popup:
+    alias: Fan pop-up
+    description: Opens the fan pop-up for a fan.
+    fields:
+      fan:
+        description: The fan to show
+        example: fan.living_room
+        selector:
+          entity:
+            domain: fan
+    sequence:
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.fan_popup
+        data:
+          option: "{{ fan }}"
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.fan_popup
+
+  # The fan pop-up's buttons, for the fan in input_select.fan_popup
+  fan_control:
+    alias: Fan control
+    description: Runs a fan pop-up button on the fan in input_select.fan_popup.
+    mode: queued
+    fields:
+      control:
+        description: toggle, speed, oscillate, preset, direction or timer
+        example: speed
+      percentage:
+        description: For speed
+        example: 66
+      preset:
+        description: For preset, one of the fan's preset modes
+        example: nature
+      direction:
+        description: For direction, forward or reverse
+        example: forward
+      hours:
+        description: For timer, 0 cancels it
+        example: 3
+    sequence:
+      - variables:
+          fan: "{{ states('input_select.fan_popup') }}"
+          timer: "{{ 'timer.fan_' ~ fan.split('.')[-1] }}"
+      - choose:
+          - conditions: "{{ control == 'toggle' }}"
+            sequence:
+              - action: fan.toggle
+                target:
+                  entity_id: "{{ fan }}"
+          - conditions: "{{ control == 'speed' }}"
+            sequence:
+              - action: fan.set_percentage
+                target:
+                  entity_id: "{{ fan }}"
+                data:
+                  percentage: "{{ percentage | int }}"
+          - conditions: "{{ control == 'oscillate' }}"
+            sequence:
+              - action: fan.oscillate
+                target:
+                  entity_id: "{{ fan }}"
+                data:
+                  oscillating: "{{ not state_attr(fan, 'oscillating') }}"
+          - conditions: "{{ control == 'preset' }}"
+            sequence:
+              - action: fan.set_preset_mode
+                target:
+                  entity_id: "{{ fan }}"
+                data:
+                  preset_mode: "{{ preset }}"
+          - conditions: "{{ control == 'direction' }}"
+            sequence:
+              - action: fan.set_direction
+                target:
+                  entity_id: "{{ fan }}"
+                data:
+                  direction: "{{ direction }}"
+          - conditions: "{{ control == 'timer' and hours | int(0) > 0 }}"
+            sequence:
+              - action: timer.start
+                target:
+                  entity_id: "{{ timer }}"
+                data:
+                  duration: "{{ '%02d:00:00' | format(hours | int) }}"
+          - conditions: "{{ control == 'timer' }}"
+            sequence:
+              - action: timer.cancel
+                target:
+                  entity_id: "{{ timer }}"
+
+  # Volume in small steps, for the TV pop-up
+  volume:
+    alias: Volume
+    description: Turns a speaker up or down in small steps, or mutes it.
+    mode: queued
+    fields:
+      speaker:
+        description: The media player
+        example: media_player.living_room
+        selector:
+          entity:
+            domain: media_player
+      step:
+        description: How much to change the volume, from -1 to 1
+        example: 0.05
+      mute:
+        description: Mutes or unmutes instead
+        example: true
+    sequence:
+      - if:
+          - condition: template
+            value_template: "{{ mute | default(false) | bool }}"
+        then:
+          - action: media_player.volume_mute
+            target:
+              entity_id: "{{ speaker }}"
+            data:
+              is_volume_muted: "{{ not state_attr(speaker, 'is_volume_muted') }}"
+        else:
+          - action: media_player.volume_set
+            target:
+              entity_id: "{{ speaker }}"
+            data:
+              volume_level: >
+                {{ [[state_attr(speaker, 'volume_level') | float(0) + step | float(0), 0] | max, 1] | min | round(2) }}
+
+  # Plus and minus on the thermostat cards
+  thermostat_step:
+    alias: Thermostat step
+    description: Moves a thermostat's target temperature up or down.
+    mode: queued
+    fields:
+      thermostat:
+        description: The thermostat
+        example: climate.living_room
+        selector:
+          entity:
+            domain: climate
+      step:
+        description: How far, in degrees
+        example: -0.5
+    sequence:
+      - action: climate.set_temperature
+        target:
+          entity_id: "{{ thermostat }}"
+        data:
+          temperature: >
+            {% set t = state_attr(thermostat, 'temperature') | float(20) + step | float(0) %}
+            {{ [[t, state_attr(thermostat, 'min_temp') | float(7)] | max, state_attr(thermostat, 'max_temp') | float(35)] | min }}
+
+  # Everything off, at the bottom of a room pop-up
+  room_off:
+    alias: Room off
+    description: Turns off the lights, fans, media players and switches in an area.
+    fields:
+      area:
+        description: The area
+        example: living_room
+        selector:
+          area:
+    sequence:
+      - action: light.turn_off
+        target:
+          area_id: "{{ area }}"
+        continue_on_error: true
+      - action: fan.turn_off
+        target:
+          area_id: "{{ area }}"
+        continue_on_error: true
+      - action: media_player.turn_off
+        target:
+          area_id: "{{ area }}"
+        continue_on_error: true
+      - action: switch.turn_off
+        target:
+          area_id: "{{ area }}"
+        continue_on_error: true
+
+automation:
+  # Turns a fan off when its timer from the fan pop-up runs out
+  - id: origami_fan_timer
+    alias: Fan timer
+    description: Turns a fan off when its timer.fan_ timer finishes.
+    triggers:
+      - trigger: event
+        event_type: timer.finished
+    conditions:
+      - condition: template
+        value_template: "{{ trigger.event.data.entity_id.startswith('timer.fan_') }}"
+    actions:
+      - action: fan.turn_off
+        target:
+          entity_id: "{{ 'fan.' ~ trigger.event.data.entity_id[10:] }}"
