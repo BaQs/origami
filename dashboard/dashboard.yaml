@@ -69,7 +69,7 @@ views:
                     line-height: var(--ha-line-height-condensed)
                     color: var(--secondary-text-color)
               buttons:
-                # Invisible overlay: the whole card opens the server pop-up
+                # Invisible overlay: a tap on the card opens the server pop-up. CPU and RAM have their own tap.
                 - layout: name
                   name: ' '
                   tap_action:
@@ -389,7 +389,8 @@ views:
             card_height: 160px
             card_padding: 20px
             card_offset: 16px 0px 12px 0px
-            # A calm colour per condition instead of the sky. Clouds and the other effects are off, rain and snow still show.
+            # A calm colour per condition instead of the sky. Clouds and the other effects are off,
+            # rain, snow, hail and thunderstorms still show.
             background_mode: color
             background_threshold_entity: weather.home
             background_thresholds:
@@ -550,7 +551,7 @@ views:
               rows: auto
             sub_button:
               bottom:
-                # Music, late in the evening only
+                # Music, from 22:00 to 4:00
                 - name: Bedroom
                   entity: media_player.bedroom
                   icon: mdi:speaker
@@ -567,7 +568,7 @@ views:
                     navigation_path: '#popup_music'
                   hold_action:
                     action: more-info
-                # Fan: in warm weather or while it runs
+                # Fan: while it runs, or when the living room or bedroom is above 24°
                 - name: Fan
                   entity: fan.bedroom
                   icon: mdi:fan
@@ -1420,14 +1421,11 @@ views:
                   - entity: binary_sensor.living_room_balcony_door
                     layout: icon
                     icon: mdi:window-closed-variant
-                    tap_action:
-                      action: more-info
                     state_icons:
                       'on': mdi:window-open-variant
                       'off': mdi:window-closed-variant
                     styles:
                       button:
-                        pointer-events: all
                         margin: var(--ha-space-2) var(--ha-space-2) 0px 0px
                       icon:
                         --mdc-icon-size: var(--dot-size)
@@ -1544,14 +1542,11 @@ views:
                   - entity: binary_sensor.bedroom_window
                     layout: icon
                     icon: mdi:window-closed-variant
-                    tap_action:
-                      action: more-info
                     state_icons:
                       'on': mdi:window-open-variant
                       'off': mdi:window-closed-variant
                     styles:
                       button:
-                        pointer-events: all
                         margin: var(--ha-space-2) var(--ha-space-2) 0px 0px
                       icon:
                         --mdc-icon-size: var(--dot-size)
@@ -1777,14 +1772,11 @@ views:
                   - entity: binary_sensor.bathroom_window
                     layout: icon
                     icon: mdi:window-closed-variant
-                    tap_action:
-                      action: more-info
                     state_icons:
                       'on': mdi:window-open-variant
                       'off': mdi:window-closed-variant
                     styles:
                       button:
-                        pointer-events: all
                         margin: var(--ha-space-2) var(--ha-space-2) 0px 0px
                       icon:
                         --mdc-icon-size: var(--dot-size)
@@ -1912,14 +1904,11 @@ views:
                     - entity: binary_sensor.kitchen_window
                       layout: icon
                       icon: mdi:window-closed-variant
-                      tap_action:
-                        action: more-info
                       state_icons:
                         'on': mdi:window-open-variant
                         'off': mdi:window-closed-variant
                       styles:
                         button:
-                          pointer-events: all
                           margin: var(--ha-space-2) var(--ha-space-2) 0px 0px
                         icon:
                           --mdc-icon-size: var(--dot-size)
@@ -2047,14 +2036,11 @@ views:
                     - entity: binary_sensor.small_bathroom_window
                       layout: icon
                       icon: mdi:window-closed-variant
-                      tap_action:
-                        action: more-info
                       state_icons:
                         'on': mdi:window-open-variant
                         'off': mdi:window-closed-variant
                       styles:
                         button:
-                          pointer-events: all
                           margin: var(--ha-space-2) var(--ha-space-2) 0px 0px
                         icon:
                           --mdc-icon-size: var(--dot-size)
