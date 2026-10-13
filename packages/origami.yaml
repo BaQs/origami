@@ -26,7 +26,6 @@ input_select:
 template:
   - sensor:
       # Room climate, one per room. Copy the block and swap the source sensors.
-      # The balcony uses the same block, the weather card reads its temperature.
       - name: Climate | Living room
         unique_id: climate_living_room
         icon: mdi:thermometer
@@ -48,13 +47,15 @@ template:
             {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'living_room')
                else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'living_room')
                else 'normal' }}
+          # Comfort colour, a muted scale from blue at 12° to red above 32°
           color_code: >
             {% set t = states('sensor.living_room_temperature') | float(20) %}
-            {% if t < 16 %}var(--blue-color)
-            {% elif t < 19 %}var(--cyan-color)
-            {% elif t < 24 %}var(--green-color)
-            {% elif t < 27 %}var(--orange-color)
-            {% else %}var(--red-color){% endif %}
+            {% set scale = [(12, '114, 143, 168'), (15, '124, 151, 169'), (17, '139, 162, 168'),
+               (18.5, '154, 174, 163'), (22, '136, 163, 126'), (24, '153, 166, 119'),
+               (25, '174, 167, 111'), (26, '187, 159, 104'), (27, '192, 147, 95'),
+               (28, '191, 138, 95'), (29, '187, 126, 93'), (30.5, '179, 115, 92'),
+               (32, '170, 106, 90'), (99, '156, 96, 86')] %}
+            rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 
       - name: Climate | Bedroom
         unique_id: climate_bedroom
@@ -79,11 +80,12 @@ template:
                else 'normal' }}
           color_code: >
             {% set t = states('sensor.bedroom_temperature') | float(20) %}
-            {% if t < 16 %}var(--blue-color)
-            {% elif t < 19 %}var(--cyan-color)
-            {% elif t < 24 %}var(--green-color)
-            {% elif t < 27 %}var(--orange-color)
-            {% else %}var(--red-color){% endif %}
+            {% set scale = [(12, '114, 143, 168'), (15, '124, 151, 169'), (17, '139, 162, 168'),
+               (18.5, '154, 174, 163'), (22, '136, 163, 126'), (24, '153, 166, 119'),
+               (25, '174, 167, 111'), (26, '187, 159, 104'), (27, '192, 147, 95'),
+               (28, '191, 138, 95'), (29, '187, 126, 93'), (30.5, '179, 115, 92'),
+               (32, '170, 106, 90'), (99, '156, 96, 86')] %}
+            rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 
       - name: Climate | Office
         unique_id: climate_office
@@ -108,11 +110,12 @@ template:
                else 'normal' }}
           color_code: >
             {% set t = states('sensor.office_temperature') | float(20) %}
-            {% if t < 16 %}var(--blue-color)
-            {% elif t < 19 %}var(--cyan-color)
-            {% elif t < 24 %}var(--green-color)
-            {% elif t < 27 %}var(--orange-color)
-            {% else %}var(--red-color){% endif %}
+            {% set scale = [(12, '114, 143, 168'), (15, '124, 151, 169'), (17, '139, 162, 168'),
+               (18.5, '154, 174, 163'), (22, '136, 163, 126'), (24, '153, 166, 119'),
+               (25, '174, 167, 111'), (26, '187, 159, 104'), (27, '192, 147, 95'),
+               (28, '191, 138, 95'), (29, '187, 126, 93'), (30.5, '179, 115, 92'),
+               (32, '170, 106, 90'), (99, '156, 96, 86')] %}
+            rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 
       - name: Climate | Bathroom
         unique_id: climate_bathroom
@@ -137,11 +140,12 @@ template:
                else 'normal' }}
           color_code: >
             {% set t = states('sensor.bathroom_temperature') | float(20) %}
-            {% if t < 16 %}var(--blue-color)
-            {% elif t < 19 %}var(--cyan-color)
-            {% elif t < 24 %}var(--green-color)
-            {% elif t < 27 %}var(--orange-color)
-            {% else %}var(--red-color){% endif %}
+            {% set scale = [(12, '114, 143, 168'), (15, '124, 151, 169'), (17, '139, 162, 168'),
+               (18.5, '154, 174, 163'), (22, '136, 163, 126'), (24, '153, 166, 119'),
+               (25, '174, 167, 111'), (26, '187, 159, 104'), (27, '192, 147, 95'),
+               (28, '191, 138, 95'), (29, '187, 126, 93'), (30.5, '179, 115, 92'),
+               (32, '170, 106, 90'), (99, '156, 96, 86')] %}
+            rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 
       - name: Climate | Kitchen
         unique_id: climate_kitchen
@@ -166,11 +170,12 @@ template:
                else 'normal' }}
           color_code: >
             {% set t = states('sensor.kitchen_temperature') | float(20) %}
-            {% if t < 16 %}var(--blue-color)
-            {% elif t < 19 %}var(--cyan-color)
-            {% elif t < 24 %}var(--green-color)
-            {% elif t < 27 %}var(--orange-color)
-            {% else %}var(--red-color){% endif %}
+            {% set scale = [(12, '114, 143, 168'), (15, '124, 151, 169'), (17, '139, 162, 168'),
+               (18.5, '154, 174, 163'), (22, '136, 163, 126'), (24, '153, 166, 119'),
+               (25, '174, 167, 111'), (26, '187, 159, 104'), (27, '192, 147, 95'),
+               (28, '191, 138, 95'), (29, '187, 126, 93'), (30.5, '179, 115, 92'),
+               (32, '170, 106, 90'), (99, '156, 96, 86')] %}
+            rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 
       - name: Climate | Small bathroom
         unique_id: climate_small_bathroom
@@ -195,40 +200,12 @@ template:
                else 'normal' }}
           color_code: >
             {% set t = states('sensor.small_bathroom_temperature') | float(20) %}
-            {% if t < 16 %}var(--blue-color)
-            {% elif t < 19 %}var(--cyan-color)
-            {% elif t < 24 %}var(--green-color)
-            {% elif t < 27 %}var(--orange-color)
-            {% else %}var(--red-color){% endif %}
-
-      - name: Climate | Balcony
-        unique_id: climate_balcony
-        icon: mdi:thermometer
-        state: >
-          {% set t = states('sensor.balcony_temperature') | float(none) %}
-          {{ t | round(1) if t is not none else '?' }}
-        attributes:
-          temperature: >
-            {% set t = states('sensor.balcony_temperature') | float(none) %}
-            {{ t | round(0) | int if t is not none else '?' }}
-          humidity: >
-            {% set h = states('sensor.balcony_humidity') | float(none) %}
-            {{ h | round(0) | int if h is not none else '?' }}
-          temp_rank: >
-            {{ 'warmest' if is_state('sensor.climate_temperature_peaks', 'balcony')
-               else 'coldest' if is_state_attr('sensor.climate_temperature_peaks', 'lowest', 'balcony')
-               else 'normal' }}
-          humidity_rank: >
-            {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'balcony')
-               else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'balcony')
-               else 'normal' }}
-          color_code: >
-            {% set t = states('sensor.balcony_temperature') | float(20) %}
-            {% if t < 16 %}var(--blue-color)
-            {% elif t < 19 %}var(--cyan-color)
-            {% elif t < 24 %}var(--green-color)
-            {% elif t < 27 %}var(--orange-color)
-            {% else %}var(--red-color){% endif %}
+            {% set scale = [(12, '114, 143, 168'), (15, '124, 151, 169'), (17, '139, 162, 168'),
+               (18.5, '154, 174, 163'), (22, '136, 163, 126'), (24, '153, 166, 119'),
+               (25, '174, 167, 111'), (26, '187, 159, 104'), (27, '192, 147, 95'),
+               (28, '191, 138, 95'), (29, '187, 126, 93'), (30.5, '179, 115, 92'),
+               (32, '170, 106, 90'), (99, '156, 96, 86')] %}
+            rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 
       # Warmest and coldest, most humid and driest room
       - name: Climate | Temperature peaks
@@ -349,9 +326,8 @@ template:
              | select('is_state', ['playing', 'buffering']) | list | count }}
 
       # The speaker that matters right now, for the navbar's now playing bar.
-      # Written for LinkPlay speakers with Music Assistant (_mass) and DLNA (_dlna) twins.
       # Playing beats TV and Bluetooth, those beat paused, paused beats the selected speaker.
-      # A playing group master wins over its members.
+      # A playing group leader wins over its members.
       - name: Active target
         unique_id: active_target
         icon: mdi:target
@@ -378,15 +354,18 @@ template:
             {% endif %}
           {% endfor %}
 
-          {% set m = states('sensor.speaker_group_master') %}
+          {# The first of group_members leads the group #}
+          {% set lead = (state_attr(ns.playing | first, 'group_members') or [none])[0]
+             if ns.playing else none %}
           {% set chain = ns.playing + ns.physical + ns.paused
              + [states('input_select.selected_speaker')] %}
-          {{ m if m in ns.playing else (chain | first) }}
+          {{ lead if lead in ns.playing else (chain | first) }}
 
-      # The speaker that is actually playing, not the selected one.
-      # Every metadata read first checks that the entity is live right now.
-      # Music Assistant and DLNA entities keep their last media_title when idle,
-      # so an unguarded `or` chain gets stuck on an old track.
+      # What the active speaker plays, ready to show.
+      # Every metadata read first checks that the entity is live right now,
+      # Music Assistant keeps the last title while idle.
+      # Music Assistant (the _mass twin) also reports playing for the speaker's own
+      # sources like Bluetooth or Spotify, so its metadata only counts without one.
       - name: Active speaker
         unique_id: active_speaker
         icon: mdi:speaker-play
@@ -401,7 +380,11 @@ template:
             {% set s = states(z) %}
             {% set src = state_attr(z, 'source') | default('', true)
                | lower | replace('-', ' ') %}
-            {% set live = ['playing', 'paused', 'buffering'] %}
+            {% set own = ['bluetooth', 'optical', 'coax', 'hdmi', 'line in', 'phono',
+               'usb', 'udisk', 'spotify', 'qobuz', 'tidal', 'deezer',
+               'amazon', 'napster', 'tunein', 'airplay'] %}
+            {% set ma = states(z ~ '_mass') in ['playing', 'paused', 'buffering']
+               and not (own | select('in', src) | list) %}
 
             {% if s in ['off', 'standby', 'unknown', 'unavailable'] %}
               off
@@ -413,12 +396,7 @@ template:
             {% else %}
               {% set status = 'playing' if s in ['playing', 'buffering', 'on']
                  else ('paused' if s == 'paused' else 'off') %}
-              {% set cover = (state_attr(z ~ '_mass', 'entity_picture')
-                    if states(z ~ '_mass') in live else none)
-                 or (state_attr(z ~ '_dlna', 'entity_picture_local')
-                    if states(z ~ '_dlna') in live else none)
-                 or (state_attr(z ~ '_dlna', 'entity_picture')
-                    if states(z ~ '_dlna') in live else none) %}
+              {% set cover = state_attr(z ~ '_mass', 'entity_picture') if ma else none %}
               {{ 'off' if status == 'off'
                  else status ~ ('_art' if cover else '_plain') }}
             {% endif %}
@@ -450,9 +428,13 @@ template:
             {% set src = state_attr(z, 'source') | default('', true)
                | lower | replace('-', ' ') %}
             {% set live = ['playing', 'paused', 'buffering'] %}
-            {% set dead = ['off', 'standby', 'unavailable', 'unknown'] %}
+            {% set own = ['bluetooth', 'optical', 'coax', 'hdmi', 'line in', 'phono',
+               'usb', 'udisk', 'spotify', 'qobuz', 'tidal', 'deezer',
+               'amazon', 'napster', 'tunein', 'airplay'] %}
+            {% set ma = states(z ~ '_mass') in live
+               and not (own | select('in', src) | list) %}
 
-            {% if s in dead %}
+            {% if s in ['off', 'standby', 'unavailable', 'unknown'] %}
               Nothing playing
             {% elif 'bluetooth' in src %}
               Bluetooth
@@ -461,16 +443,10 @@ template:
               {{ state_attr('sensor.tv_source', 'display')
                  | default('TV', true) }}
             {% else %}
-              {% set t = (state_attr(z ~ '_mass', 'media_title')
-                    if states(z ~ '_mass') in live else none)
-                 or (state_attr(z, 'media_title') if s in live else none)
-                 or (state_attr(z ~ '_dlna', 'media_title')
-                    if states(z ~ '_dlna') in live else none) %}
-              {% set a = (state_attr(z ~ '_mass', 'media_artist')
-                    if states(z ~ '_mass') in live else none)
-                 or (state_attr(z, 'media_artist') if s in live else none)
-                 or (state_attr(z ~ '_dlna', 'media_artist')
-                    if states(z ~ '_dlna') in live else none) %}
+              {% set t = (state_attr(z ~ '_mass', 'media_title') if ma else none)
+                 or (state_attr(z, 'media_title') if s in live else none) %}
+              {% set a = (state_attr(z ~ '_mass', 'media_artist') if ma else none)
+                 or (state_attr(z, 'media_artist') if s in live else none) %}
               {% if t and ('http://' in t or 'https://' in t) %}
                 {% set t = none %}
               {% endif %}
@@ -480,13 +456,18 @@ template:
                        .get(s, 'Nothing playing')) }}
             {% endif %}
 
-          # TV artwork on physical sources, the music cover otherwise.
+          # TV artwork on the TV input, the music cover otherwise.
           # Bluetooth stays empty on purpose.
           artwork: >
             {% set z = states('sensor.active_target') %}
             {% set src = state_attr(z, 'source') | default('', true)
                | lower | replace('-', ' ') %}
             {% set live = ['playing', 'paused', 'buffering'] %}
+            {% set own = ['bluetooth', 'optical', 'coax', 'hdmi', 'line in', 'phono',
+               'usb', 'udisk', 'spotify', 'qobuz', 'tidal', 'deezer',
+               'amazon', 'napster', 'tunein', 'airplay'] %}
+            {% set ma = states(z ~ '_mass') in live
+               and not (own | select('in', src) | list) %}
 
             {% if 'optical' in src or 'coax' in src
                or 'hdmi' in src or 'line in' in src %}
@@ -495,12 +476,7 @@ template:
             {% elif 'bluetooth' in src %}
               none
             {% else %}
-              {{ (state_attr(z ~ '_mass', 'entity_picture')
-                    if states(z ~ '_mass') in live else none)
-                 or (state_attr(z ~ '_dlna', 'entity_picture_local')
-                    if states(z ~ '_dlna') in live else none)
-                 or (state_attr(z ~ '_dlna', 'entity_picture')
-                    if states(z ~ '_dlna') in live else none)
+              {{ (state_attr(z ~ '_mass', 'entity_picture') if ma else none)
                  or (state_attr(z, 'entity_picture')
                     if states(z) in live else none)
                  or 'none' }}

@@ -380,122 +380,140 @@ views:
                 buttons:
                   - icon: mdi:backspace-reverse
 
+          # Weather
           - type: custom:origami-weather
             weather_entity: weather.home
-            sun_moon_size: 40
-            sun_moon_x: 30
+            sun_moon_x: 33
+            sun_moon_y: 20
             color_mode: theme
-            card_height: 185px
-            card_padding: 16px
-            card_offset: 16px 0px 12px 0px
-            bg_blend: 40
+            card_height: 160px
+            card_padding: 20px
+            # A calm colour per condition instead of the sky, without clouds and the other effects
+            background_mode: color
+            background_threshold_entity: weather.home
+            background_thresholds:
+              - value: sunny
+                color: '#e7e2d9'
+                color_dark: '#24211d'
+              - value: clear-night
+                color: '#dbdce1'
+                color_dark: '#15181f'
+              - value: partlycloudy
+                color: '#e0deda'
+                color_dark: '#1c2023'
+              - value: cloudy
+                color: '#d3d4d6'
+                color_dark: '#222324'
+              - value: fog
+                color: '#e6e6e5'
+                color_dark: '#272829'
+              - value: windy
+                color: '#dadfdd'
+                color_dark: '#1c201e'
+              - value: windy-variant
+                color: '#d5dad9'
+                color_dark: '#1a1f1e'
+              - value: rainy
+                color: '#cdd2d6'
+                color_dark: '#181e22'
+              - value: pouring
+                color: '#c8cdd2'
+                color_dark: '#14191e'
+              - value: lightning
+                color: '#cfced3'
+                color_dark: '#1c1b21'
+              - value: lightning-rainy
+                color: '#cacacf'
+                color_dark: '#18171e'
+              - value: snowy
+                color: '#e6eaed'
+                color_dark: '#252b2e'
+              - value: snowy-rainy
+                color: '#d8dddf'
+                color_dark: '#1f2527'
+              - value: hail
+                color: '#d2d9da'
+                color_dark: '#1c2324'
+              - value: exceptional
+                color: '#ded8d2'
+                color_dark: '#27221f'
+            cloud_effects: false
+            night_sky_effects: false
+            bird_effects: false
+            balloon_effects: false
+            plane_effects: false
             grid_options:
               rows: auto
               columns: 12
             button_containers:
-              # Condition and outside temperature
-              - padding: 4px
-                buttons:
-                  - entity: weather.home
-                    style: vertical
-                    align: start
-                    inner_gap: 8px
-                    padding: '0'
-                    elements:
-                      - type: text
-                        size: 13px
-                        weight: '500'
-                        color: var(--primary-text-color)
-                      - type: text
-                        entity: sensor.climate_balcony
-                        attribute: temperature
-                        precision: 0
-                        format: °
-                        size: 40px
-                        weight: '700'
-                        color: var(--primary-text-color)
-              # Chance of rain today
-              - position: custom
-                position_anchor: bottom-left
-                position_x: 0px
-                position_y: 0px
-                custom_width: 180px
-                background: true
-                button_gap: 5px
-                button_icon_size: 16px
-                button_text_size: 14px
-                button_shadow: false
-                buttons:
-                  - entity: weather.home
-                    forecast: daily
-                    position: custom
-                    position_anchor: bottom-left
-                    position_x: 0px
-                    position_y: 0px
-                    height: 32px
-                    padding: 0 12px 0 10px
-                    elements:
-                      - type: icon
-                        icon: mdi:umbrella
-                        color: var(--light-blue-color)
-                      - type: text
-                        attribute: precipitation_probability
-                        weight: '600'
-                        color: var(--primary-text-color)
-              # The house
+              # The house, 20 px from the top, right and bottom edge. The drawing
+              # doesn't fill its picture, so the offsets are negative.
               - position: custom
                 position_anchor: top-right
-                position_x: 4px
-                position_y: 4px
-                custom_width: 170px
+                position_x: -32px
+                position_y: -10px
+                custom_width: 168px
                 image: demo-home-image
-              # Room temperatures on the house, with a window icon while one is open
+              # Next sunset, or sunrise while the sun is down
               - position: custom
-                position_anchor: top-right
-                position_x: 4px
-                position_y: 4px
-                custom_width: 170px
-                background: true
-                button_padding: 6px 10px
-                button_gap: 4px
-                button_icon_size: 10px
-                button_text_size: 12px
-                button_background_color: rgba(255,255,255,0.05)
-                button_blurred_background: true
-                button_shadow: false
+                position_anchor: top-left
+                button_gap: 6px
                 buttons:
-                  - entity: sensor.climate_living_room
-                    position: custom
-                    position_anchor: top-left
-                    position_x: 66px
-                    position_y: 74px
-                    elements:
-                      - type: text
-                        attribute: temperature
-                        precision: 0
-                        format: °
-                        weight: '700'
-                        color: var(--primary-text-color)
-                  # Only while its window is open
-                  - entity: sensor.climate_bedroom
-                    position: custom
-                    position_anchor: top-left
-                    position_x: 2px
-                    position_y: 62px
+                  - entity: sun.sun
                     visibility:
                       - condition: state
-                        entity: binary_sensor.bedroom_window
-                        state: 'on'
+                        entity: sun.sun
+                        state: above_horizon
                     elements:
                       - type: text
+                        size: 12px
+                        weight: '500'
+                        color: var(--secondary-text-color)
+                        text: Sunset
+                      - type: text
+                        size: 12px
+                        weight: '500'
+                        color: var(--primary-text-color)
+                        entity: sun.sun
+                        attribute: next_setting
+                  - entity: sun.sun
+                    visibility:
+                      - condition: state
+                        entity: sun.sun
+                        state: below_horizon
+                    elements:
+                      - type: text
+                        size: 12px
+                        weight: '500'
+                        color: var(--secondary-text-color)
+                        text: Sunrise
+                      - type: text
+                        size: 12px
+                        weight: '500'
+                        color: var(--primary-text-color)
+                        entity: sun.sun
+                        attribute: next_rising
+              # Temperature and condition
+              - position: custom
+                position_anchor: bottom-left
+                gap: 5px
+                buttons:
+                  - entity: weather.home
+                    width: 100%
+                    elements:
+                      - type: text
+                        size: 56px
+                        weight: '700'
+                        color: var(--primary-text-color)
                         attribute: temperature
                         precision: 0
                         format: °
-                        weight: '700'
+                  - entity: weather.home
+                    elements:
+                      - type: text
+                        size: 12px
+                        weight: '500'
                         color: var(--primary-text-color)
-                      - type: icon
-                        icon: mdi:window-open-variant
-                        color: var(--cyan-color)
 
       # Favorites
       - type: grid
@@ -1006,7 +1024,7 @@ views:
                   # Bedroom
                   - entity: sensor.climate_bedroom
                     icon: mdi:circle
-                    name: Bedroom
+                    name: Bed
                     tap_action:
                       entity: climate.bedroom
                     styles:
@@ -1234,10 +1252,10 @@ views:
                         color: var(--secondary-text-color)
                       icon:
                         opacity: var(--opacity-muted)
-                  # Guest bath
+                  # WC
                   - entity: sensor.climate_small_bathroom
                     icon: mdi:circle
-                    name: Guest bath
+                    name: WC
                     tap_action:
                       entity: climate.small_bathroom
                     styles:
@@ -2009,7 +2027,7 @@ views:
                         icon:
                           --mdc-icon-size: var(--icon-size-l)
                           opacity: var(--opacity-quiet)
-                    - name: Guest bath
+                    - name: WC
                       layout: name
                       styles:
                         button:
@@ -2106,6 +2124,7 @@ views:
             buttons:
               - icon: mdi:backspace-reverse
 
+          # Navbar
           - type: custom:navbar-card
             routes:
               - label: Music

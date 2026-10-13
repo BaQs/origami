@@ -1,12 +1,15 @@
 # Origami modules for Bubble Card
 
-Eleven [Bubble Card](https://github.com/Clooos/Bubble-Card) modules that give its cards the Origami look: the same frame, type, colours and controls as the rest of the dashboard. They read the theme's tokens, so they need the [Origami theme](../README.md#setup).
+Eleven [Bubble Card](https://github.com/Clooos/Bubble-Card) modules that give its cards the Origami look: the same frame, type, colours and controls as the rest of the dashboard. They read the theme's tokens, so they need the [Origami theme](../README.md#theme-only).
+
+> [!WARNING]
+> These modules are experimental. I'm not really happy with them yet: CSS is my specialty, but Bubble Card's CSS is hard to untangle, especially how card heights behave. I still haven't quite figured that out. It all works fine though.
 
 <img width="800" alt="A pop-up built from the modules, in light and dark mode" src="../images/module-popup.webp">
 
 ## Install
 
-1. Install [Bubble Card](https://github.com/Clooos/Bubble-Card) and [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools) from HACS. Bubble Card Tools is an integration, add it under **Settings > Devices & services** after a restart. It stores modules as files.
+1. Install [Bubble Card](https://github.com/Clooos/Bubble-Card) and [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools) from HACS. Bubble Card Tools is an integration that stores modules as files: restart, then [add it](https://my.home-assistant.io/redirect/config_flow_start/?domain=bubble_card_tools).
 2. Copy the files from [`modules`](modules) to `/config/bubble_card/modules/`.
 3. Reload the dashboard. The modules show up in the Bubble Card editor under **Modules**.
 
@@ -613,7 +616,7 @@ sub_button:
           before: '20:59:59'
 ```
 
-The [favorites](../README.md#favorites) show more.
+The [favorites](../docs/dashboard.md#favorites) show more.
 
 </details>
 
