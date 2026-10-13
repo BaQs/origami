@@ -1,6 +1,6 @@
 # ◪ Origami
 
-A chill Home Assistant theme, and a dashboard folded mostly out of [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row), hence the name. Plus a set of Bubble Card modules made for the theme.
+A chill Home Assistant theme, and a phone dashboard folded out of [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card). Plus a set of Bubble Card modules made for the theme.
 
 <img width="760" alt="The Origami dashboard on a phone, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/dashboard.webp">
 
@@ -87,7 +87,7 @@ Open each one, confirm with **Add** if asked, then **Download**.
 | | For | |
 | --- | --- | --- |
 | [Origami](https://github.com/hazymorning/origami) | The theme | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme) |
-| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Most of the dashboard | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
+| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Greeting, menu, climate table and room cards | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
 | [Bubble Card](https://github.com/Clooos/Bubble-Card) | Favorites and section headers | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card&category=plugin) |
 | [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools) | Loads the Bubble modules | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card-Tools&category=integration) |
 | [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) | The bar at the bottom | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=joseluis9595&repository=lovelace-navbar-card&category=plugin) |
@@ -158,7 +158,7 @@ One sections view, made for phones. Each part starts with a comment in [`dashboa
 
 ### Greeting and menu
 
-The next event, a greeting and the notifications. The menu folds out from the top with the optional Origami Header.
+The next event, a greeting and the notifications. With the optional Origami Header, **More** in the navbar slides a menu down from the top, over the dashboard.
 
 <img width="800" alt="The next event, the greeting and the notifications card" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/header.webp">
 
@@ -258,20 +258,54 @@ Shortcuts that only show up while they matter, made with Bubble Card's [Header](
 
 ### Rooms
 
-The home's average and open windows, a climate table that folds out, and a card per room.
+A card per room. The first four always show, **All rooms** shows the rest.
 
-<img width="800" alt="The rooms header, the open climate table and six room cards" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/rooms.webp">
+<img width="800" alt="The rooms header and four room cards" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/rooms.webp">
 
 <details>
 <summary>How it works</summary>
 
 <br>
 
-- A tap on a chip or the arrow in the header opens the climate table.
-- The table is one Paper Buttons Row as a six-column grid. Keep the names short, so it fits on a phone.
+- Each room card is one Paper Buttons Row, and the whole card opens the room's pop-up.
+- The chip lights up while the room's lights are on, the dot shows the comfort colour.
+- The window icon only shows with a window contact, and has its own tap.
+- The header shows the home's average and the open windows.
+
+</details>
+
+<details>
+<summary>What it needs</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `sensor.climate_<room>` | Temperature, humidity and comfort colour per room |
+| `sensor.climate_home` | Average and open windows in the header |
+| `binary_sensor.<room>_window` | Window contacts |
+| `light.<room>` | The lit chip |
+| `input_boolean.all_rooms` | **All rooms** |
+
+The sensors and toggles are in the [helpers](#under-the-hood).
+
+</details>
+
+### Climate table
+
+Every room's climate at a glance. It folds out under the rooms header.
+
+<img width="800" alt="The rooms header with the climate table open" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/climate.webp">
+
+<details>
+<summary>How it works</summary>
+
+<br>
+
+- A tap on a chip or the arrow in the rooms header opens and closes it.
+- The table is one Paper Buttons Row as a six-column grid: comfort dot and name, window, thermostat, temperature, humidity. Keep the names short, so it fits on a phone.
 - A heating thermostat and an open window tint. Arrows mark the warmest, coldest, most humid and driest room.
-- Each room card is one Paper Buttons Row. The chip lights up with the room's lights, the dot shows the comfort colour.
-- The first four rooms always show, **All rooms** shows the rest.
+- The zebra stripes are one gradient, sized to the fixed row height.
 
 </details>
 
@@ -283,13 +317,9 @@ The home's average and open windows, a climate table that folds out, and a card 
 | Entity | For |
 | --- | --- |
 | `sensor.climate_<room>` | Temperature, humidity, rank and comfort colour per room |
-| `sensor.climate_home` | Average and open windows |
 | `binary_sensor.<room>_window` | Window contacts |
 | `climate.<room>` | Thermostats |
-| `light.<room>` | The lit chip |
-| `input_boolean.room_climate_card`, `input_boolean.all_rooms` | The two toggles |
-
-The sensors and toggles are in the [helpers](#under-the-hood).
+| `input_boolean.room_climate_card` | Opens the table |
 
 </details>
 
@@ -441,7 +471,7 @@ Written for LinkPlay speakers with a Music Assistant twin (`media_player.<name>_
 
 <br>
 
-Most of the dashboard is Paper Buttons Row, folded into cards and layouts. The same few ideas repeat everywhere.
+Paper Buttons Row and Bubble Card get folded into cards and layouts. The same few ideas repeat everywhere.
 
 <details>
 <summary>The row is the card</summary>
@@ -611,7 +641,7 @@ Amber dark enough for a glyph on a light page turns brown, so lamps use `lamp-in
 
 <br>
 
-Paper Buttons Row has its own colour variables, `pbs-button-*`. The theme points them at the text colour, so a row starts out in ink, and colour comes from the styles you give it. The `rgb` ones need a triplet like `var(--rgb-primary-text-color)`, a hex value breaks the colour.
+Paper Buttons Row is where the name comes from: origami is folding paper. It has its own colour variables, `pbs-button-*`. The theme points them at the text colour, so a row starts out in ink, and colour comes from the styles you give it. The `rgb` ones need a triplet like `var(--rgb-primary-text-color)`, a hex value breaks the colour.
 
 </details>
 
