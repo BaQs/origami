@@ -600,22 +600,16 @@ script:
         selector:
           area:
     sequence:
-      - action: light.turn_off
-        target:
-          area_id: "{{ area }}"
-        continue_on_error: true
-      - action: fan.turn_off
-        target:
-          area_id: "{{ area }}"
-        continue_on_error: true
-      - action: media_player.turn_off
-        target:
-          area_id: "{{ area }}"
-        continue_on_error: true
-      - action: switch.turn_off
-        target:
-          area_id: "{{ area }}"
-        continue_on_error: true
+      - repeat:
+          for_each: [light, fan, media_player, switch]
+          sequence:
+            # Only domains the area has. Calling one that isn't set up would stop the script.
+            - if: "{{ expand(area_entities(area)) | selectattr('domain', 'eq', repeat.item) | list | count > 0 }}"
+              then:
+                - action: "{{ repeat.item }}.turn_off"
+                  target:
+                    area_id: "{{ area }}"
+                  continue_on_error: true
 
 automation:
   # Turns the fan off when the timer from the fan pop-up runs out

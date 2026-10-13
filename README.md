@@ -59,7 +59,7 @@ Download this repository (**Code**, **Download ZIP**) and copy into `/config`:
 | --- | --- |
 | `www/fonts` | The font |
 | `bubble_card/modules` | The Bubble modules |
-| `packages` | The helpers: template sensors, two toggles and a speaker select |
+| `packages` | The helpers: template sensors, toggles, a speaker select, a timer, scripts and an automation |
 
 </details>
 
@@ -152,7 +152,7 @@ Edit mode is then in the menu, or add `?edit=1` to the address.
 
 The dashboard is set up for my home. In the raw editor, Ctrl+F (⌘F on a Mac) finds an entity like `light.living_room`, so you can replace it with yours, also in the pop-ups at the end. Delete what you don't have, like a tile, a room or a navbar route. Each part below lists the entities it uses.
 
-Then change the same entities in `/config/packages/origami.yaml`: temperature and humidity sensors, windows, the front door, lights and speakers. The helpers it creates, like `sensor.climate_living_room`, are read by the dashboard, so rename those in both files or not at all. Restart.
+Then change the same entities in `/config/packages/origami.yaml`: temperature and humidity sensors, windows, the front door, lights, speakers, the scenes and the fan. The helpers it creates, like `sensor.climate_living_room`, are read by the dashboard, so rename those in both files or not at all. Restart.
 
 </details>
 
@@ -416,7 +416,7 @@ Three [Bubble Card](https://github.com/Clooos/Bubble-Card) pop-ups: a room, the 
 
 ### Room
 
-Every room gets the same pop-up, opened by its room card. Top to bottom: what plays in the room, the lights, the climate. The living room is the example, copy it for the other rooms.
+Each room can get the same pop-up, opened by its room card. Top to bottom: what plays in the room, the lights, the climate. The living room is the example, copy it for the other rooms.
 
 <img width="800" alt="The living room pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-room.webp">
 
@@ -430,7 +430,7 @@ Every room gets the same pop-up, opened by its room card. Top to bottom: what pl
 - **Lights.** The header counts the lights of the room's light group that are on. **All** switches the whole group, the arrow next to it shows the scenes. The scene that was turned on last lights up.
 - **Climate.** The header shows temperature and humidity, with the dot in the room's comfort colour. A tap on the fan card opens the [fan pop-up](#fan). Plus and minus move the thermostat by one degree.
 - **Everything off** turns off the lights, fans, media players and switches in the room's [area](https://www.home-assistant.io/docs/organizing/areas/).
-- When the pop-up closes, the scenes are hidden again.
+- When you close the pop-up, the scenes are hidden again.
 
 </details>
 
@@ -451,7 +451,9 @@ Every room gets the same pop-up, opened by its room card. Top to bottom: what pl
 | `fan.living_room`, `climate.living_room` | The fan and the thermostat |
 | `script.thermostat_step`, `script.room_off` | The thermostat steps and everything off |
 
-The entities are examples from my home. The scripts, toggles and `sensor.living_room_scene` are in the package, with the scene list inside the sensor. For another room, copy the pop-up, change its hash and name, and swap the entities.
+The entities are examples from my home. The scripts, the toggle and `sensor.living_room_scene` are in the package, with the scene list inside the sensor.
+
+For another room, copy the pop-up and give it the hash its room card opens, like `#popup_bedroom`. Then change the name, the entities and the `area` for **Everything off**. Its scenes need their own toggle and scene sensor, or leave them out. Another fan needs its own [fan pop-up](#fan).
 
 </details>
 
@@ -507,7 +509,7 @@ A pop-up for one fan: speed, oscillation, a mode and a timer. It opens with a ta
 - The arrows turn the fan's head with `fan.set_direction`, on fans that use it for that, like Xiaomi's. The middle button switches oscillation.
 - The slider sets any speed. The leaf and the wind pick the presets `nature` and `normal`, 1 to 3 set 33, 66 and 100 %.
 - The timer button shows the timer row: off, 1, 3 or 5 hours. When the timer runs out, an automation in the package turns the fan off.
-- What's raised or filled comes from small templates in the buttons, like the speed closest to the fan's.
+- What's raised or filled comes from small templates in the buttons, like the speed range the fan is in.
 
 </details>
 
@@ -523,7 +525,7 @@ A pop-up for one fan: speed, oscillation, a mode and a timer. It opens with a ta
 | `input_boolean.fan_popup_timer` | Shows the timer row |
 | `script.fan_oscillation` | Switches oscillation on or off |
 
-The timer, the toggle, the script and the automation are in the package. For another fan, replace `fan.living_room` in the pop-up and in the automation. If your fan's presets have other names, change `nature` and `normal`. Buttons your fan can't use, like the arrows, can go.
+The timer, the toggle, the script and the automation are in the package. To use your own fan, replace `fan.living_room` in the pop-up and in the automation. If its presets have other names, change `nature` and `normal`. Buttons your fan can't use, like the arrows, can go. A second fan needs its own copy, with its own hash, timer, toggle and automation.
 
 </details>
 

@@ -2704,7 +2704,7 @@ views:
               - origami_popup
             origami_popup:
               subtitle_style: text
-            # Folds the scenes away again for next time
+            # Hides the scenes again when you close the pop-up
             close_action:
               action: perform-action
               perform_action: input_boolean.turn_off
@@ -3174,7 +3174,6 @@ views:
             name: TV
             button_type: name
             show_icon: false
-            margin_top: 40px
             margin_top_mobile: 72px
             margin_top_desktop: 300px
             bg_opacity: 100
@@ -3971,7 +3970,6 @@ views:
                         card_type: button
                         button_type: slider
                         entity: fan.living_room
-                        margin: 0px
                         show_name: false
                         show_state: false
                         show_icon: false
@@ -4061,7 +4059,7 @@ views:
                             padding: 0px var(--ha-space-4)
                             border-radius: 0px var(--radius-inner) var(--radius-inner) 0px
                             margin-right: var(--ha-space-2)
-                      # Three speeds, the one the fan is closest to is raised
+                      # Three speeds, raised for the range the fan is in
                       - name: '1'
                         tooltip: Low
                         state: >-
