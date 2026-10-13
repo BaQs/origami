@@ -2,7 +2,7 @@
 
 One sections view, made for phones. The desktop layout is still a work in progress. Here's how each part works and which entities it reads. Every part starts with a comment in [`dashboard.yaml`](../dashboard/dashboard.yaml), like `# Favorites`, so you can find and copy it.
 
-Cards that show a state get it from a [helper](helpers.md) or a module, so they stay simple. Some ways of building a dashboard add lag on the first load, where you can watch the layout build itself, card-mod or template cards for example. Everything here avoids that, which sometimes leads to unusual solutions. More in [Patterns](patterns.md).
+Most cards are Paper Buttons Row, folded into cards and layouts, see [Patterns](patterns.md). Cards that show a state get it from a [helper](helpers.md) or a module, so they stay simple. Some ways of building a dashboard add lag on the first load, where you can watch the layout build itself, card-mod or template cards for example. Everything here avoids that, which sometimes leads to unusual solutions. More in [Patterns](patterns.md).
 
 [Greeting and menu](#greeting-and-menu) · [Weather](#weather) · [Favorites](#favorites) · [Rooms](#rooms) · [Navbar](#navbar)
 
@@ -34,7 +34,7 @@ An [Origami Weather](https://github.com/hazymorning/origami_weather) card: a cal
 
 <img width="800" alt="The weather card in daylight and at night" src="../images/weather.webp">
 
-- Each condition has its own background colour for light and dark mode, set in `background_thresholds`. Clouds, stars, birds, balloons and planes are off.
+- Each condition has its own background colour for light and dark mode, set in `background_thresholds`. The sun, moon, clouds, stars, birds, balloons and planes are off, for a calmer card.
 - Top left is the next sunset, or the next sunrise while the sun is down. They are two buttons with a visibility condition on `sun.sun`.
 - The large number is the weather entity's temperature. For an outdoor sensor of your own, give that text element an `entity` instead of the `attribute`.
 - The house is the card's demo house, 20 px from the top, right and bottom edge, like the text. The dashboard this comes from has a drawing of the actual home instead, with a lit window per room while its lights are on. The [Origami Weather readme](https://github.com/hazymorning/origami_weather#layouts) explains how to make one. A picture of your own needs its own offsets.

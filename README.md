@@ -1,13 +1,13 @@
 # ◪ Origami
 
-A chill Home Assistant theme, a set of Bubble Card modules made for it, and the dashboard built from both.
+A chill Home Assistant theme, and a dashboard folded mostly out of [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row), hence the name. Plus a set of Bubble Card modules made for the theme.
 
 <img width="760" alt="The Origami dashboard on a phone, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/dashboard.webp">
 
 | | |
 | --- | --- |
 | **Theme** | Soft, warm surfaces in light and dark, and colour only where something is on. Works with any dashboard. |
-| **Dashboard** | Weather, favorites, rooms and a navbar, made for phones. Nothing jumps while it loads. |
+| **Dashboard** | Weather, favorites, rooms and a navbar for phones, mostly Paper Buttons Row. Nothing jumps while it loads. |
 | **Bubble modules** | The theme's look for Bubble Card. Still experimental. |
 
 > [!NOTE]
@@ -65,9 +65,9 @@ Open each one, confirm with **Add** if asked, then **Download**.
 | | For | |
 | --- | --- | --- |
 | [Origami](https://github.com/hazymorning/origami) | The theme | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme) |
+| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Most of the dashboard: greeting, menu, climate table and room cards | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
 | [Bubble Card](https://github.com/Clooos/Bubble-Card) | Favorites and section headers | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card&category=plugin) |
 | [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools) | Loads the Bubble modules | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card-Tools&category=integration) |
-| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Greeting, climate table and room cards | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
 | [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) | The bar at the bottom | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=joseluis9595&repository=lovelace-navbar-card&category=plugin) |
 | [Origami Notifications](https://github.com/hazymorning/origami_notifications) | Notifications next to the greeting | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_notifications&category=plugin) |
 | [Origami Weather](https://github.com/hazymorning/origami_weather) | The weather card | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_weather&category=plugin) |
@@ -172,7 +172,7 @@ Add `https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=sw
 - [Dashboard parts](docs/dashboard.md): how each part works and which entities it reads
 - [Helpers](docs/helpers.md): the template sensors behind the cards
 - [Bubble modules](bubble_card/README.md): options and examples for all eleven modules
-- [Patterns](docs/patterns.md): the ideas that repeat through every card
+- [Patterns](docs/patterns.md): how Paper Buttons Row becomes cards and layouts, and the ideas behind it
 - [Theme](docs/theme.md): colour and tokens
 
 ## Status
@@ -181,3 +181,7 @@ Add `https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=sw
 - [x] Bubble modules, still experimental
 - [ ] Pop-ups: rooms, music, TV, favorites, lights and the rest
 - [ ] Desktop layout
+
+## License
+
+[AGPL-3.0](LICENSE). The Montserrat files in `www/fonts` keep their own [SIL Open Font License](www/fonts/OFL.txt).

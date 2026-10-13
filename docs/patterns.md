@@ -1,6 +1,6 @@
 # Patterns
 
-The same few ideas repeat through every card.
+Most of the dashboard is Paper Buttons Row, folded into cards and layouts, hence the name. The same few ideas repeat through every card.
 
 [The row is the card](#the-row-is-the-card) · [Dumb cards, smart sensors](#dumb-cards-smart-sensors) · [No layout shifts](#no-layout-shifts) · [Whole card tap targets](#whole-card-tap-targets) · [Visibility instead of logic](#visibility-instead-of-logic) · [Sorting with order](#sorting-with-order) · [Zebra stripes](#zebra-stripes) · [Morphing with scale](#morphing-with-scale)
 

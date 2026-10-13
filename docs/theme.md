@@ -10,6 +10,10 @@ Which colour a device gets is Home Assistant's own mapping, re-toned per mode. L
 
 Amber is a light colour, and dark enough for a glyph on a light page it turns brown. For that the theme has `lamp-ink` on `lamp-field`, where in light mode the light sits in the field and the glyph stays ink.
 
+## Paper Buttons Row
+
+Paper Buttons Row has its own colour variables, `pbs-button-*`. The theme points them at the text colour, so a row starts out in ink, and colour comes from the styles you give it. The `rgb` ones need a triplet like `var(--rgb-primary-text-color)`, a hex value breaks the colour.
+
 ## Tokens
 
 | Token | |
@@ -26,7 +30,7 @@ Amber is a light colour, and dark enough for a glyph on a light page it turns br
 | `tile-size`, `tile-size-lg`, `dot-size` | Icon chips, 48 and 80 px, dots 12 px |
 | `icon-size-2xs` … `icon-size-xl` | Icons, 14 to 48 px |
 | `ha-font-size-xs` … `ha-font-size-xxl` | Type, 14 to 26 px |
-| `primary-font-family` | Montserrat, weights 500 and 700 |
+| `primary-font-family` | Montserrat, weights 500 and 700, under the [SIL Open Font License](../www/fonts/OFL.txt) |
 | `duration-fast`, `duration-normal`, `duration-slow`, `ease-standard` | Motion |
 | `press-scale` | How far a button shrinks on press |
 | `blur-soft`, `blur-strong` | Header, dialogs, navbar |

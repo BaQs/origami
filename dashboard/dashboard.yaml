@@ -383,11 +383,12 @@ views:
           # Weather
           - type: custom:origami-weather
             weather_entity: weather.home
-            sun_moon_x: 33
-            sun_moon_y: 20
+            sun_enabled: false
+            moon_enabled: false
             color_mode: theme
             card_height: 160px
             card_padding: 20px
+            card_offset: 16px 0px 12px 0px
             # A calm colour per condition instead of the sky, without clouds and the other effects
             background_mode: color
             background_threshold_entity: weather.home
@@ -502,7 +503,7 @@ views:
                     width: 100%
                     elements:
                       - type: text
-                        size: 56px
+                        size: 48px
                         weight: '700'
                         color: var(--primary-text-color)
                         attribute: temperature
