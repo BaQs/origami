@@ -47,7 +47,7 @@ Give button cards `rows: 1.375` and compact cards `rows: 1`, including cards in 
 
 <br>
 
-Color mostly shows that a device is on. The Base module puts the color into the icon. The icon gets Home Assistant's state color for the entity. The area behind the icon uses the theme's `tint`, which mixes the same color into the card background. Lights are amber, heating is deep orange, media is light blue, fans are cyan and vacuums are teal. Switches and all other entities without a color of their own are green.
+Color mostly shows that a device is on. The Base module gives the icon Home Assistant's state color for the entity. The area behind the icon uses the theme's `tint`, which mixes the same color into the card background. Lights are amber, heating is deep orange, media is light blue, fans are cyan and vacuums are teal. Switches and all other entities without a color of their own are green.
 
 Base only colors entities whose domain has a state color in Home Assistant. The Tiles module colors every tile whose entity is on. The Light module also colors its slider, and the Button module's `lamp` style tints the active button.
 
@@ -116,7 +116,7 @@ The Base module is the frame for button and media player cards. It sets the heig
 
 To keep a sub-button neutral, give it `css_class: plain`. To fill it while the entity is on, even if it navigates, give it `css_class: accent`. Dropdowns, sliders and readouts always stay neutral.
 
-Base writes On, Off or Error into the state line of every entity except lights, media players, fans and thermostats, which have their own modules. For sensors, this replaces the value, and `state_content` has no effect on these entities.
+Base writes On, Off or Error into the state line of every entity except lights, media players, fans and thermostats, which have their own modules. On a sensor card, this text replaces the sensor's value. The `state_content` option has no effect on any card where Base writes the state line.
 
 ```yaml
 # Regular card
@@ -164,7 +164,7 @@ rows: 1
 
 ### Light
 
-The Light module styles light cards together with Base. The state line shows the brightness, and sliders fill with amber, the state color for lights. The small mark at the end of the fill is also amber. In dark mode, the fill stays gray, because Bubble Card draws light text on it, and an amber that is dark enough for light text looks brown.
+The Light module styles light cards together with Base. The state line shows the brightness, and sliders fill with amber, the state color for lights. The small mark at the end of the fill is also amber. In dark mode, the fill stays gray. Bubble Card draws light text on the fill, and an amber that is dark enough for light text looks brown.
 
 <img width="800" alt="A light group card with filled buttons and two compact lamps" src="../images/module-light.webp">
 
@@ -320,7 +320,7 @@ The Media options go under `origami_media:`.
 | Option | Description |
 | --- | --- |
 | `compact` | A slim row. On media cards, use this option instead of Base's `compact` option. |
-| `collapse` | Hides the slider at the bottom while the speaker is not playing. In TV mode, the slider is hidden while the TV is off. |
+| `collapse` | The slider at the bottom is hidden while the speaker is not playing. In TV mode, it is hidden while the TV is off. |
 | `art_entity` | A media player that adds the title, the app and a picture while it is playing, such as a Chromecast |
 | `app_entity` | A media player that reports the running app, such as Android TV Remote. The card also uses this entity when its own entity is unavailable. |
 
@@ -375,7 +375,7 @@ origami_media:
   app_entity: media_player.tv_remote
 ```
 
-The module was written for LinkPlay speakers. In speaker mode, the cover comes from the LinkPlay sensor `sensor.linkplay_<name>`, and group members show their group leader's state. The leader's name comes from `sensor.linkplay_master`. The icon is hidden while `media_player.<name>_dlna` is playing something with a picture. Other speakers show their icon. The code shortens a few speaker names in a list called `names`. Replace these names with your own.
+The module was written for LinkPlay speakers. In speaker mode, the cover comes from the LinkPlay sensor `sensor.linkplay_<name>`, and group members show their group leader's state. The leader's name comes from `sensor.linkplay_master`. The icon is hidden while `media_player.<name>_dlna` is playing something with a picture. At all other times, the icon is visible. The code shortens a few speaker names in a list called `names`. Replace these names with your own.
 
 </details>
 
@@ -417,7 +417,7 @@ sub_button:
 rows: 1
 ```
 
-The sub-button with `css_class: readout` shows the volume as a percentage. To ignore wrong covers, list parts of their URLs.
+The sub-button with `css_class: readout` shows the volume as a percentage. To ignore incorrect cover images, list parts of their URLs in `ignore_art`.
 
 ```yaml
 origami_speaker:

@@ -3,7 +3,7 @@ origami_speaker:
   version: "4.1.4"
   supported:
     - media-player
-  description: "The Speaker Select module creates the speaker rows for a music pop-up and works with Base. The Media module is not needed. The speaker's name is always visible, followed by what it is playing. Album art fills the icon and appears blurred behind the row. A crown marks the group leader, and a link marks its members. When input_select.lautsprecher_wahlen selects a speaker, that speaker's row has a stronger fill. If the volume sub-button has css_class set to readout, the module writes the volume into it as a percentage. In a sections view, set rows to 1. The example in bubble_card/README.md shows the other card options."
+  description: "The Speaker Select module creates the speaker rows for a music pop-up and works with Base. The Media module is not needed. The speaker's name is always visible, followed by what it is playing. Album art fills the icon and appears blurred behind the row. A crown marks the group leader, and a link marks its members. When a speaker is selected in input_select.lautsprecher_wahlen, its row has a stronger fill. If the volume sub-button has css_class set to readout, the module writes the volume into it as a percentage. In a sections view, set rows to 1. The example in bubble_card/README.md shows the other card options."
   code: |
     ${(() => {
       const s = hass.states;

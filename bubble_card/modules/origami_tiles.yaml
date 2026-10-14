@@ -3,7 +3,7 @@ origami_tiles:
   version: "1.0.1"
   supported:
     - sub-buttons
-  description: "The Tiles module turns a sub-buttons card into a grid of tiles with an icon, a name and a state line. Set up each tile under the origami_tiles key of its sub-button, with name, state, color, order, image and name_color. Each of these accepts a value, a map from the entity's state to a value, or JavaScript in ${ }. Bubble Card's visibility conditions decide when a tile appears."
+  description: "The Tiles module turns a sub-buttons card into a grid of tiles with an icon, a name and a state line. Set up each tile under its sub-button's origami_tiles key, which takes name, state, color, order, image and name_color. Each of these accepts a value, a map from the entity's state to a value, or JavaScript in ${ }. Bubble Card's visibility conditions decide when a tile appears."
   editor:
     - name: columns
       label: "Columns"

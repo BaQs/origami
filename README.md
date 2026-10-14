@@ -175,7 +175,7 @@ The greeting changes with the time of day, and the next calendar event appears a
 
 <br>
 
-- The greeting and the event line above it are one Paper Buttons Row. The event line shows the current or next event from `calendar.household`. The text comes from the calendar's `message` attribute. To use another entity, change the entity and remove `attribute: message`. You can also delete the event line and keep only the greeting.
+- The greeting and the event line above it form a single Paper Buttons Row. The event line shows the current or next event from `calendar.household`, and its text comes from the calendar's `message` attribute. To use another entity, change the entity and remove `attribute: message`. You can also delete the event line and keep only the greeting.
 - [Origami Notifications](https://github.com/hazymorning/origami_notifications) shows Home Assistant's notifications, repairs and updates without any configuration. Each entity that you add to the card appears only when it is relevant, for example a timer while it runs. In this example, the card watches weather warnings, a calendar, a pizza timer, the oven, the vacuum and the dinner sensor.
 - `hide_when_empty` is set to `false`, so the card also shows the weather and upcoming events after its entries. When there are no entries, the card shows only the weather and the events. With the default value `true`, the card is hidden when there is nothing to show.
 - When the card has several entries, it switches to the next one every 3 seconds. Tap the card to open the full list.
@@ -200,7 +200,7 @@ All of these entities are optional.
 
 ### Menu
 
-The menu requires the optional [Origami Header](#setup). Origami Header removes the Home Assistant header, and **More** in the navigation bar opens this menu from the top of the screen.
+The menu requires the optional [Origami Header](#setup), which removes the Home Assistant header. **More** in the navigation bar opens the menu from the top of the screen.
 
 <img width="800" alt="The menu opened from More in the navigation bar, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/menu.webp">
 
@@ -247,7 +247,7 @@ The weather card is an [Origami Weather](https://github.com/hazymorning/origami_
 
 - `background_mode` is set to `color`, and `background_thresholds` sets a color for each condition in light and dark mode.
 - The sun, moon, clouds, stars, birds, balloons and planes are turned off. Rain, snow, hail and thunderstorms still appear, because `precipitation_effects` is on by default.
-- The house is the card's demo house. Its README explains how to create [your own home](https://github.com/hazymorning/origami_weather#layouts) in the same style.
+- The house is the card's demo house. The Origami Weather README explains how to create a picture of [your own home](https://github.com/hazymorning/origami_weather#layouts) in the same style.
 - The top-left corner shows the next sunset, or the next sunrise while the sun is down. The bottom-left corner shows the temperature and condition from the weather entity. To use your own temperature sensor, set it as the `entity` of the button that shows the temperature, and delete `attribute: temperature`.
 
 </details>
@@ -276,7 +276,7 @@ The favorites are tiles for devices and tasks that are relevant at the moment. M
 <br>
 
 - All tiles are sub-buttons of one Bubble card. A tile with visibility conditions appears only while its conditions are met. A hidden tile leaves no gap.
-- In this example, the oven tile appears while `sensor.oven` is not `Off` and is always first. The fan tile appears while the fan runs or when the living room or bedroom is warmer than 24°. Music appears from 22:00 to 4:00, dinner from 14:00 to 21:00 with a photo of the recipe, and the bath from 11:00 to 23:00 and whenever it runs.
+- In this example, the oven tile is always first and appears while `sensor.oven` is not `Off`. The fan tile appears while the fan runs or when the living room or bedroom is warmer than 24°. Music appears from 22:00 to 4:00, dinner from 14:00 to 21:00 with a photo of the recipe, and the bath from 11:00 to 23:00 and whenever it runs.
 - The vacuum and printer tiles are always visible. While the vacuum is cleaning, its tile shows the progress and moves to the front. The bath and printer tiles show the remaining minutes while they run.
 - Tap the fan, bath or printer tile to turn it on or off. The music, oven and vacuum tiles open pop-ups, and the dinner tile opens Tandoor. Hold a tile to open the details for its entity.
 - To add a tile, copy an existing tile and change its entity and visibility conditions.
@@ -412,7 +412,7 @@ Except for the helpers, all of these entities are examples. Delete the buttons a
 
 ## Pop-ups
 
-The dashboard contains three [Bubble Card](https://github.com/Clooos/Bubble-Card) pop-ups for a room, the TV and the fan. They are at the end of [`dashboard.yaml`](dashboard/dashboard.yaml), under `# Pop-ups`. A pop-up opens when a button navigates to its hash, such as `#popup_tv`. To close a pop-up, tap the cross or swipe down. The scripts and helpers that the pop-ups use are in the [package](packages/origami.yaml).
+The dashboard contains three [Bubble Card](https://github.com/Clooos/Bubble-Card) pop-ups for a room, the TV and the fan. They are at the end of [`dashboard.yaml`](dashboard/dashboard.yaml), under `# Pop-ups`. A pop-up opens when a button navigates to its hash, such as `#popup_tv`. To close a pop-up, tap the close button or swipe down. The scripts and helpers that the pop-ups use are in the [package](packages/origami.yaml).
 
 ### Room
 
@@ -506,7 +506,7 @@ The fan pop-up controls one fan. It sets the speed, the mode and a timer, and tu
 
 <br>
 
-- The title shows the fan's name. The power button and the fan button turn the fan on and off. The fan icon spins while the fan is running.
+- The title shows the fan's name. Both the power button and the fan button turn the fan on and off, and the fan icon spins while the fan is running.
 - The arrow buttons turn the fan's head with `fan.set_direction`. This works with fans that use the direction setting to turn the head, such as Xiaomi fans. The middle button turns oscillation on or off.
 - The slider can set any speed. The leaf button selects the `nature` preset, and the wind button selects `normal`. Buttons 1, 2 and 3 set the speed to 33, 66 and 100%.
 - The timer button shows the timer row, which has the options Off, 1 hour, 3 hours and 5 hours. When the timer ends, an automation in the package turns the fan off.
@@ -611,12 +611,12 @@ template:
 | Attribute | Content |
 | --- | --- |
 | `chip` | `playing_art`, `playing_plain`, `paused_art`, `paused_plain`, `tv_art`, `tv_plain` or `off`. `_art` means that a cover from Music Assistant is available. |
-| `title` | `Title \| Artist` while music is playing. Otherwise, a short label such as `Bluetooth`, `TV`, `Paused` or `Nothing playing`. The title is never empty. |
+| `title` | While music is playing, the title is `Title \| Artist`. Otherwise, it is a short label such as `Bluetooth`, `TV`, `Paused` or `Nothing playing`, so it is never empty. |
 | `speaker` | The speaker's short name, with a count while it is grouped, such as `Living +1` |
 | `group` | `yes` or `no` |
 | `artwork` | The cover or the TV picture, or `none` |
 
-The example uses LinkPlay speakers. Each speaker also has a player in Music Assistant, such as `media_player.<name>_mass`. This player provides the title and cover while the speaker is playing from Music Assistant. Music Assistant also reports `playing` while the speaker plays from Bluetooth or from one of its own streaming sources, so the sensor ignores the Music Assistant player in these cases. Without a Music Assistant player, the sensor uses the speaker's own title and cover, and `chip` never uses an `_art` value.
+The example uses LinkPlay speakers. Each speaker also has a player in Music Assistant, such as `media_player.<name>_mass`. This player provides the title and cover while the speaker is playing from Music Assistant. The Music Assistant player also reports `playing` while the speaker plays over Bluetooth or from one of its own streaming sources, so the sensor ignores the player in these cases. Without a Music Assistant player, the sensor uses the speaker's own title and cover, and `chip` never uses an `_art` value.
 
 The sensor finds the TV input and Bluetooth by name in the speaker's `source`. It treats optical, coaxial, HDMI and line inputs as TV inputs. Other brands may use different names. `sensor.tv_source` is optional. Its `display` and `artwork` attributes provide the name and picture of what is playing on the TV input.
 
@@ -675,7 +675,7 @@ Where possible, a sensor turns numbers into a single word, and the card changes 
 - Cards have fixed heights, so long text never moves other elements.
 - State changes affect colors, but never sizes.
 - The room helpers return `?` instead of an empty value.
-- Elements that appear and disappear either take no space while they are hidden, or they keep their space and scale in and out.
+- Elements that appear and disappear either take no space while they are hidden or keep their space and scale in and out.
 - Templates run in the browser where possible. The `${ }` templates in the Header and Tiles modules and the `[[[ ]]]` templates in Navbar Card render in the first frame. Jinja templates have to wait for the server.
 - The font loads from Home Assistant itself. A font that loads late makes all text redraw.
 - The dashboard uses grid cards instead of stack cards where it needs a wrapper.
@@ -744,7 +744,7 @@ origami_tiles:
 
 <br>
 
-The climate table uses one repeating gradient as its background. The gradient is as tall as two table rows. The 6 in `repeat(6, …)` is the number of rooms.
+The climate table's background is a single repeating gradient, which is as tall as two table rows. In `repeat(6, …)`, the 6 is the number of rooms.
 
 ```yaml
 styles:
@@ -781,7 +781,7 @@ The group badge on the cover scales with this variable.
 
 ## Theme
 
-The theme is a set of tokens. Home Assistant reads these tokens, and so do the cards and modules. To change the style, edit some of the tokens in [`origami.yaml`](themes/origami.yaml). A HACS update replaces this file, so keep your changes in a copy of the theme with a different name.
+The theme is a set of tokens. Home Assistant reads these tokens, and so do the cards and modules. To change the style, copy [`origami.yaml`](themes/origami.yaml) to a new file in `/config/themes`, such as `my-origami.yaml`. Give the theme in the copy a new name by changing `Origami:` at the top, and then edit its tokens. Do not edit the original file, because a HACS update replaces it.
 
 <details>
 <summary>Color</summary>
@@ -913,7 +913,7 @@ Instead of copying the font files, you can add `https://fonts.googleapis.com/css
 - [x] Theme, dashboard and helpers
 - [x] Bubble Card modules, which are still experimental
 - [x] Pop-ups for a room, the TV and the fan
-- [ ] More pop-ups, such as music, lights, favorites and the server
+- [ ] More pop-ups, such as those for music, lights, favorites and the server
 - [ ] Desktop layout
 
 ## License
