@@ -1,9 +1,9 @@
 origami_light:
   name: "Origami • Light"
-  version: "5.1.2"
+  version: "5.1.3"
   supported:
     - button
-  description: "Lights: Base + Toggle + Light. Compact now lives in Base. Set rows: 1.375 on big lights, rows: 1 on compact ones, on every instance including pop-ups. Colour comes from Base (Home Assistant's state colour); this module adds the slider fill in that colour, the value position and the state line. In dark mode the fill stays neutral and the colour sits in the slider mark, because Bubble keeps light text on the fill and any warm colour dark enough for light text turns brown."
+  description: "The Light module styles light cards together with Base. Set rows to 1.375 on regular cards and to 1 on compact cards, including cards in pop-ups. Base sets the color. This module colors the slider, places the brightness value and sets the state line's text. In dark mode, the fill stays neutral and only the slider mark is colored, because Bubble Card keeps light text on the fill."
   code: |
     ha-card {
       --org-slider-fill: ${hass.themes?.darkMode ? "color-mix(in srgb, var(--org-color) var(--tint-strength), color-mix(in srgb, var(--fill-base) 38%, var(--ha-card-background)))" : "color-mix(in srgb, var(--org-color) var(--fill-strength), var(--ha-card-background))"};

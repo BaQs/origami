@@ -2,29 +2,29 @@
 
 ## 2.0 · The Unfolding
 
-<img alt="The Origami dashboard on two phones, one in light and one in dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
+<img alt="The Origami dashboard on two phones, one in light mode and one in dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
 
-1.0 was the theme and one very long README. 2.0 unfolds it into files you can use: the dashboard and its first pop-ups, the helpers, the font and Bubble Card modules, with a new README that walks through every part.
+Version 1.0 contained the theme and one long README. Version 2.0 adds the dashboard with its first pop-ups, the helpers, the font and the Bubble Card modules, all as separate files. A new README explains every part.
 
 ### New
 
-- **Dashboard.** The phone dashboard in one file, [`dashboard/dashboard.yaml`](dashboard/dashboard.yaml): greeting and notifications, weather, favorites, rooms, a climate table and a navbar.
-- **Helpers.** The template sensors and scripts behind it as a package, [`packages/origami.yaml`](packages/origami.yaml): room climate, averages, counters, the greeting, the active speaker and the pop-ups.
-- **Pop-ups.** A room, a TV remote and a fan pop-up, with the scripts and helpers behind them.
-- **Bubble Card modules.** Eleven modules that give Bubble Card the Origami look. Still experimental.
-- **Montserrat included.** The font ships in `www/fonts` and loads from your Home Assistant instead of Google's servers.
-- **New README.** Setup step by step, a screenshot of every part, and what each part uses.
+- The phone dashboard is now one file, [`dashboard/dashboard.yaml`](dashboard/dashboard.yaml). It contains the greeting, notifications, weather, favorites, rooms, climate table and navigation bar.
+- The helpers are now a package, [`packages/origami.yaml`](packages/origami.yaml). It contains the template sensors and scripts for room climate, averages, counters, the greeting, the active speaker and the pop-ups.
+- The dashboard has pop-ups for a room, the TV and a fan, together with the scripts and helpers they use.
+- Eleven modules give Bubble cards the Origami look. They are still experimental.
+- The Montserrat font is included in `www/fonts`. It loads from your Home Assistant instead of from Google's servers.
+- The new README explains the setup step by step. It has a screenshot of every part and lists the entities that each part uses.
 
 ### Theme
 
-- New token set. Spacing and text sizes use Home Assistant's own names, like `ha-space-*` and `ha-font-size-*`.
-- Home Assistant's named colours, re-toned for light and dark. Colour sits in the icon, on a tint of the same colour.
-- Switches and anything else that is simply on are green instead of amber. Open windows are cyan.
-- Shadows and fills per mode, mixed from a warm base.
+- The theme has a new set of tokens. Spacing and text sizes use the same names as Home Assistant, such as `ha-space-*` and `ha-font-size-*`.
+- Home Assistant's named colors have new tones for light and dark mode. The icon shows the color, and the background behind it is a faint tint of the same color.
+- Switches and other entities without a color of their own are now green instead of amber when they are on. Open windows are cyan.
+- Shadows and fills are defined for each mode and mixed from a warm base color.
 
 ### Breaking changes
 
-Some 1.0 tokens are gone. If your own cards use them, switch to these:
+Some tokens from version 1.0 no longer exist. If your own cards use them, replace them with the tokens in this table.
 
 | 1.0 | 2.0 |
 | --- | --- |
@@ -36,11 +36,11 @@ Some 1.0 tokens are gone. If your own cards use them, switch to these:
 | `font-size-title`, `font-size-display` | `ha-font-size-xl`, `ha-font-size-3xl` |
 | `text-color`, `card-background` | `primary-text-color`, `ha-card-background` |
 | `fill-accent-quiet` | `accent-color-background` |
-| `shadow-color` | `shadow-tint`, as an RGB triplet like `60, 50, 40` |
-| `rise-offset` | removed |
+| `shadow-color` | `shadow-tint`, as an RGB triplet such as `60, 50, 40` |
+| `rise-offset` | No replacement |
 
 ### Upgrading
 
-1. Update Origami in HACS and reload themes.
-2. For the font, copy `www/fonts` to `/config/www/fonts` and add `/local/fonts/montserrat.css` as a **Stylesheet** resource.
-3. For the dashboard, follow [Setup](README.md#setup).
+1. Update Origami in HACS and reload the themes.
+2. To use the font, copy `www/fonts` to `/config/www/fonts` and add `/local/fonts/montserrat.css` as a **Stylesheet** resource.
+3. To use the dashboard, follow the steps under [Setup](README.md#setup).

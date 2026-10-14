@@ -1,4 +1,4 @@
-# Origami theme. Tokens first, then Home Assistant surfaces, then third party plumbing.
+# Origami theme. The file starts with the tokens, then sets the Home Assistant surfaces, then other cards' variables.
 
 Origami:
 
@@ -25,13 +25,13 @@ Origami:
   separator: 'var(--border-width) solid var(--fill-strong)'
 
   # Elevation
-  # Flat is for cards inside popups: shadow without the lift.
+  # The flat version is for cards inside pop-ups. It has a shadow but no lift.
   card-elevation: 'var(--card-shadow), var(--card-ring)'
   card-elevation-flat: 'var(--card-shadow-flat), var(--card-ring)'
 
   # Chrome and fills
-  # Fills mix from fill-base, not from text color, so they stay warm.
-  # Strength comes from fill-contrast per mode: a light tint on near-black reads louder than a dark tint on white.
+  # Fills are mixed from fill-base instead of the text color, so they stay warm.
+  # fill-contrast sets their strength for each mode, because a light fill on a dark background looks stronger than a dark fill on white.
   toggle-on: 'color-mix(in srgb, var(--primary-text-color) 85%, var(--ha-card-background))'
   fill-subtle: 'color-mix(in srgb, var(--fill-base) var(--fill-contrast), transparent)'
   fill-strong: 'color-mix(in srgb, var(--fill-base) 12%, transparent)'
@@ -40,7 +40,7 @@ Origami:
   accent-color-background: 'var(--ok-tint)'
   glow-accent: 'color-mix(in srgb, var(--toggle-on) 30%, transparent)'
 
-  # Quiet tile: the calm counterpart to a card. The tile is a flat fill; its icon chip is the raised paper.
+  # A tile is a flat surface without a shadow. Its icon background uses the card background and a shadow.
   tile-background: 'var(--fill-subtle)'
   tile-chip-background: 'var(--ha-card-background)'
   tile-chip-shadow: 'var(--ha-card-box-shadow)'
@@ -170,13 +170,13 @@ Origami:
   sidebar-selected-icon-color: 'var(--accent-color)'
 
   # States
-  # Which colour a device takes is Home Assistant's own mapping: state-light-active-color is amber,
-  # state-climate-heat-color is deep-orange, state-media_player-active-color is light-blue, and so on.
-  # The named colours are set per mode below. Only deliberate exceptions are listed here;
-  # to recolour a domain, add its state-<domain>-active-color line, or state-<domain>-<state>-color
-  # where a domain has a colour per state, like climate.
-  # Honey (amber) belongs to lamps only. Home Assistant also hands it to switches, binary sensors and
-  # anything that is simply "on" (input_boolean, automation, script, ...), so those get green here.
+  # Home Assistant decides which color a device gets. For example, state-light-active-color is amber,
+  # state-climate-heat-color is deep orange and state-media_player-active-color is light blue.
+  # The named colors are set for each mode below. This list only contains the exceptions.
+  # To change a domain's color, add its state-<domain>-active-color line. For domains with a color
+  # for each state, such as climate, add state-<domain>-<state>-color instead.
+  # Amber is only for lights. Home Assistant also uses it for switches, binary sensors and other
+  # entities that only turn on and off, such as input_boolean, automation and script. The theme makes those green.
   state-icon-color: 'var(--primary-text-color)'
   state-light-active-color: 'var(--amber-color)'
   state-active-color: 'var(--green-color)'
@@ -190,16 +190,16 @@ Origami:
   history-unavailable-color: 'transparent'
   history-unknown-color: 'var(--dark-grey-color)'
 
-  # Semantic colour
-  # Colour means "on", and it sits in the glyph. A colour is one value per mode, held in Home Assistant's
-  # own names (the named colours in the modes below). Everything else is derived from it:
-  #   the field behind a coloured glyph is tint: whatever colour the glyph has, thinned to tint-strength
-  #   (set color to the state colour and background-color to var(--tint) on the same element),
-  #   badges and slider fills are the colour thinned to fill-strength, with on-fill on top.
-  # Lamps are the one exception. Amber is a light colour, so on a light page it turns brown as soon as it is
-  # dark enough to read as a glyph. In light mode the light moves into the chip instead: lamp chips are
-  # lamp-ink on lamp-field, set per mode below (in dark mode they resolve to the usual glyph on tint).
-  # Text on solid amber is on-amber, dark in both modes.
+  # Semantic color
+  # Color shows that something is on, and the icon carries it. Each color has one value for each mode,
+  # stored in Home Assistant's named colors in the modes below. The other colors come from it.
+  # The background behind a colored icon is tint, which mixes the icon's color with the card
+  # background at tint-strength. Set color to the state color and background-color to var(--tint) on
+  # the same element. Badges and slider fills mix the color at fill-strength, with on-fill as the text color.
+  # Lights are the exception. Amber is a light color, and on a light background it looks brown once it is
+  # dark enough for an icon. In light mode, the color therefore moves into the icon's background,
+  # which uses lamp-ink on lamp-field. Both are set for each mode below. In dark mode, they use the usual tint.
+  # Text on solid amber uses on-amber, which is dark in both modes.
   success-color: 'var(--green-color)'
   warning-color: 'var(--orange-color)'
   error-color: 'var(--red-color)'
@@ -207,7 +207,7 @@ Origami:
   on-amber: '#2F2D2A'
   tint: 'color-mix(in srgb, currentColor var(--tint-strength), var(--ha-card-background))'
 
-  # Old names, kept so nothing breaks until every card reads HA's state colours. They go in the last step.
+  # These are old names. They stay until every card reads Home Assistant's state colors, and they will be removed later.
   lamp-color: 'var(--state-light-active-color)'
   heat-color: 'var(--state-climate-heat-color)'
   water-color: 'var(--state-climate-cool-color)'
@@ -298,7 +298,7 @@ Origami:
   mdc-dialog-scroll-divider-color: 'var(--divider-color)'
 
   # Paper Buttons Row
-  # The rgb ones need a triplet, a hex kills the color.
+  # The rgb variables need a triplet. A hex value breaks the color.
   pbs-button-color: 'var(--primary-text-color)'
   pbs-button-rgb-color: 'var(--rgb-primary-text-color)'
   pbs-button-rgb-state-color: 'var(--rgb-primary-text-color)'
@@ -306,7 +306,7 @@ Origami:
   rgb-state-default-color: 'var(--rgb-primary-text-color)'
 
   # Bubble Card
-  # Ignores the ha-card vars and paints itself, so every surface gets its own.
+  # Bubble Card ignores the ha-card variables and draws its own surfaces, so each surface is set here.
   bubble-main-background-color: 'var(--ha-card-background)'
   bubble-secondary-background-color: 'var(--card-item-background)'
   bubble-icon-background-color: 'var(--card-item-background)'
@@ -346,9 +346,10 @@ Origami:
       dark-primary-color: '#4A5B63'
       light-primary-color: '#BCC6CA'
 
-      # Colours. Home Assistant's own named colours, re-toned; its state colours point at these.
-      # In use: amber = lights; green = switches, anything plainly on, ok; deep-orange = heating;
-      # blue = cooling, humidity; light-blue = media; cyan = fans, open windows; teal = vacuum; orange = warning; red = error.
+      # These are Home Assistant's named colors with adjusted tones. The state colors point to them.
+      # Amber is for lights, green for switches, other entities that are on and ok states, deep orange for heating,
+      # blue for cooling and humidity, light blue for media, cyan for fans and open windows, teal for vacuums,
+      # orange for warnings and red for errors.
       amber-color: '#E6C68A'
       orange-color: '#B27C43'
       deep-orange-color: '#AE6E55'
@@ -375,11 +376,11 @@ Origami:
       wash-strength: '55%'
       weather-wash: '45%'
 
-      # Lamps: the light sits in the chip, the glyph is ink.
+      # Lights in light mode. The color is in the icon background, and the icon uses the text color.
       lamp-field: '#F7E8CA'
       lamp-ink: 'var(--primary-text-color)'
 
-      # Shadows: contact plus key, blur about triple the offset, nothing bleeds upward.
+      # Each shadow combines a small contact shadow with a softer main shadow. The blur is about three times the offset, and no shadow reaches upward.
       shadow-tint: '60, 50, 40'
       shadow-contact: '0 1px 2px rgba(var(--shadow-tint), 0.04)'
       card-shadow: 'var(--shadow-contact), 0 4px 12px -4px rgba(var(--shadow-tint), 0.07)'
@@ -431,7 +432,7 @@ Origami:
       # Surfaces
       background-color: '#181715'
       dashboard-background: '#181715'
-      # Card sits two fill steps above the bg, so buttons on the bg never catch up with cards.
+      # Cards are two steps lighter than the background, so buttons on the background never look like cards.
       ha-card-background: '#2F2D2A'
       popup-background: '#181715'
 
@@ -449,9 +450,10 @@ Origami:
       dark-primary-color: '#3D5C4C'
       light-primary-color: 'var(--ha-card-background)'
 
-      # Colours. Home Assistant's own named colours, re-toned; its state colours point at these.
-      # In use: amber = lights; green = switches, anything plainly on, ok; deep-orange = heating;
-      # blue = cooling, humidity; light-blue = media; cyan = fans, open windows; teal = vacuum; orange = warning; red = error.
+      # These are Home Assistant's named colors with adjusted tones. The state colors point to them.
+      # Amber is for lights, green for switches, other entities that are on and ok states, deep orange for heating,
+      # blue for cooling and humidity, light blue for media, cyan for fans and open windows, teal for vacuums,
+      # orange for warnings and red for errors.
       amber-color: '#E6C68A'
       orange-color: '#EABA89'
       deep-orange-color: '#E2A58E'
@@ -478,11 +480,11 @@ Origami:
       wash-strength: '35%'
       weather-wash: '15%'
 
-      # Lamps: the light sits in the glyph, the chip is the usual tint.
+      # Lights in dark mode. The icon has the color, and its background is the usual tint.
       lamp-field: 'color-mix(in srgb, var(--state-light-active-color) var(--tint-strength), var(--ha-card-background))'
       lamp-ink: 'var(--state-light-active-color)'
 
-      # Shadows: elevation here is mostly tone, the shadow just backs it up.
+      # Shadows. In dark mode, a card's lighter tone shows its height, and the shadow only supports it.
       shadow-tint: '0, 0, 0'
       shadow-hairline: 'inset 0 1px 0 rgba(255, 255, 255, 0.03)'
       shadow-contact: '0 1px 2px rgba(var(--shadow-tint), 0.35)'

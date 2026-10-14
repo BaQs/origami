@@ -1,9 +1,9 @@
 origami_header:
   name: "Origami • Header"
-  version: "1.4.0"
+  version: "1.4.1"
   supported:
     - separator
-  description: "Section header row, a drop-in replacement for the paper-buttons-row headers. Separator card: name is the title, sub-buttons are the values on the right (name with show_name, or state_content). Set grid_options rows: auto. Value style Chips turns the values into pills; a sub-button with show_background false stays plain. Per sub-button, an origami_header key sets name, icon, color and background, each a value, a map from the entity's state to a value, or ${ } JavaScript evaluated in the browser with state, attr, entity, states(id), minutesUntil(id) and hass in scope; when one ${ } comes out empty the value counts as unset. color colors the value, background replaces the chip background, var(--tint) tints it in the value color. Value weight picks bold, medium or regular. Icon color takes a color or a template, icon size defaults to the dot size and applies to plain values, chips use the small icon size. Value max width (e.g. 50%) caps the values and cuts them with an ellipsis; give that sub-button scrolling_effect: false. Bubble Card gives the separator title no tap action, only the sub-buttons take one. Spacing is 24 px above and 8 px below the row and assumes the 8 px card gap of sections; give pop-ups the same gap (bubble-pop-up-gap) so every header gets 32 px above and 16 px below."
+  description: "The Header module creates a section header on a separator card. The card's name is the title, and the sub-buttons are the values on the right. Setting Value style to Chips turns the values into pills. A sub-button with show_background turned off stays plain. Each sub-button can have an origami_header key with name, icon, color and background. These keys accept a value, a map from the entity's state to a value, or JavaScript in ${ }. The header leaves 24 px of space above it and 8 px below it, and it sets its own height."
   editor:
     - name: value_style
       label: "Value style"
@@ -39,11 +39,19 @@ origami_header:
         text: {}
       default: "var(--dot-size, 12px)"
     - name: value_max_width
-      label: "Value max width (e.g. 50%)"
+      label: "Value max width (for example 50%)"
       selector:
         text: {}
   code: |
     ${(() => {
+      // A header is taller than the separator's default 0.8 grid rows, so it asks for auto height unless rows are set
+      const setRows = this.config.grid_options?.rows ?? this.config.rows;
+      if (setRows === undefined && !this._orgHAutoRows && typeof this.getGridOptions === "function") {
+        const base = this.getGridOptions.bind(this);
+        this.getGridOptions = () => ({ ...base(), rows: "auto", min_rows: undefined, max_rows: undefined });
+        this._orgHAutoRows = true;
+        requestAnimationFrame(() => this.dispatchEvent(new CustomEvent("card-updated", { bubbles: true, composed: true })));
+      }
       const cfg = this.config.origami_header ?? {};
       const raw = cfg.icon_color ? (typeof renderTemplate === "function" ? renderTemplate(cfg.icon_color) : cfg.icon_color) : "";
       const size = String(cfg.icon_size ?? "").trim();

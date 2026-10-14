@@ -1,9 +1,9 @@
 origami_tiles:
   name: "Origami • Tiles"
-  version: "1.0.0"
+  version: "1.0.1"
   supported:
     - sub-buttons
-  description: "Turns a sub-buttons card into a grid of quiet tiles: icon chip, name and a state line. Everything about a tile is set on the sub-button itself, under origami_tiles: name, state, color, order, image and name_color. Each takes a value, or a map from the entity's state to a value, where states not listed keep the default. Values may contain ${ } JavaScript, evaluated in the browser with state, attr, entity, states(id), minutesUntil(id) and hass in scope; when one ${ } comes out empty, the whole value counts as unset. Jinja works as well but waits for the server. Defaults: the sub-button name, Home Assistant's formatted state, and while Bubble sees the entity as on, Home Assistant's own state color. Who sees a tile and when stays in Bubble's visibility conditions on the sub-button."
+  description: "The Tiles module turns a sub-buttons card into a grid of tiles with an icon, a name and a state line. Set up each tile under its sub-button's origami_tiles key, which takes name, state, color, order, image and name_color. Each of these accepts a value, a map from the entity's state to a value, or JavaScript in ${ }. Bubble Card's visibility conditions decide when a tile appears."
   editor:
     - name: columns
       label: "Columns"

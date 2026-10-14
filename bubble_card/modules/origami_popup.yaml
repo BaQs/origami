@@ -1,9 +1,9 @@
 origami_popup:
   name: Origami • Popup
-  version: 3.3.1
+  version: "3.3.2"
   supported:
     - pop-up
-  description: Pop-up header, backdrop and close button. Header sub-buttons sit under the title, as text or chips.
+  description: "The Popup module styles a pop-up's header, backdrop and close button. The pop-up's sub-buttons appear below the title, as text or as chips."
   code: |-
     .bubble-pop-up {
       gap: 0px !important;
@@ -160,7 +160,7 @@ origami_popup:
     }
   editor:
     - name: subtitle_style
-      label: Sub-buttons
+      label: "Sub-button style"
       selector:
         select:
           mode: dropdown

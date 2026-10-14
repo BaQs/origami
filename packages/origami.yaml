@@ -1,5 +1,5 @@
-# Origami helpers as a package. Copy this file to /config/packages/ and rename the entities to yours.
-# Packages need this once in configuration.yaml:
+# The Origami helpers as a package. Copy this file to /config/packages/ and replace the example entities with your own.
+# Packages need these lines in configuration.yaml.
 #
 # homeassistant:
 #   packages: !include_dir_named packages
@@ -31,7 +31,7 @@ input_select:
       - media_player.bedroom
       - media_player.office
 
-# The fan pop-up's timer. An automation below turns the fan off when it runs out.
+# The fan pop-up uses this timer. An automation below turns the fan off when the timer ends.
 timer:
   living_room_fan:
     name: Living room fan timer
@@ -40,7 +40,7 @@ timer:
 
 template:
   - sensor:
-      # Room climate, one per room. Copy the block and swap the source sensors.
+      # Room climate, one sensor for each room. Copy the block and replace the source sensors.
       - name: Climate | Living room
         unique_id: climate_living_room
         icon: mdi:thermometer
@@ -62,7 +62,7 @@ template:
             {{ 'most_humid' if is_state('sensor.climate_humidity_peaks', 'living_room')
                else 'driest' if is_state_attr('sensor.climate_humidity_peaks', 'lowest', 'living_room')
                else 'normal' }}
-          # Comfort colour, a muted scale from blue at 12° to red above 32°
+          # Comfort color on a soft scale from blue at 12° to red above 32°
           color_code: >
             {% set t = states('sensor.living_room_temperature') | float(20) %}
             {% set scale = [(12, '114, 143, 168'), (15, '124, 151, 169'), (17, '139, 162, 168'),
@@ -222,7 +222,7 @@ template:
                (32, '170, 106, 90'), (99, '156, 96, 86')] %}
             rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 
-      # Warmest and coldest, most humid and driest room
+      # The warmest, coldest, most humid and driest room
       - name: Climate | Temperature peaks
         unique_id: climate_temperature_peaks
         icon: mdi:thermometer
@@ -282,7 +282,7 @@ template:
              | map('float', none) | reject('none') | list %}
           {{ (v | sum / v | count) | round(0) if v else none }}
 
-      # Whole home
+      # The whole home
       - name: Climate | Home
         unique_id: climate_home
         icon: mdi:home-thermometer
@@ -324,7 +324,7 @@ template:
           {% elif h < 22 %}good evening
           {% else %}good night{% endif %}
 
-      # The living room scene that was turned on last, like evening. None while the lights are off.
+      # The living room scene that was turned on last, such as evening. The state is none while the lights are off.
       - name: Living room scene
         unique_id: living_room_scene
         icon: mdi:palette-outline
@@ -353,9 +353,10 @@ template:
           {{ ['media_player.living_room', 'media_player.bedroom', 'media_player.office']
              | select('is_state', ['playing', 'buffering']) | list | count }}
 
-      # The speaker that matters right now, for the navbar's now playing bar.
-      # Playing beats TV and Bluetooth, those beat paused, paused beats the selected speaker.
-      # A playing group leader wins over its members.
+      # The most relevant speaker, for the card above the navigation bar.
+      # A playing speaker comes first, then a speaker on a TV input or Bluetooth, then a paused speaker,
+      # and then the selected speaker.
+      # A playing group leader comes before its members.
       - name: Active target
         unique_id: active_target
         icon: mdi:target
@@ -389,11 +390,11 @@ template:
              + [states('input_select.selected_speaker')] %}
           {{ lead if lead in ns.playing else (chain | first) }}
 
-      # What the active speaker plays, ready to show.
-      # Every metadata read first checks that the entity is live right now,
-      # Music Assistant keeps the last title while idle.
-      # Music Assistant (the _mass twin) also reports playing for the speaker's own
-      # sources like Bluetooth or Spotify, so its metadata only counts without one.
+      # What the active speaker plays, prepared for the dashboard.
+      # Each attribute first checks that the entity is currently active, because
+      # Music Assistant keeps the last title while it is idle.
+      # The Music Assistant player (the _mass entity) also reports playing while the speaker
+      # uses one of its own sources, such as Bluetooth or Spotify. Its data therefore only counts while no such source is active.
       - name: Active speaker
         unique_id: active_speaker
         icon: mdi:speaker-play
@@ -436,7 +437,7 @@ template:
             {{ 'yes' if (members | reject('equalto', z) | list | length) > 0
                else 'no' }}
 
-          # Short name, with a count when grouped: "Living +2"
+          # The short name, with a count when grouped, such as "Living +2"
           speaker: >
             {% set z = states('sensor.active_target') %}
             {% set short = {
@@ -449,7 +450,7 @@ template:
             {% set others = members | reject('equalto', z) | list | length %}
             {{ n ~ (' +' ~ others if others > 0 else '') }}
 
-          # Ready-to-show text, never empty, never stale
+          # The text to show. It is never empty and never outdated.
           title: >
             {% set z = states('sensor.active_target') %}
             {% set s = states(z) %}
@@ -484,8 +485,8 @@ template:
                        .get(s, 'Nothing playing')) }}
             {% endif %}
 
-          # TV artwork on the TV input, the music cover otherwise.
-          # Bluetooth stays empty on purpose.
+          # The TV picture while the TV input is active, and the music cover at other times.
+          # Bluetooth has no picture on purpose.
           artwork: >
             {% set z = states('sensor.active_target') %}
             {% set src = state_attr(z, 'source') | default('', true)
@@ -565,7 +566,7 @@ script:
               volume_level: >
                 {{ [[state_attr(speaker, 'volume_level') | float(0) + step | float(0), 0] | max, 1] | min | round(2) }}
 
-  # Plus and minus on the thermostat cards
+  # Used by the plus and minus buttons on the thermostat cards
   thermostat_step:
     alias: Thermostat step
     description: Moves a thermostat's target temperature up or down.
@@ -603,7 +604,7 @@ script:
       - repeat:
           for_each: [light, fan, media_player, switch]
           sequence:
-            # Only domains the area has. Calling one that isn't set up would stop the script.
+            # Only domains that the area has. Calling a domain that is not set up would stop the script.
             - if: "{{ expand(area_entities(area)) | selectattr('domain', 'eq', repeat.item) | list | count > 0 }}"
               then:
                 - action: "{{ repeat.item }}.turn_off"
@@ -612,7 +613,7 @@ script:
                   continue_on_error: true
 
 automation:
-  # Turns the fan off when the timer from the fan pop-up runs out
+  # Turns the fan off when the fan pop-up's timer ends
   - id: origami_living_room_fan_timer
     alias: Living room fan timer
     description: Turns the living room fan off when its timer finishes.

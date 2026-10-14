@@ -1,9 +1,9 @@
 origami_climate:
   name: Origami • Climate
-  version: 2.0.1
+  version: "2.0.2"
   supported:
     - button
-  description: 'Thermostats: active means hvac_action is doing something, not that the mode is set. Idle under any mode reads Auto, mode off reads Off (Aus in German). Icon and state line follow the action; the colour comes from Base, which reads the climate colours of Home Assistant (heat, cool, dry, fan_only). The card needs show_state off and show_attribute on with no attribute.'
+  description: "The Climate module styles thermostat cards together with Base. A card counts as on only while hvac_action shows that the thermostat is working. A selected mode alone does not count. An idle thermostat shows Auto, and a thermostat that is off shows Off. The icon and state line follow what the thermostat is doing, and Base sets the color. Set state_content to an empty list so that the module controls the state line."
   code: |-
     ${(() => {
       card._orgStateClaim = hass;
