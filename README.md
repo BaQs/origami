@@ -200,7 +200,7 @@ All of these entities are optional.
 
 ### Menu
 
-The menu requires the optional [Origami Header](#setup), which removes the Home Assistant header. **More** in the navigation bar opens the menu from the top of the screen.
+The menu requires the optional [Origami Header](#setup), which removes the Home Assistant header. Origami Header and its menu are still experimental. **More** in the navigation bar opens the menu from the top of the screen.
 
 <img width="800" alt="The menu opened from More in the navigation bar, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/menu.webp">
 
