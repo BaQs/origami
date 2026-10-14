@@ -90,7 +90,7 @@ Origami:
   ha-line-height-normal: '1.3'
   ha-line-height-expanded: '1.6'
   font-size-compact: 'var(--ha-font-size-s)'
-  font-size-headline: 'var(--ha-font-size-3xl)'
+  font-size-headline: 'var(--ha-font-size-3xl, 28px)'
 
   # Motion
   duration-fast: 'var(--ha-animation-duration-fast, 150ms)'
