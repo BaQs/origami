@@ -318,10 +318,7 @@ template:
         state: >
           {% set h = now().hour %}
           {% if h < 5 %}still awake?
-          {% elif h < 11 %}good morning
-          {% elif h < 14 %}hey there
-          {% elif h < 18 %}good afternoon
-          {% elif h < 22 %}good evening
+          {% elif h < 22 %}hello there
           {% else %}good night{% endif %}
 
       # The living room scene that was turned on last, such as evening. The state is none while the lights are off.
