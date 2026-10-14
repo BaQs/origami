@@ -1,4 +1,4 @@
-<img alt="Origami, a warm and uncluttered dashboard for Home Assistant, on two phones in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
+<img alt="Origami, a chill dashboard for Home Assistant, on two phones in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
 
 <a href="https://github.com/hazymorning/origami/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/hazymorning/origami?label=Release&color=6A8778&labelColor=181715"></a>
 <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme"><img alt="HACS custom repository" src="https://img.shields.io/badge/HACS-Custom-6A8778?labelColor=181715"></a>
