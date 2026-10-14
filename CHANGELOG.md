@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.1 · Crease
+
+Version 2.0 went out a few seconds before its last fixes were merged. This release adds them.
+
+- The theme has a fallback for Home Assistant's headline text size, so the fan pop-up's title keeps its size on older Home Assistant versions. The unused `ha-font-size-xxl` token is removed.
+- The dashboard has fallbacks for Home Assistant's newer spacing and font tokens.
+- The greeting says "hello there" from 5:00 to 22:00.
+- The README and the module reference are corrected in several places, and the screenshots are calmer.
+
 ## 2.0 · The Unfolding
 
 <img alt="The Origami dashboard and its new pop-ups on five phones" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/release-2.0-dashboard.webp">
