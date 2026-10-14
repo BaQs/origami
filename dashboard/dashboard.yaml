@@ -2675,7 +2675,8 @@ views:
                 height: 100% !important;
               }
 
-      # The pop-ups stay hidden until a button opens them.
+      # Pop-ups
+      # Each pop-up stays hidden until a button opens it.
       - type: grid
         column_span: 1
         cards:

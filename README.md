@@ -427,7 +427,7 @@ Each room can have the same kind of pop-up, which opens from its room card. From
 
 - The pop-up's hash is `#popup_living_room`, which is the living room card's navigation path.
 - The media card shows the TV while it is on, and the speaker at all other times. Tap the TV card to open the TV pop-up. Smaller controls for the room go under the media card. In this example, a smart plug appears as a compact row with a switch.
-- The lights header shows how many lights in the room's light group are on. **All** turns the whole group on or off, and the arrow next to it shows the scenes. The scene that was turned on last is highlighted.
+- The lights header shows how many lights in the room's light group are on. The power button on the **All** card turns the whole group on or off, and the arrow next to it shows the scenes. A tap on the card opens the group's details. The scene that was turned on last is highlighted.
 - The climate header shows the temperature and humidity, with a dot in the room's comfort color. Tap the fan card to open the [fan pop-up](#fan). The plus and minus buttons change the thermostat's target temperature by half a degree.
 - **Everything off** turns off the lights, fans, media players and switches in the room's [area](https://www.home-assistant.io/docs/organizing/areas/). The list of these domains is in `script.room_off`.
 - When you close the pop-up, the scenes are hidden again.
@@ -610,13 +610,13 @@ template:
 
 | Attribute | Content |
 | --- | --- |
-| `chip` | `playing_art`, `playing_plain`, `paused_art`, `paused_plain`, `tv_art`, `tv_plain` or `off`. `_art` means that a cover from Music Assistant is available. |
+| `chip` | `playing_art`, `playing_plain`, `paused_art`, `paused_plain`, `tv_art`, `tv_plain` or `off`. `_art` means that a picture is available. For music, this is the cover from Music Assistant. For the TV input, it is the `artwork` attribute of `sensor.tv_source`. |
 | `title` | While music is playing, the title is `Title \| Artist`. Otherwise, it is a short label such as `Bluetooth`, `TV`, `Paused` or `Nothing playing`, so it is never empty. |
 | `speaker` | The speaker's short name, with a count while it is grouped, such as `Living +1` |
 | `group` | `yes` or `no` |
 | `artwork` | The cover or the TV picture, or `none` |
 
-The example uses LinkPlay speakers. Each speaker also has a player in Music Assistant, such as `media_player.<name>_mass`. This player provides the title and cover while the speaker is playing from Music Assistant. The Music Assistant player also reports `playing` while the speaker plays over Bluetooth or from one of its own streaming sources, so the sensor ignores the player in these cases. Without a Music Assistant player, the sensor uses the speaker's own title and cover, and `chip` never uses an `_art` value.
+The example uses LinkPlay speakers. Each speaker also has a player in Music Assistant, such as `media_player.<name>_mass`. This player provides the title and cover while the speaker is playing from Music Assistant. The Music Assistant player also reports `playing` while the speaker plays over Bluetooth or from one of its own streaming sources, so the sensor ignores the player in these cases. Without a Music Assistant player, the sensor uses the speaker's own title and cover, and `chip` never uses `playing_art` or `paused_art`.
 
 The sensor finds the TV input and Bluetooth by name in the speaker's `source`. It treats optical, coaxial, HDMI and line inputs as TV inputs. Other brands may use different names. `sensor.tv_source` is optional. Its `display` and `artwork` attributes provide the name and picture of what is playing on the TV input.
 
@@ -678,7 +678,7 @@ Where possible, a sensor turns numbers into a single word, and the card changes 
 - Elements that appear and disappear either take no space while they are hidden or keep their space and scale in and out.
 - Templates run in the browser where possible. The `${ }` templates in the Header and Tiles modules and the `[[[ ]]]` templates in Navbar Card render in the first frame. Jinja templates have to wait for the server.
 - The font loads from Home Assistant itself. A font that loads late makes all text redraw.
-- The dashboard uses grid cards instead of stack cards where it needs a wrapper.
+- The main view uses grid cards instead of stack cards where it needs a wrapper.
 
 </details>
 
@@ -790,7 +790,7 @@ The theme is a set of tokens. Home Assistant reads these tokens, and so do the c
 
 Color mostly shows that something is on. The icon is colored, and the area behind it uses `tint`, which mixes the same color into the card background. The mix is 14% in light mode and 4% in dark mode. `tint` uses `currentColor`, so set `color` on the same element.
 
-Home Assistant decides which color a device gets, for example deep orange for heating and light blue for media. Origami adjusts the tone of these colors and changes two of them. Switches and other entities without a color of their own are green instead of amber when they are on, and open windows are cyan.
+Home Assistant decides which color a device gets, for example deep orange for heating and light blue for media. Origami adjusts the tone of these colors and changes a few of them. Switches and other entities without a color of their own are green instead of amber when they are on, and open windows are cyan. Paused media players and people who are away use the secondary text color, and closed covers and disarmed alarm panels use the accent color.
 
 To change a color, add `state-<domain>-active-color` to your copy of the theme. Domains with a color for each state need `state-<domain>-<state>-color`, such as `state-climate-heat-color`.
 
@@ -815,7 +815,7 @@ The name Origami comes from Paper Buttons Row, because origami is folded paper. 
 | `ha-space-1` … `ha-space-5` | Spacing from 4 to 20 px |
 | `ha-card-border-radius` | The card corner radius, 22 px. `radius-inner` is this value divided by 1.3, about 17 px. `radius-small` is 8 px. |
 | `border-width`, `border-contrast` | Card outlines, which are off by default |
-| `card-shadow`, `card-shadow-flat`, `shadow-elevated` | Shadows for each mode. Cards in pop-ups use the flat shadow. |
+| `card-shadow`, `card-shadow-flat`, `shadow-elevated` | Shadows for each mode. `card-shadow-flat` only has the small contact shadow, and the card above the navigation bar uses `shadow-elevated`. |
 | `fill-subtle`, `fill-strong`, `fill-loud` | Neutral surfaces, mixed from `fill-base` so that they stay warm |
 | `fill-contrast` | The strength of `fill-subtle`, 8% in light mode and 5% in dark mode |
 | `fill-active`, `toggle-on` | The text color at 85% on the card background, for switch tracks and active buttons |
