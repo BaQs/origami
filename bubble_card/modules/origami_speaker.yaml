@@ -1,9 +1,9 @@
 origami_speaker:
   name: "Origami • Speaker Select"
-  version: "4.1.3"
+  version: "4.1.4"
   supported:
     - media-player
-  description: "Selector rows for the music pop-up: Base + Speaker Select, in that order, Media is not needed here. The name stays pinned, the line next to it shows what is actually playing, mirrored from the group master on slaves, and Bubble's own scrolling handles long titles whenever it owns the text. Album art fills the icon chip and washes the row background, following the same rules and shared bad-art memory as Origami Media, ignore_art works here too. Grouping is marked on the chip, a crown on the master and a link badge on slaves, audible speakers get a chip in Home Assistant's media player colour. The cards need show_state off and show_attribute on with no attribute, force_icon on, hidden media buttons and tap actions on script.linkplay_musik_popup. Highlights the player picked in input_select.lautsprecher_wahlen. Give the volume sub-button css_class readout and the module writes the rounded percentage. In a section view set rows: 1. The gap between rows belongs to the pop-up, tune --bubble-pop-up-gap there."
+  description: "The Speaker Select module creates the speaker rows for a music pop-up and works with Base. The Media module is not needed. The speaker's name is always visible, followed by what it is playing. Album art fills the icon and appears blurred behind the row. A crown marks the group leader, and a link marks its members. When input_select.lautsprecher_wahlen selects a speaker, that speaker's row has a stronger fill. If the volume sub-button has css_class set to readout, the module writes the volume into it as a percentage. In a sections view, set rows to 1. The example in bubble_card/README.md shows the other card options."
   code: |
     ${(() => {
       const s = hass.states;

@@ -1,6 +1,6 @@
 origami_base:
   name: "Origami • Base"
-  version: "9.4.2"
+  version: "9.4.3"
   supported:
     - button
     - media-player
@@ -10,7 +10,7 @@ origami_base:
     - calendar
     - sub-buttons
     - separator
-  description: "Every card gets this first, then its type module. Frame, typography and on/off text on button and media cards; sub-buttons on every card type that has them. Compact makes a slim row. Toggle sub-button turns the first sub-button into a pill switch. Grouped sub-buttons puts them in a tray as small keys. Tile turns the card into the quiet counterpart: a flat fill with the icon chip and controls as raised paper. Colour means identity and state and lives in one place, the main icon chip: a coloured glyph on a field of the same colour, in Home Assistant's own state colour for the entity, and only for domains Home Assistant colours. Controls stay neutral. Emphasis is ink, the theme's fill-active with text-color-active, the same pair the theme gives Home Assistant's switches: a sub-button turns ink while its entity is on, read by Base itself exactly like the icon chip and the pill switch, so it does not depend on tap actions, Bubble's background options or classes. Every sub-button carries the entity it belongs to (data-entity, its own or the card's). Dropdowns, readouts, sliders and buttons that only navigate or open more-info stay neutral, and so do the keys of thermostat and fan cards, whose modules handle them (Fan inks its power key and active speed). css_class: plain keeps any sub-button neutral, css_class: accent makes one ink where it would otherwise stay neutral. Bubble dims the layer Base paints the surface on: a switch button's to half while off, a media player's always, blurred, for cover art. Base keeps it at full strength, so a Tile reads the same in a pop-up as on the dashboard and does not change when the entity turns on (media players with cover background and Speaker rows keep Bubble's layer). Compact rows keep the chip in a square cell: the same inset left, top and bottom, and the same gap to the text, as the regular card does at its size. The pill switch turns ink when on. Ink play and power buttons does the same for the media player's own buttons."
+  description: "The Base module is the frame for button and media player cards. On other card types, it only styles the sub-buttons. List Base first and then the module for the device. Its options create a slim row, add a pill switch, group the sub-buttons or turn the card into a tile. The icon shows Home Assistant's state color while the entity is on, and the controls stay neutral. A sub-button is filled while its entity is on. Set css_class to plain to keep a sub-button neutral, or to accent to fill it even if it navigates. The module reference in bubble_card/README.md explains every option."
   editor:
     - name: compact
       label: "Compact"
@@ -18,7 +18,7 @@ origami_base:
         boolean: {}
       default: false
     - name: toggle
-      label: "Toggle sub-button"
+      label: "Pill switch"
       selector:
         boolean: {}
       default: false
@@ -28,12 +28,12 @@ origami_base:
         boolean: {}
       default: false
     - name: tile
-      label: "Tile (quiet surface, raised chip)"
+      label: "Tile"
       selector:
         boolean: {}
       default: false
     - name: solid_controls
-      label: "Ink play and power buttons (media cards)"
+      label: "Filled play and power buttons (media cards)"
       selector:
         boolean: {}
       default: false

@@ -1,16 +1,16 @@
 origami_media:
   name: "Origami • Media"
-  version: "4.5.1"
+  version: "4.5.2"
   supported:
     - media-player
-  description: "Media players: Base + Media. Tick Compact for slim rows. Set Artwork and App entities to enable TV mode; empty means speaker behavior. In TV mode the card entity decides on/off, the App entity is the fallback when it is unavailable, the Artwork entity only adds title, app and picture while it is actually playing. Bottom-strip cards need manual rows until Bubble's auto calculation is fixed upstream. While playing, the chip glyph takes Home Assistant's media player colour on a field of the same colour, unless artwork covers it. The buttons stay neutral; Ink play and power buttons is switched in Base and honoured here: the play button turns ink while playing, the power button while on."
+  description: "The Media module styles media player cards together with Base. Turn on Compact for slim rows. With an artwork entity or an app entity, the card is in TV mode. Without either, the card is in speaker mode. In TV mode, the card's entity decides whether the TV is on, and the app entity takes over when that entity is unavailable. The artwork entity adds the title, the app and a picture while it is playing. Cards with a slider at the bottom need rows set to 2.2. When the Base option for filled play and power buttons is on, the play button is filled while media is playing, and the power button is filled while the player is on."
   editor:
     - name: compact
       label: Compact
       selector:
         boolean: {}
     - name: collapse
-      label: "Collapse bottom strip when off"
+      label: "Hide the slider when inactive"
       selector:
         boolean: {}
     - name: art_entity
@@ -19,7 +19,7 @@ origami_media:
         entity:
           domain: media_player
     - name: app_entity
-      label: "App entity (optional, Android TV app detection)"
+      label: "App entity (optional, enables TV mode)"
       selector:
         entity:
           domain: media_player

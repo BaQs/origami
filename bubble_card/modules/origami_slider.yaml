@@ -1,9 +1,9 @@
 origami_slider:
   name: Origami • Slider
-  version: 1.3.0
+  version: "1.3.1"
   supported:
     - button
-  description: 'Slider-only card: a slider button with Base + Slider, in that order. Hides icon, name and state; the container itself becomes the track. Set rows: 1.'
+  description: "The Slider module turns a slider button into a standalone slider. List Base first, then Slider. The module hides the icon, name and state, so the card itself is the track. Set rows to 1."
   code: |
     ha-card {
       --org-row-height: var(--control-height-icon);

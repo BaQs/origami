@@ -1,9 +1,9 @@
 origami_fan:
   name: Origami • Fan
-  version: 2.4.1
+  version: "2.4.2"
   supported:
     - button
-  description: 'Fan card: the icon spins at the fan''s speed and the power key and the active speed key turn ink while the fan runs. Use with Origami Base and its Grouped sub-buttons option, sub-button 1 power, then the speed steps.'
+  description: "The Fan module styles fan cards. It works with Base and its Grouped sub-buttons option. The icon spins at the fan's speed. The power button and the button for the current speed are filled while the fan runs. Sub-button 1 is the power button, and the next sub-buttons are the speed buttons."
   code: |-
     ${(() => {
       card._orgStateClaim = hass;

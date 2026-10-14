@@ -1,61 +1,61 @@
 # Origami modules for Bubble Card
 
-Eleven [Bubble Card](https://github.com/Clooos/Bubble-Card) modules that give its cards the Origami look: the same frame, text styles, colours and controls as the rest of the dashboard. They read the theme's tokens, so they need the [Origami theme](../README.md#setup).
+This folder contains eleven modules for [Bubble Card](https://github.com/Clooos/Bubble-Card). They give Bubble cards the same frame, text styles, colors and controls as the rest of the Origami dashboard. The modules read the theme's tokens, so they need the [Origami theme](../README.md#setup).
 
 > [!WARNING]
-> These modules are experimental. I'm not really happy with them yet: CSS is my specialty, but Bubble Card's CSS is hard to untangle, especially how card heights behave. I still haven't quite figured that out. It all works fine though.
+> These modules are experimental. Bubble Card's CSS is complex, and the way it sets card heights is especially hard to work with. Some details may still change, but the modules work as shown in the dashboard.
 
 <img width="800" alt="A pop-up built from the modules, in light and dark mode" src="../images/module-popup.webp">
 
-## Install
+## Installation
 
 1. Install [Bubble Card](https://github.com/Clooos/Bubble-Card) and [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools) from HACS. Bubble Card Tools is an integration that stores modules as files. Restart Home Assistant, then [add Bubble Card Tools](https://my.home-assistant.io/redirect/config_flow_start/?domain=bubble_card_tools).
 2. Copy the files from [`modules`](modules) to `/config/bubble_card/modules/`.
-3. Reload the dashboard. The modules show up in the Bubble Card editor under **Modules**.
+3. Reload the dashboard. The modules appear in the Bubble Card editor under **Modules**.
 
 <details>
-<summary>Without copying files</summary>
+<summary>Installation without copying files</summary>
 
 <br>
 
-Open any Bubble Card in the editor, go to **Modules > My Modules > Import from YAML** and paste the content of one module file. Repeat for each module. Bubble Card Tools is needed for this too.
+Open any Bubble card in the editor and go to **Modules**, then **My Modules**, then **Import from YAML**. Paste the contents of one module file. Repeat this for each module. This method also needs Bubble Card Tools.
 
 </details>
 
-## How they fit together
+## How the modules work together
 
-On button and media player cards, list Base first, then the module for the device. Button, Header, Tiles and Popup work without Base.
+On button and media player cards, list Base first and then the module for the device. Button, Header, Tiles and Popup work without Base.
 
-| Module | Key | Card type | For |
+| Module | Key | Card type | Purpose |
 | --- | --- | --- | --- |
-| [Base](#base) | `origami_base` | button, media player | Frame, text styles, colour and the shared options. Only styles sub-buttons on other card types. |
+| [Base](#base) | `origami_base` | button, media player | The frame, text styles, color and shared options. On other card types, Base only styles the sub-buttons. |
 | [Light](#light) | `origami_light` | button | Lights |
-| [Fan](#fan) | `origami_fan` | button | Fans with speed keys |
+| [Fan](#fan) | `origami_fan` | button | Fans with speed buttons |
 | [Climate](#climate) | `origami_climate` | button | Thermostats |
 | [Media](#media) | `origami_media` | media player | Speakers and TVs |
 | [Speaker Select](#speaker-select) | `origami_speaker` | media player | Speaker rows in a music pop-up |
-| [Slider](#slider) | `origami_slider` | button (slider) | A slider on its own |
+| [Slider](#slider) | `origami_slider` | button with a slider | A standalone slider |
 | [Button](#button) | `origami_button` | sub-buttons | Rows and grids of buttons |
 | [Header](#header) | `origami_header` | separator | Section headers with values |
 | [Tiles](#tiles) | `origami_tiles` | sub-buttons | Grids of tiles |
-| [Popup](#popup) | `origami_popup` | pop-up | Pop-up header, backdrop and close button |
+| [Popup](#popup) | `origami_popup` | pop-up | A pop-up's header, backdrop and close button |
 
-Give button cards `rows: 1.375` and compact ones `rows: 1`, in pop-ups too, so Bubble's height matches the frame. Media cards with a slider strip at the bottom need `rows: '2.2'`.
+Give button cards `rows: 1.375` and compact cards `rows: 1`, including cards in pop-ups. This makes the height that Bubble Card reserves match the frame. Media cards with a slider at the bottom need `rows: '2.2'`.
 
 <details>
-<summary>Colour</summary>
+<summary>Color</summary>
 
 <br>
 
-Colour mostly means a device is on. Base puts it into the icon chip: the glyph takes Home Assistant's state colour for the entity, on a field of the same colour (the theme's `tint`). Lights are amber, heating deep orange, media light blue, fans cyan and vacuums teal. Switches and everything else without a colour of its own are green.
+Color mostly shows that a device is on. The Base module puts the color into the icon. The icon gets Home Assistant's state color for the entity. The area behind the icon uses the theme's `tint`, which mixes the same color into the card background. Lights are amber, heating is deep orange, media is light blue, fans are cyan and vacuums are teal. Switches and all other entities without a color of their own are green.
 
-Base only colours entities whose domain has a state colour in Home Assistant. Tiles colours any tile whose entity is on. Light also colours its slider, and Button's `lamp` style tints the active button.
+Base only colors entities whose domain has a state color in Home Assistant. The Tiles module colors every tile whose entity is on. The Light module also colors its slider, and the Button module's `lamp` style tints the active button.
 
-Controls stay neutral. For emphasis they turn ink: `fill-active`, the text colour as a fill. That's dark in light mode and light in dark mode, like Home Assistant's switches when they're on.
+Controls stay neutral. An active control uses `fill-active`, which is the text color used as a fill. This fill is dark in light mode and light in dark mode, like Home Assistant's switches when they are on.
 
-- A sub-button with `show_background: true` turns ink while its entity, or the card's, is on and has a state colour.
-- Sub-buttons that navigate, open more info or open a URL stay neutral, unless they have `css_class: accent`.
-- Fan inks its power key and the key of the current speed. Thermostat keys stay neutral.
+- A sub-button with `show_background: true` is filled while its entity, or the card's entity, is on and has a state color.
+- Sub-buttons that navigate, open the more-info dialog or open a URL stay neutral, unless they have `css_class: accent`.
+- The Fan module fills its power button and the button for the current speed. Thermostat buttons stay neutral.
 
 </details>
 
@@ -64,7 +64,7 @@ Controls stay neutral. For emphasis they turn ink: `fill-active`, the text colou
 
 <br>
 
-The modules write a few words into the cards, like On, Off or Heating. They're German when your Home Assistant user language is German, and English otherwise. Most modules keep their words in one list in their code. Media has a few lists, and `offline` and `External Input` are always English.
+The modules write a few words into the cards, such as On, Off or Heating. These words are German when your Home Assistant user's language is German, and English otherwise. Most modules keep their words in one list in their code. The Media module has several lists, and the words `offline` and `External Input` are always English.
 
 </details>
 
@@ -73,12 +73,12 @@ The modules write a few words into the cards, like On, Off or Heating. They're G
 
 <br>
 
-Header and Tiles take a value, a map from the entity's state to a value, or JavaScript in `${ }`.
+The Header and Tiles modules accept a value, a map from the entity's state to a value, or JavaScript in `${ }`.
 
-- `state`, `attr` and `entity` belong to the sub-button's entity, or the card's if it has none.
-- `states(id)` gives another entity's state, `minutesUntil(id)` the minutes until the time in that entity's state. `hass` is there too.
-- JavaScript runs in the browser, so the value is there on the first frame. Jinja works as well, but it waits for the server.
-- When something inside `${ }` comes out empty, the whole value counts as unset and the default shows. States missing from a map keep the default too.
+- `state`, `attr` and `entity` refer to the sub-button's entity, or to the card's entity if the sub-button has none.
+- `states(id)` returns another entity's state, and `minutesUntil(id)` returns the number of minutes until the time in that entity's state. `hass` is also available.
+- JavaScript runs in the browser, so the value is already there in the first frame. Jinja also works, but it waits for the server.
+- If an expression inside `${ }` returns an empty value, the whole value counts as unset, and the default appears. States that are missing from a map also keep the default.
 
 ```yaml
 sub_button:
@@ -97,7 +97,7 @@ sub_button:
 
 ### Base
 
-The frame for button and media player cards: height, icon chip, text styles, the state line and neutral sub-buttons. Its options make a slim row, add a pill switch, group the sub-buttons or turn the card into a tile.
+The Base module is the frame for button and media player cards. It sets the height, icon, text styles and state line, and it keeps the sub-buttons neutral. Its options create a slim row, add a pill switch, group the sub-buttons or turn the card into a tile.
 
 <img width="800" alt="A regular card, a tile and two compact rows with the pill switch" src="../images/module-base.webp">
 
@@ -106,17 +106,17 @@ The frame for button and media player cards: height, icon chip, text styles, the
 
 <br>
 
-| Option | Default | |
+| Option | Default | Description |
 | --- | --- | --- |
-| `compact` | `false` | A slim row with a small chip and no state line |
+| `compact` | `false` | A slim row with a small icon and no state line |
 | `toggle` | `false` | Every sub-button becomes a pill switch that shows whether the card's entity is on. Use one sub-button with `tap_action: toggle`. |
-| `group` | `false` | Sub-buttons sit in a tray as small keys |
-| `tile` | `false` | No shadow and a light grey fill. The icon chip and sub-buttons get the card background and a shadow. |
-| `solid_controls` | `false` | Media cards with Media: Bubble's own play/pause button turns ink while playing, its power button while on. No effect on sub-buttons. |
+| `group` | `false` | The sub-buttons appear as small buttons in a tray. |
+| `tile` | `false` | The card has no shadow and a light gray fill. The icon and the sub-buttons get the card background and a shadow. |
+| `solid_controls` | `false` | On media cards that use the Media module, Bubble Card's play and pause button is filled while media is playing, and its power button is filled while the player is on. This option has no effect on sub-buttons. |
 
-Per sub-button, `css_class: plain` keeps it neutral and `css_class: accent` makes it ink while the entity is on, even if it navigates. Dropdowns, sliders and readouts always stay neutral.
+To keep a sub-button neutral, give it `css_class: plain`. To fill it while the entity is on, even if it navigates, give it `css_class: accent`. Dropdowns, sliders and readouts always stay neutral.
 
-Base writes On, Off or Error into the state line of every entity except lights, media players, fans and thermostats, which have their own modules. That replaces sensor values too, and `state_content` has no effect there.
+Base writes On, Off or Error into the state line of every entity except lights, media players, fans and thermostats, which have their own modules. For sensors, this replaces the value, and `state_content` has no effect on these entities.
 
 ```yaml
 # Regular card
@@ -160,15 +160,13 @@ sub_button:
 rows: 1
 ```
 
-On other card types, Base only styles the sub-buttons.
-
 </details>
 
 ### Light
 
-For lights, on top of Base. The state line shows the brightness, and sliders fill in the light state colour, amber. The small mark at the end of the fill is amber too. In dark mode the fill itself stays grey: Bubble draws light text on it, and amber dark enough for that looks brown.
+The Light module styles light cards together with Base. The state line shows the brightness, and sliders fill with amber, the state color for lights. The small mark at the end of the fill is also amber. In dark mode, the fill stays gray, because Bubble Card draws light text on it, and an amber that is dark enough for light text looks brown.
 
-<img width="800" alt="A light group card with ink buttons and two compact lamps" src="../images/module-light.webp">
+<img width="800" alt="A light group card with filled buttons and two compact lamps" src="../images/module-light.webp">
 
 <details>
 <summary>Example</summary>
@@ -204,22 +202,22 @@ state_content:
 rows: 1.375
 ```
 
-For a lamp as a compact row, use the compact Base example with a light entity.
+To show a lamp as a compact row, use Base's compact example with a light entity.
 
 </details>
 
 ### Fan
 
-For fans, on top of Base with `group`. The icon spins at the fan's speed, and the state line shows the speed in percent. The power key and the key of the current speed turn ink while the fan runs.
+The Fan module styles fan cards. It works with Base and its `group` option. The icon spins at the fan's speed, and the state line shows the speed as a percentage. The power button and the button for the current speed are filled while the fan runs.
 
-<img width="800" alt="Two fan cards, one at speed two, one off" src="../images/module-fan.webp">
+<img width="800" alt="Two fan cards, one at speed two and one that is off" src="../images/module-fan.webp">
 
 <details>
 <summary>Example</summary>
 
 <br>
 
-Sub-button 1 is power, the next three are the speeds. Up to 34 % is speed 1, up to 67 % speed 2, above that speed 3.
+Sub-button 1 is the power button, and the next three sub-buttons are the speed buttons. Speed 1 covers up to 34%, speed 2 covers up to 67%, and speed 3 covers everything above.
 
 ```yaml
 type: custom:bubble-card
@@ -254,7 +252,7 @@ sub_button:
           entity_id: fan.bedroom
         data:
           percentage: 33
-    # '2' and '3' the same, with 66 and 100
+    # '2' and '3' work the same way, with 66 and 100
 rows: 1.375
 ```
 
@@ -262,16 +260,16 @@ rows: 1.375
 
 ### Climate
 
-For thermostats, on top of Base. The card counts as on only while the thermostat heats, cools, dries or runs its fan, not when a mode is set. The state line says Heating while it heats, Auto while it idles and Off when it's off. The icon and the colour follow what it does. Thermostats without `hvac_action` always read Auto and never turn coloured.
+The Climate module styles thermostat cards together with Base. A thermostat card counts as on only while the thermostat is heating, cooling, drying or running its fan. A selected mode alone does not count. The state line shows Heating while the thermostat is heating, Auto while it is idle and Off when it is off. The icon and color follow what the thermostat is doing. Thermostats without `hvac_action` always show Auto and never get a color.
 
-<img width="800" alt="Three thermostats: heating, idle and off" src="../images/module-climate.webp">
+<img width="800" alt="Three thermostats that are heating, idle and off" src="../images/module-climate.webp">
 
 <details>
 <summary>Example</summary>
 
 <br>
 
-Give the target temperature a sub-button with `css_class: readout`. The module writes the target into it, rounded to whole degrees. `state_content: []` leaves the state line to the module.
+Add a sub-button with `css_class: readout` for the target temperature. The module writes the target temperature into this sub-button, rounded to whole degrees. With `state_content: []`, the module controls the state line.
 
 ```yaml
 type: custom:bubble-card
@@ -302,31 +300,31 @@ sub_button:
 rows: 1.375
 ```
 
-The plus and minus buttons need your own actions, for example a script that moves the target by one degree.
+The plus and minus buttons need your own actions, for example `script.thermostat_step` from the [package](../packages/origami.yaml).
 
 </details>
 
 ### Media
 
-For media players, on top of Base. Speakers show the title and artist while playing and their name otherwise. With an artwork or app entity set, the card is in TV mode and shows the app or what is being cast.
+The Media module styles media player cards together with Base. Speakers show the title and artist while they are playing, and their name at other times. If an artwork entity or an app entity is set, the card is in TV mode and shows the app or what is being cast.
 
-<img width="800" alt="A speaker with a volume strip, a TV in TV mode and a compact speaker" src="../images/module-media.webp">
+<img width="800" alt="A speaker with a volume slider, a TV in TV mode and a compact speaker" src="../images/module-media.webp">
 
 <details>
 <summary>Options and example</summary>
 
 <br>
 
-Media's options go under `origami_media:`.
+The Media options go under `origami_media:`.
 
-| Option | |
+| Option | Description |
 | --- | --- |
-| `compact` | A slim row. On media cards, use this instead of Base's `compact`. |
-| `collapse` | Hides the bottom strip while the speaker isn't playing. In TV mode, while the TV is off. |
-| `art_entity` | A media player that adds title, app and picture while it plays, like a Chromecast |
-| `app_entity` | A media player that knows the running app, like Android TV Remote. Also the fallback when the card's entity is unavailable. |
+| `compact` | A slim row. On media cards, use this option instead of Base's `compact` option. |
+| `collapse` | Hides the slider at the bottom while the speaker is not playing. In TV mode, the slider is hidden while the TV is off. |
+| `art_entity` | A media player that adds the title, the app and a picture while it is playing, such as a Chromecast |
+| `app_entity` | A media player that reports the running app, such as Android TV Remote. The card also uses this entity when its own entity is unavailable. |
 
-Either of the last two turns on TV mode.
+Either of the last two options turns on TV mode.
 
 ```yaml
 type: custom:bubble-card
@@ -377,15 +375,15 @@ origami_media:
   app_entity: media_player.tv_remote
 ```
 
-The module was written for LinkPlay speakers. In speaker mode the cover comes from LinkPlay's `sensor.linkplay_<name>`, group members follow `sensor.linkplay_master`, and the chip hides its icon while `media_player.<name>_dlna` plays with a picture. Other speakers show their icon in the chip. A few speaker names are shortened in the code (`names`), replace them with yours.
+The module was written for LinkPlay speakers. In speaker mode, the cover comes from the LinkPlay sensor `sensor.linkplay_<name>`, and group members show their group leader's state. The leader's name comes from `sensor.linkplay_master`. The icon is hidden while `media_player.<name>_dlna` is playing something with a picture. Other speakers show their icon. The code shortens a few speaker names in a list called `names`. Replace these names with your own.
 
 </details>
 
 ### Speaker Select
 
-Rows for a music pop-up, on top of Base. The speaker's name always shows, followed by what it plays. Album art fills the icon chip and shows blurred behind the row. A crown marks the group master, a link its members, and the selected speaker's row gets a stronger fill.
+The Speaker Select module creates the speaker rows for a music pop-up and works with Base. The speaker's name is always visible, followed by what it is playing. The album art fills the icon and appears blurred behind the row. A crown marks the group leader, a link marks its members, and the selected speaker's row has a stronger fill.
 
-<img width="800" alt="Four speaker rows: playing master, grouped member, paused and offline" src="../images/module-speaker.webp">
+<img width="800" alt="Four speaker rows for a playing group leader, a group member, a paused speaker and an offline speaker" src="../images/module-speaker.webp">
 
 <details>
 <summary>Example</summary>
@@ -419,24 +417,24 @@ sub_button:
 rows: 1
 ```
 
-The sub-button with `css_class: readout` gets the volume in percent. To skip covers that are wrong, list parts of their URLs:
+The sub-button with `css_class: readout` shows the volume as a percentage. To ignore wrong covers, list parts of their URLs.
 
 ```yaml
 origami_speaker:
   ignore_art: example.com/blank, placeholder
 ```
 
-A tap on a row doesn't select the speaker. Give each row a tap action that sets your speaker select.
+Tapping a row does not select the speaker. Give each row a tap action that sets your speaker selection.
 
-This one is the most personal module. Grouping reads LinkPlay's sensors (`sensor.linkplay_<name>` and `sensor.linkplay_master`), and the selected speaker comes from `input_select.lautsprecher_wahlen`. The package's `input_select.selected_speaker` works the same way. Change both in the code for your setup.
+Of all the modules, this one depends most on the example home. The groups come from the LinkPlay sensors `sensor.linkplay_<name>` and `sensor.linkplay_master`, and the selected speaker comes from `input_select.lautsprecher_wahlen`. The package contains `input_select.selected_speaker`, which works in the same way. For your setup, replace `sensor.linkplay_master` and `input_select.lautsprecher_wahlen` in the code.
 
 </details>
 
 ### Slider
 
-A slider on its own: the card becomes the track. Base and Slider, in that order.
+The Slider module turns a card into a standalone slider, so the card itself is the track. List Base first, then Slider.
 
-<img width="800" alt="A subwoofer level and a fan speed slider" src="../images/module-slider.webp">
+<img width="800" alt="A subwoofer level slider and a fan speed slider" src="../images/module-slider.webp">
 
 <details>
 <summary>Example</summary>
@@ -460,33 +458,33 @@ modules:
 rows: 1
 ```
 
-Use `slider_value_position: hidden` to drop the number.
+Use `slider_value_position: hidden` to hide the number.
 
 </details>
 
 ### Button
 
-Rows and grids of buttons on a sub-buttons card. Every button goes into `sub_button: bottom` with `show_name: true`.
+The Button module creates rows and grids of buttons on a sub-buttons card. Put every button into `sub_button: bottom` with `show_name: true`.
 
-<img width="800" alt="Scenes with the active one lit, two toggles and a plain text button" src="../images/module-button.webp">
+<img width="800" alt="Scenes with the active scene highlighted, two toggles and a plain text button" src="../images/module-button.webp">
 
 <details>
 <summary>Options and example</summary>
 
 <br>
 
-| Option | Default | |
+| Option | Default | Description |
 | --- | --- | --- |
-| `background` | `true` | Filled buttons, or plain text without |
-| `columns` | `0` | `0` sizes buttons to their text, `1` to `6` makes an even grid |
+| `background` | `true` | Filled buttons. With `false`, the buttons are plain text. |
+| `columns` | `0` | `0` sizes the buttons to their text. The values `1` to `6` create an even grid. |
 | `align` | `start` | `start`, `center` or `end` |
-| `active` | | A Jinja template or text. Buttons whose name or `css_class` matches it light up, separate several with commas. A button with an entity that is on lights up too. |
-| `active_style` | `lamp` | `lamp` for an amber tint, `toggle` for ink. Use `toggle` only with `background: true`. |
-| `muted` | `false` | Quieter text |
-| `icon_size` | `var(--icon-size-2xs)` | |
-| `padding` | `0` | Space around the buttons |
-| `animate` | `false` | Fades in from below |
-| `press` | `true` | Shrinks a little on press |
+| `active` | | A Jinja template or plain text. Buttons whose name or `css_class` matches it are highlighted. Separate several values with commas. A button whose entity is on is also highlighted. |
+| `active_style` | `lamp` | `lamp` for an amber tint, or `toggle` for a filled button. Use `toggle` only with `background: true`. |
+| `muted` | `false` | Dimmed text |
+| `icon_size` | `var(--icon-size-2xs)` | The icon size |
+| `padding` | `0` | The space around the buttons |
+| `animate` | `false` | The buttons fade in from below. |
+| `press` | `true` | The buttons shrink a little when you press them. |
 
 ```yaml
 type: custom:bubble-card
@@ -515,33 +513,33 @@ sub_button:
         perform_action: scene.turn_on
         target:
           entity_id: scene.living_room_late
-    # Night and Dinner the same
+    # Night and Dinner work the same way
 ```
 
-`sensor.living_room_scene` holds the name of the active scene, like `evening`. Names are compared in lower case with dashes for spaces, so `Late` matches `late`.
+`sensor.living_room_scene` contains the active scene's name, such as `evening`. The names are compared in lower case with hyphens instead of spaces, so `Late` matches `late`.
 
 </details>
 
 ### Header
 
-A section header: the separator's name is the title, its sub-buttons are the values on the right. Set `grid_options: rows: auto`. Not related to the Origami Header card from the dashboard setup.
+The Header module creates a section header. The separator card's name is the title, and its sub-buttons are the values on the right. This module is not related to the Origami Header card from the dashboard setup.
 
-<img width="800" alt="Headers with text, a coloured dot and chips" src="../images/module-header.webp">
+<img width="800" alt="Headers with text, a colored dot and chips" src="../images/module-header.webp">
 
 <details>
 <summary>Options and example</summary>
 
 <br>
 
-| Option | Default | |
+| Option | Default | Description |
 | --- | --- | --- |
 | `value_style` | `text` | `text`, or `chip` for pills. A sub-button with `show_background: false` stays plain. |
-| `weight` | `bold` | Weight of the values: `bold`, `medium` or `regular`. With Origami, `medium` looks the same as `regular`. |
-| `icon_color` | | Icon colour of plain values: a colour or a Jinja template |
-| `icon_size` | `var(--dot-size, 12px)` | For plain values. Chips use `--icon-size-2xs`, 14 px. |
-| `value_max_width` | | Caps the width of the values, like `50%`, and cuts long ones with an ellipsis. Set `scrolling_effect: false` on those sub-buttons, or Bubble scrolls them instead. |
+| `weight` | `bold` | The font weight of the values, one of `bold`, `medium` or `regular`. With the Origami theme, `medium` looks the same as `regular`. |
+| `icon_color` | | The icon color of plain values, as a color or a Jinja template |
+| `icon_size` | `var(--dot-size, 12px)` | The icon size of plain values. Chips use `--icon-size-2xs`, which is 14 px. |
+| `value_max_width` | | The maximum width of the values, such as `50%`. Longer values end with an ellipsis. Set `scrolling_effect: false` on these sub-buttons, because otherwise Bubble Card scrolls them. |
 
-Each sub-button can have its own `origami_header` with `name`, `icon`, `color` and `background`. `color` colours the value, `background` replaces the chip's background, and `var(--tint)` tints it in the value's colour.
+Each sub-button can have its own `origami_header` key with `name`, `icon`, `color` and `background`. `color` sets the value's color, and `background` replaces the chip's background. Setting `background` to `var(--tint)` tints the chip in the value's color.
 
 ```yaml
 type: custom:bubble-card
@@ -552,8 +550,6 @@ modules:
 origami_header:
   value_style: chip
   icon_size: var(--icon-size-l)
-grid_options:
-  rows: auto
 sub_button:
   main:
     - name: Temperature
@@ -580,31 +576,31 @@ sub_button:
         action: toggle
 ```
 
-The header leaves 24 px above itself and 8 px below, which with the 8 px gap of a section makes 32 and 16. Pop-ups have a gap of their own, set it to 8 px with `bubble-pop-up-gap: 8px`, for example in your theme. Bubble Card gives the title no tap action, only the sub-buttons take one.
+The header leaves 24 px of space above it and 8 px below it. Sections and Bubble Card pop-ups have a gap of 8 px between cards, so the title gets 32 px of space above it and 16 px below it. The header sets its own height, so it needs no `grid_options`. Bubble Card gives the title no tap action, and only the sub-buttons can have one.
 
 </details>
 
 ### Tiles
 
-A grid of tiles on a sub-buttons card: icon chip, name and a state line. Each tile is a sub-button, so Bubble's visibility conditions decide when it shows.
+The Tiles module turns a sub-buttons card into a grid of tiles. Each tile has an icon, a name and a state line. Tiles are sub-buttons, so Bubble Card's visibility conditions decide when each one appears.
 
-<img width="800" alt="Six tiles, the oven and the vacuum sorted to the front" src="../images/favorites.webp">
+<img width="800" alt="Six tiles with the oven and the vacuum sorted to the front" src="../images/favorites.webp">
 
 <details>
 <summary>Options and example</summary>
 
 <br>
 
-Set the number of columns on the card, like `origami_tiles: columns: 3`, from 1 to 6, 2 by default. Everything else is set per tile under `origami_tiles`:
+Set the number of columns on the card with `origami_tiles: columns`, from 1 to 6. The default is 2. All other options are set on each tile, under its own `origami_tiles` key.
 
-| Key | Default | |
+| Key | Default | Description |
 | --- | --- | --- |
-| `name` | the sub-button's name, or the entity's | |
-| `state` | Home Assistant's state | |
-| `color` | the state colour while on | Colour of the chip. A plain value applies in every state, a map like `'on': var(--blue-color)` only while on. |
-| `order` | | Sorts the tile, like `-1` to move it to the front |
+| `name` | The sub-button's name, or the entity's name | |
+| `state` | The state from Home Assistant | |
+| `color` | The state color while the entity is on | The icon color. A plain value applies in every state. A map applies only in the states it lists. For example, `'on': var(--blue-color)` applies only while the entity is on. |
+| `order` | | The tile's position. For example, `-1` moves the tile to the front. |
 | `image` | | A picture instead of the icon |
-| `name_color` | | Colour of the name |
+| `name_color` | | The name's color |
 
 ```yaml
 type: custom:bubble-card
@@ -621,7 +617,7 @@ sub_button:
       icon: mdi:robot-vacuum
       force_icon: true
       origami_tiles:
-        # While it cleans, the progress becomes the name
+        # While the vacuum is cleaning, the progress replaces the name
         name: >-
           ${(p => Number.isNaN(p) || p < 0 ? 'Error'
           : ['docked', 'returning'].includes(state) || p >= 99 ? 'Vacuum'
@@ -643,20 +639,20 @@ sub_button:
           before: '20:59:59'
 ```
 
-More tile examples are in the Favorites part of [`dashboard.yaml`](../dashboard/dashboard.yaml).
+More tile examples are in the Favorites section of [`dashboard.yaml`](../dashboard/dashboard.yaml).
 
 </details>
 
 ### Popup
 
-The pop-up's header, backdrop and close button. Sub-buttons of the pop-up sit under the title, as text or as chips.
+The Popup module styles a pop-up's header, backdrop and close button. The pop-up's sub-buttons appear below the title, as text or as chips.
 
 <details>
 <summary>Options and example</summary>
 
 <br>
 
-`subtitle_style` is `text` (the default) or `chip`. The image at the top of this page shows a pop-up with `text`.
+`subtitle_style` can be `text` (the default) or `chip`. The image at the top of this page shows a pop-up with `text`.
 
 ```yaml
 type: custom:bubble-card
@@ -680,9 +676,9 @@ sub_button:
       icon: mdi:water-percent
       show_state: true
       show_background: false
-cards: []  # the cards of the pop-up
+cards: []  # Add the pop-up's cards here
 ```
 
-The theme sets the pop-up's background. The dashboard's pop-ups are explained in the main README under [Pop-ups](../README.md#pop-ups).
+The theme sets the pop-up background. The main README explains the dashboard's pop-ups under [Pop-ups](../README.md#pop-ups).
 
 </details>
