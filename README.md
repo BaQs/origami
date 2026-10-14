@@ -198,7 +198,7 @@ All of these entities are optional.
 
 ### Menu
 
-The menu requires the optional [Origami Header](#setup), which removes the Home Assistant header. Origami Header and its menu are still experimental. **More** in the navigation bar opens the menu from the top of the screen.
+The menu comes from [Origami Header](https://github.com/hazymorning/origami_header), a card that the dashboard does not need at all. It exists to solve one very specific problem. Every other way to hide the Home Assistant header still shows it for a moment while the page loads. The flash is short, but it is more annoying than it should be. Origami Header truly hides the header and adds a few neat extras, such as this menu. Because the card is a bit hacky, treat it as experimental. In this dashboard, **More** in the navigation bar opens the menu from the top of the screen.
 
 <img width="800" alt="The menu opened from More in the navigation bar, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/menu.webp">
 
