@@ -1,0 +1,32 @@
+name: Fold cards
+
+on:
+  pull_request:
+    paths:
+      - README.md
+      - dashboard/dashboard.yaml
+      - .github/scripts/fold_cards.py
+      - .github/workflows/fold-cards.yml
+  push:
+    branches:
+      - main
+    paths:
+      - README.md
+      - dashboard/dashboard.yaml
+      - .github/scripts/fold_cards.py
+      - .github/workflows/fold-cards.yml
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check the README's cards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.x'
+      - run: pip install pyyaml
+      - run: python .github/scripts/fold_cards.py --check

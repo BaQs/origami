@@ -217,6 +217,8 @@ All of these entities are optional.
 
 The greeting and the notifications card share a grid card with two columns. The grid needs Paper Buttons Row, Origami Notifications and `sensor.greetings` from the [helpers](#helpers).
 
+<!-- dashboard.yaml cards.1.type=custom:origami-notifications -->
+
 ```yaml
 type: grid
 square: false
@@ -375,6 +377,8 @@ The menu comes from [Origami Header](https://github.com/hazymorning/origami_head
 <br>
 
 The menu is one Origami Header card with a Paper Buttons Row inside. It needs Origami Header, which step 5 of the [setup](#setup) installs, and Paper Buttons Row.
+
+<!-- dashboard.yaml type=custom:origami-header-card -->
 
 ```yaml
 type: custom:origami-header-card
@@ -653,6 +657,8 @@ The weather card is an [Origami Weather](https://github.com/hazymorning/origami_
 
 The weather is a single Origami Weather card, and it needs no helpers.
 
+<!-- dashboard.yaml type=custom:origami-weather -->
+
 ```yaml
 type: custom:origami-weather
 weather_entity: weather.home
@@ -838,6 +844,8 @@ All of these entities are examples. If your vacuum has no progress entity, delet
 
 The favorites are two Bubble cards. The first one is the header with the **All** button.
 
+<!-- dashboard.yaml card_type=separator name=Favorites -->
+
 ```yaml
 type: custom:bubble-card
 card_type: separator
@@ -861,6 +869,8 @@ sub_button:
 ```
 
 The second card contains the tiles.
+
+<!-- dashboard.yaml modules.0=origami_tiles -->
 
 ```yaml
 type: custom:bubble-card
@@ -1062,6 +1072,8 @@ Each room has a card. The first four rooms are always visible, and **All rooms**
 
 The rooms header and **All rooms** are Bubble cards, and each room card is a Paper Buttons Row. All of them read [helpers](#helpers). The rooms header is the first card.
 
+<!-- dashboard.yaml card_type=separator name=Rooms -->
+
 ```yaml
 type: custom:bubble-card
 card_type: separator
@@ -1117,6 +1129,8 @@ sub_button:
 ```
 
 The living room's card follows. The dashboard puts the room cards in a grid card with two columns.
+
+<!-- dashboard.yaml base_config.tap_action.navigation_path=#popup_living_room -->
 
 ```yaml
 type: custom:paper-buttons-row
@@ -1244,6 +1258,8 @@ buttons:
 
 **All rooms** is the last card. It turns `input_boolean.all_rooms` on and off, and the rooms after the fourth are conditional cards that appear while this toggle is on.
 
+<!-- dashboard.yaml sub_button.main.0.entity=input_boolean.all_rooms -->
+
 ```yaml
 type: custom:bubble-card
 card_type: separator
@@ -1324,6 +1340,8 @@ If a room has no thermostat or window contact, delete that button. The cell stay
 <br>
 
 The table is a Paper Buttons Row inside a grid card, and it reads the room [helpers](#helpers). The grid's `visibility` condition shows the table while `input_boolean.room_climate_card` is on. The header above the table is the rooms header from the [Rooms](#rooms) section.
+
+<!-- dashboard.yaml visibility.0.entity=input_boolean.room_climate_card -->
 
 ```yaml
 type: grid
@@ -1836,6 +1854,8 @@ Except for the helpers, all of these entities are examples. Delete the buttons a
 <br>
 
 The navigation bar and the card above it are one Navbar Card. It reads several [helpers](#helpers), such as `sensor.active_speaker` and `sensor.lights_on_count`. If you do not use Origami Header, delete the route under `# Opens the Origami Header menu`.
+
+<!-- dashboard.yaml type=custom:navbar-card -->
 
 ```yaml
 type: custom:navbar-card
@@ -2458,6 +2478,8 @@ To create a pop-up for another room, copy the living room pop-up and give it the
 
 This pop-up needs Bubble Card and the [package](packages/origami.yaml).
 
+<!-- dashboard.yaml hash=#popup_living_room -->
+
 ```yaml
 type: custom:bubble-card
 card_type: pop-up
@@ -2993,6 +3015,8 @@ In this example, the speaker's TV input is called `Optical In`. If you do not ha
 <br>
 
 This pop-up needs Bubble Card, Paper Buttons Row and `script.volume` from the [package](packages/origami.yaml).
+
+<!-- dashboard.yaml hash=#popup_tv -->
 
 ```yaml
 type: custom:bubble-card
@@ -3530,6 +3554,8 @@ The timer, the toggle, the script and the automation are in the package. To use 
 <br>
 
 This pop-up needs Bubble Card, Paper Buttons Row and the [package](packages/origami.yaml).
+
+<!-- dashboard.yaml hash=#popup_fan -->
 
 ```yaml
 type: custom:bubble-card
