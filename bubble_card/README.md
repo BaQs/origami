@@ -5,7 +5,7 @@ This folder contains eleven modules for [Bubble Card](https://github.com/Clooos/
 > [!WARNING]
 > These modules are experimental. Bubble Card's CSS is complex, and the way it sets card heights is especially hard to work with. Some details may still change, but the modules work as shown in the dashboard.
 
-<img width="800" alt="A pop-up built from the modules, in light and dark mode" src="../images/module-popup.webp">
+<img width="800" alt="A pop-up built from the modules, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-popup.webp">
 
 ## Installation
 
@@ -47,7 +47,7 @@ Give button cards `rows: 1.375` and compact cards `rows: 1`, including cards in 
 
 <br>
 
-Color mostly shows that a device is on. The Base module gives the icon Home Assistant's state color for the entity. The area behind the icon uses the theme's `tint`, which mixes the same color into the card background. Lights are amber, heating is deep orange, media is light blue, fans are cyan and vacuums are teal. Switches and all other entities without a color of their own are green.
+Color mostly shows that a device is on. The Base module gives the icon Home Assistant's state color for the entity. On a tile, the area behind the icon uses the theme's `tint`, which mixes the same color into the card background. On a regular card, Base mixes the color into the gray fill behind the icon. Lights are amber, heating is deep orange, media is light blue, fans are cyan and vacuums are teal. Switches and all other entities without a color of their own are green.
 
 Base only colors entities whose domain has a state color in Home Assistant. The Tiles module colors every tile whose entity is on. The Light module also colors its slider, and the Button module's `lamp` style tints the active button.
 
@@ -55,6 +55,7 @@ Controls stay neutral. An active control uses `fill-active`, which is the text c
 
 - A sub-button with `show_background: true` is filled while its entity, or the card's entity, is on and has a state color.
 - Sub-buttons that navigate, open the more-info dialog or open a URL stay neutral, unless they have `css_class: accent`.
+- A sub-button without a `tap_action` opens the more-info dialog, so it also stays neutral.
 - The Fan module fills its power button and the button for the current speed. Thermostat buttons stay neutral.
 
 </details>
@@ -64,7 +65,7 @@ Controls stay neutral. An active control uses `fill-active`, which is the text c
 
 <br>
 
-The modules write a few words into the cards, such as On, Off or Heating. These words are German when your Home Assistant user's language is German, and English otherwise. Most modules keep their words in one list in their code. The Media module has several lists, and the words `offline` and `External Input` are always English.
+The modules write a few words into the cards, such as On, Off or Heating. These words are German when your Home Assistant user's language is German, and English otherwise. Most modules keep their words in one list in their code. The Media module has several lists. The words `External Input` in the Media module and `offline` in the Speaker Select module are always English.
 
 </details>
 
@@ -99,7 +100,7 @@ sub_button:
 
 The Base module is the frame for button and media player cards. It sets the height, icon, text styles and state line, and it keeps the sub-buttons neutral. Its options create a slim row, add a pill switch, group the sub-buttons or turn the card into a tile.
 
-<img width="800" alt="A regular card, a tile and two compact rows with the pill switch" src="../images/module-base.webp">
+<img width="800" alt="A regular card, a tile and two compact rows with the pill switch" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-base.webp">
 
 <details>
 <summary>Options and example</summary>
@@ -109,7 +110,7 @@ The Base module is the frame for button and media player cards. It sets the heig
 | Option | Default | Description |
 | --- | --- | --- |
 | `compact` | `false` | A slim row with a small icon and no state line |
-| `toggle` | `false` | Every sub-button becomes a pill switch that shows whether the card's entity is on. Use one sub-button with `tap_action: toggle`. |
+| `toggle` | `false` | Every sub-button becomes a pill switch that shows whether the card's entity is on. Give one sub-button a tap action with `action: toggle`, as in the example below. |
 | `group` | `false` | The sub-buttons appear as small buttons in a tray. |
 | `tile` | `false` | The card has no shadow and a light gray fill. The icon and the sub-buttons get the card background and a shadow. |
 | `solid_controls` | `false` | On media cards that use the Media module, Bubble Card's play and pause button is filled while media is playing, and its power button is filled while the player is on. This option has no effect on sub-buttons. |
@@ -166,7 +167,7 @@ rows: 1
 
 The Light module styles light cards together with Base. The state line shows the brightness, and sliders fill with amber, the state color for lights. The small mark at the end of the fill is also amber. In dark mode, the fill stays gray. Bubble Card draws light text on the fill, and an amber that is dark enough for light text looks brown.
 
-<img width="800" alt="A light group card with filled buttons and two compact lamps" src="../images/module-light.webp">
+<img width="800" alt="A light group card with filled buttons and two compact lamps" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-light.webp">
 
 <details>
 <summary>Example</summary>
@@ -190,8 +191,11 @@ button_action:
     action: more-info
 sub_button:
   main:
-    - icon: mdi:chevron-down
+    - entity: input_boolean.living_room_scenes
+      icon: mdi:chevron-down
       show_background: true
+      tap_action:
+        action: toggle
     - icon: mdi:power
       show_background: true
       tap_action:
@@ -210,7 +214,7 @@ To show a lamp as a compact row, use Base's compact example with a light entity.
 
 The Fan module styles fan cards. It works with Base and its `group` option. The icon spins at the fan's speed, and the state line shows the speed as a percentage. The power button and the button for the current speed are filled while the fan runs.
 
-<img width="800" alt="Two fan cards, one at speed two and one that is off" src="../images/module-fan.webp">
+<img width="800" alt="Two fan cards, one at speed two and one that is off" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-fan.webp">
 
 <details>
 <summary>Example</summary>
@@ -260,9 +264,9 @@ rows: 1.375
 
 ### Climate
 
-The Climate module styles thermostat cards together with Base. A thermostat card counts as on only while the thermostat is heating, cooling, drying or running its fan. A selected mode alone does not count. The state line shows Heating while the thermostat is heating, Auto while it is idle and Off when it is off. The icon and color follow what the thermostat is doing. Thermostats without `hvac_action` always show Auto and never get a color.
+The Climate module styles thermostat cards together with Base. A thermostat card counts as on only while `hvac_action` shows that the thermostat is working, for example while it is heating, cooling, drying or running its fan. A selected mode alone does not count. The state line shows Heating while the thermostat is heating, Auto while it is idle and Off when it is off. The icon and color follow what the thermostat is doing. Thermostats without `hvac_action` never get a color. They show Off while they are off, Error while they are unavailable and Auto at all other times.
 
-<img width="800" alt="Three thermostats that are heating, idle and off" src="../images/module-climate.webp">
+<img width="800" alt="Three thermostats that are heating, idle and off" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-climate.webp">
 
 <details>
 <summary>Example</summary>
@@ -308,7 +312,7 @@ The plus and minus buttons need your own actions, for example `script.thermostat
 
 The Media module styles media player cards together with Base. Speakers show the title and artist while they are playing, and their name at other times. If an artwork entity or an app entity is set, the card is in TV mode and shows the app or what is being cast.
 
-<img width="800" alt="A speaker with a volume slider, a TV in TV mode and a compact speaker" src="../images/module-media.webp">
+<img width="800" alt="A speaker with a volume slider, a TV in TV mode and a compact speaker" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-media.webp">
 
 <details>
 <summary>Options and example</summary>
@@ -320,7 +324,7 @@ The Media options go under `origami_media:`.
 | Option | Description |
 | --- | --- |
 | `compact` | A slim row. On media cards, use this option instead of Base's `compact` option. |
-| `collapse` | The slider at the bottom is hidden while the speaker is not playing. In TV mode, it is hidden while the TV is off. |
+| `collapse` | The slider at the bottom is hidden while the speaker is not playing. It stays visible while the speaker is on or uses Bluetooth or the optical input. In TV mode, it is hidden while the TV is off. |
 | `art_entity` | A media player that adds the title, the app and a picture while it is playing, such as a Chromecast |
 | `app_entity` | A media player that reports the running app, such as Android TV Remote. The card also uses this entity when its own entity is unavailable. |
 
@@ -375,7 +379,7 @@ origami_media:
   app_entity: media_player.tv_remote
 ```
 
-The module was written for LinkPlay speakers. In speaker mode, the cover comes from the LinkPlay sensor `sensor.linkplay_<name>`, and group members show their group leader's state. The leader's name comes from `sensor.linkplay_master`. The icon is hidden while `media_player.<name>_dlna` is playing something with a picture. At all other times, the icon is visible. The code shortens a few speaker names in a list called `names`. Replace these names with your own.
+The module was written for LinkPlay speakers. In speaker mode, the cover comes from the LinkPlay sensor `sensor.linkplay_<name>`, and group members show their group leader's state. The state of `sensor.linkplay_master` is the group leader's entity ID. The icon is hidden while `media_player.<name>_dlna` has a picture and reports DLNA as its source. The icon stays visible while the speaker itself has a picture or uses the optical input. The code shortens a few speaker names in a list called `names`. Replace these names with your own.
 
 </details>
 
@@ -383,7 +387,7 @@ The module was written for LinkPlay speakers. In speaker mode, the cover comes f
 
 The Speaker Select module creates the speaker rows for a music pop-up and works with Base. The speaker's name is always visible, followed by what it is playing. The album art fills the icon and appears blurred behind the row. A crown marks the group leader, a link marks its members, and the selected speaker's row has a stronger fill.
 
-<img width="800" alt="Four speaker rows for a playing group leader, a group member, a paused speaker and an offline speaker" src="../images/module-speaker.webp">
+<img width="800" alt="Four speaker rows for a playing group leader, a group member, a paused speaker and an offline speaker" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-speaker.webp">
 
 <details>
 <summary>Example</summary>
@@ -434,7 +438,7 @@ Of all the modules, this one depends most on the example home. The groups come f
 
 The Slider module turns a card into a standalone slider, so the card itself is the track. List Base first, then Slider.
 
-<img width="800" alt="A subwoofer level slider and a fan speed slider" src="../images/module-slider.webp">
+<img width="800" alt="A subwoofer level slider and a fan speed slider" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-slider.webp">
 
 <details>
 <summary>Example</summary>
@@ -466,7 +470,7 @@ Use `slider_value_position: hidden` to hide the number.
 
 The Button module creates rows and grids of buttons on a sub-buttons card. Put every button into `sub_button: bottom` with `show_name: true`.
 
-<img width="800" alt="Scenes with the active scene highlighted, two toggles and a plain text button" src="../images/module-button.webp">
+<img width="800" alt="Scenes with the active scene highlighted, two toggles and a plain text button" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-button.webp">
 
 <details>
 <summary>Options and example</summary>
@@ -524,7 +528,7 @@ sub_button:
 
 The Header module creates a section header. The separator card's name is the title, and its sub-buttons are the values on the right. This module is not related to the Origami Header card from the dashboard setup.
 
-<img width="800" alt="Headers with text, a colored dot and chips" src="../images/module-header.webp">
+<img width="800" alt="Headers with text, a colored dot and chips" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/module-header.webp">
 
 <details>
 <summary>Options and example</summary>
@@ -576,7 +580,7 @@ sub_button:
         action: toggle
 ```
 
-The header leaves 24 px of space above it and 8 px below it. Sections and Bubble Card pop-ups have a gap of 8 px between cards, so the title gets 32 px of space above it and 16 px below it. The header sets its own height, so it needs no `grid_options`. Bubble Card gives the title no tap action, and only the sub-buttons can have one.
+The header leaves 24 px of space above it and 8 px below it. Sections and Bubble Card pop-ups have a gap of 8 px between cards, so the title gets 32 px of space above it and 16 px below it. Inside a vertical stack, Bubble Card uses a gap of 14 px, which gives 38 px and 22 px. The header sets its own height, so it needs no `grid_options`. Bubble Card gives the title no tap action, and only the sub-buttons can have one.
 
 </details>
 
@@ -584,7 +588,7 @@ The header leaves 24 px of space above it and 8 px below it. Sections and Bubble
 
 The Tiles module turns a sub-buttons card into a grid of tiles. Each tile has an icon, a name and a state line. Tiles are sub-buttons, so Bubble Card's visibility conditions decide when each one appears.
 
-<img width="800" alt="Six tiles with the oven and the vacuum sorted to the front" src="../images/favorites.webp">
+<img width="800" alt="Six tiles with the oven and the vacuum sorted to the front" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/favorites.webp">
 
 <details>
 <summary>Options and example</summary>

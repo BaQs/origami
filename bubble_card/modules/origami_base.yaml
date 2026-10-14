@@ -10,7 +10,7 @@ origami_base:
     - calendar
     - sub-buttons
     - separator
-  description: "The Base module is the frame for button and media player cards. On other card types, it only styles the sub-buttons. List Base first and then the module for the device. Its options create a slim row, add a pill switch, group the sub-buttons or turn the card into a tile. The icon shows Home Assistant's state color while the entity is on, and the controls stay neutral. A sub-button is filled while its entity is on. To keep a sub-button neutral, set its css_class to plain. To fill it while its entity is on, even if it navigates, set css_class to accent. The module reference in bubble_card/README.md explains every option."
+  description: "The Base module is the frame for button and media player cards. On other card types, it only styles the sub-buttons. List Base first and then the module for the device. Its options create a slim row, add a pill switch, group the sub-buttons or turn the card into a tile. The icon shows Home Assistant's state color while the entity is on, and the controls stay neutral. A sub-button is filled while its entity is on, unless it navigates, opens a URL or opens the more-info dialog. To keep a sub-button neutral, set its css_class to plain. To fill it while its entity is on, even if it navigates, set css_class to accent. The module reference in bubble_card/README.md explains every option."
   editor:
     - name: compact
       label: "Compact"
