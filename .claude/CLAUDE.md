@@ -7,7 +7,7 @@ Anything Claude names itself in this repo gets a small paper or origami referenc
 - Branches Claude creates: `claude/<fold>-<topic>`, like `claude/valley-fold-readme` or `claude/crane-weather`.
 - Session titles: the same idea, like "Crease: README fixes".
 - Releases: `Origami <version> · <name>`. 2.0 is The Unfolding. Ideas for later ones: Valley Fold, Mountain Fold, Squash Fold, Petal Fold, Crane, Waterbomb, Kite Base, Washi.
-- Scratch files, demo dashboards and test entities can use the same words.
+- Scratch files can use the same words. Anything a screenshot shows, like a demo entity's name, stays plain.
 
 Commit messages, PR titles and the README stay plain.
 

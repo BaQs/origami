@@ -428,8 +428,8 @@ Each room can get the same pop-up, opened by its room card. Top to bottom: what 
 - The hash, `#popup_living_room`, is what the living room card navigates to.
 - **Media.** The TV while it's on, the speaker otherwise. A tap on the TV card opens the TV pop-up. Below it go small things of the room, here a plug as a compact row with a switch.
 - **Lights.** The header counts the lights of the room's light group that are on. **All** switches the whole group, the arrow next to it shows the scenes. The scene that was turned on last lights up.
-- **Climate.** The header shows temperature and humidity, with the dot in the room's comfort colour. A tap on the fan card opens the [fan pop-up](#fan). Plus and minus move the thermostat by one degree.
-- **Everything off** turns off the lights, fans, media players and switches in the room's [area](https://www.home-assistant.io/docs/organizing/areas/).
+- **Climate.** The header shows temperature and humidity, with the dot in the room's comfort colour. A tap on the fan card opens the [fan pop-up](#fan). Plus and minus move the thermostat by half a degree.
+- **Everything off** turns off the lights, fans, media players and switches in the room's [area](https://www.home-assistant.io/docs/organizing/areas/). The list is in `script.room_off`.
 - When you close the pop-up, the scenes are hidden again.
 
 </details>

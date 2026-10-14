@@ -3123,7 +3123,7 @@ views:
                                 perform_action: script.thermostat_step
                                 data:
                                   thermostat: climate.living_room
-                                  step: -1
+                                  step: -0.5
                             - entity: climate.living_room
                               css_class: readout
                               show_icon: false
@@ -3139,7 +3139,7 @@ views:
                                 perform_action: script.thermostat_step
                                 data:
                                   thermostat: climate.living_room
-                                  step: 1
+                                  step: 0.5
                         state_content: []
                         rows: 1.375
 
@@ -3861,7 +3861,7 @@ views:
                             state: >-
                               {% set p = state_attr('fan.living_room', 'percentage') | float(0) %}
                               {%- if not is_state('fan.living_room', 'on') %}Off
-                              {%- elif state_attr('fan.living_room', 'preset_mode') == 'nature' %}Natural breeze
+                              {%- elif state_attr('fan.living_room', 'preset_mode') == 'nature' %}Breeze
                               {%- elif p <= 34 %}Low
                               {%- elif p <= 67 %}Medium
                               {%- else %}High{% endif %}
@@ -3938,7 +3938,7 @@ views:
                             styles:
                               button:
                                 flex: 0 0 auto
-                                max-width: calc(var(--control-height) - var(--ha-space-2) * 2)
+                                width: calc(var(--control-height) - var(--ha-space-2) * 2)
                                 height: var(--control-height)
                                 border-radius: 0px
                                 margin-left: calc(0px - var(--ha-space-2))
@@ -4033,7 +4033,7 @@ views:
                       # The fan's presets. Use the names your fan has.
                       - layout: icon
                         icon: mdi:leaf
-                        tooltip: Natural breeze
+                        tooltip: Breeze
                         state: >-
                           {{ 'on' if is_state('fan.living_room', 'on') and state_attr('fan.living_room', 'preset_mode') == 'nature' else 'off' }}
                         tap_action:
