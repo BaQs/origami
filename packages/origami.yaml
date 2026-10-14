@@ -13,6 +13,14 @@ input_boolean:
   all_rooms:
     name: All rooms
     icon: mdi:home-group
+  # Shows the scene buttons in the living room pop-up
+  living_room_scenes:
+    name: Living room scenes
+    icon: mdi:palette-outline
+  # Shows the timer row in the fan pop-up
+  fan_popup_timer:
+    name: Fan pop-up timer
+    icon: mdi:timer-outline
 
 input_select:
   # Fallback for the active speaker when nothing plays
@@ -22,6 +30,13 @@ input_select:
       - media_player.living_room
       - media_player.bedroom
       - media_player.office
+
+# The fan pop-up's timer. An automation below turns the fan off when it runs out.
+timer:
+  living_room_fan:
+    name: Living room fan timer
+    icon: mdi:timer-outline
+    restore: true
 
 template:
   - sensor:
@@ -309,6 +324,19 @@ template:
           {% elif h < 22 %}good evening
           {% else %}good night{% endif %}
 
+      # The living room scene that was turned on last, like evening. None while the lights are off.
+      - name: Living room scene
+        unique_id: living_room_scene
+        icon: mdi:palette-outline
+        state: >
+          {% set ns = namespace(id='none', t=0) %}
+          {% for s in ['scene.living_room_evening', 'scene.living_room_dinner', 'scene.living_room_movie',
+                       'scene.living_room_late', 'scene.living_room_night'] %}
+            {% set t = as_timestamp(states(s), 0) %}
+            {% if t > ns.t %}{% set ns.t = t %}{% set ns.id = s %}{% endif %}
+          {% endfor %}
+          {{ ns.id.replace('scene.living_room_', '') if is_state('light.living_room', 'on') else 'none' }}
+
       # Counters for the navbar badges
       - name: Lights on count
         unique_id: lights_on_count
@@ -481,3 +509,119 @@ template:
                     if states(z) in live else none)
                  or 'none' }}
             {% endif %}
+
+script:
+  # Oscillation on or off, for the fan pop-up
+  fan_oscillation:
+    alias: Fan oscillation
+    description: Switches a fan's oscillation on or off.
+    fields:
+      fan:
+        description: The fan
+        example: fan.living_room
+        selector:
+          entity:
+            domain: fan
+    sequence:
+      - action: fan.oscillate
+        target:
+          entity_id: "{{ fan }}"
+        data:
+          oscillating: "{{ not state_attr(fan, 'oscillating') }}"
+
+  # Volume in small steps, for the TV pop-up
+  volume:
+    alias: Volume
+    description: Turns a speaker up or down in small steps, or mutes it.
+    mode: queued
+    fields:
+      speaker:
+        description: The media player
+        example: media_player.living_room
+        selector:
+          entity:
+            domain: media_player
+      step:
+        description: How much to change the volume, from -1 to 1
+        example: 0.05
+      mute:
+        description: Mutes or unmutes instead
+        example: true
+    sequence:
+      - if:
+          - condition: template
+            value_template: "{{ mute | default(false) | bool }}"
+        then:
+          - action: media_player.volume_mute
+            target:
+              entity_id: "{{ speaker }}"
+            data:
+              is_volume_muted: "{{ not state_attr(speaker, 'is_volume_muted') }}"
+        else:
+          - action: media_player.volume_set
+            target:
+              entity_id: "{{ speaker }}"
+            data:
+              volume_level: >
+                {{ [[state_attr(speaker, 'volume_level') | float(0) + step | float(0), 0] | max, 1] | min | round(2) }}
+
+  # Plus and minus on the thermostat cards
+  thermostat_step:
+    alias: Thermostat step
+    description: Moves a thermostat's target temperature up or down.
+    mode: queued
+    fields:
+      thermostat:
+        description: The thermostat
+        example: climate.living_room
+        selector:
+          entity:
+            domain: climate
+      step:
+        description: How far, in degrees
+        example: -0.5
+    sequence:
+      - action: climate.set_temperature
+        target:
+          entity_id: "{{ thermostat }}"
+        data:
+          temperature: >
+            {% set t = state_attr(thermostat, 'temperature') | float(20) + step | float(0) %}
+            {{ [[t, state_attr(thermostat, 'min_temp') | float(7)] | max, state_attr(thermostat, 'max_temp') | float(35)] | min }}
+
+  # Everything off, at the bottom of a room pop-up
+  room_off:
+    alias: Room off
+    description: Turns off the lights, fans, media players and switches in an area.
+    fields:
+      area:
+        description: The area
+        example: living_room
+        selector:
+          area:
+    sequence:
+      - repeat:
+          for_each: [light, fan, media_player, switch]
+          sequence:
+            # Only domains the area has. Calling one that isn't set up would stop the script.
+            - if: "{{ expand(area_entities(area)) | selectattr('domain', 'eq', repeat.item) | list | count > 0 }}"
+              then:
+                - action: "{{ repeat.item }}.turn_off"
+                  target:
+                    area_id: "{{ area }}"
+                  continue_on_error: true
+
+automation:
+  # Turns the fan off when the timer from the fan pop-up runs out
+  - id: origami_living_room_fan_timer
+    alias: Living room fan timer
+    description: Turns the living room fan off when its timer finishes.
+    triggers:
+      - trigger: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.living_room_fan
+    actions:
+      - action: fan.turn_off
+        target:
+          entity_id: fan.living_room

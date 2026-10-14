@@ -1,6 +1,6 @@
 origami_speaker:
   name: "Origami • Speaker Select"
-  version: "4.1.2"
+  version: "4.1.3"
   supported:
     - media-player
   description: "Selector rows for the music pop-up: Base + Speaker Select, in that order, Media is not needed here. The name stays pinned, the line next to it shows what is actually playing, mirrored from the group master on slaves, and Bubble's own scrolling handles long titles whenever it owns the text. Album art fills the icon chip and washes the row background, following the same rules and shared bad-art memory as Origami Media, ignore_art works here too. Grouping is marked on the chip, a crown on the master and a link badge on slaves, audible speakers get a chip in Home Assistant's media player colour. The cards need show_state off and show_attribute on with no attribute, force_icon on, hidden media buttons and tap actions on script.linkplay_musik_popup. Highlights the player picked in input_select.lautsprecher_wahlen. Give the volume sub-button css_class readout and the module writes the rounded percentage. In a section view set rows: 1. The gap between rows belongs to the pop-up, tune --bubble-pop-up-gap there."
@@ -73,7 +73,7 @@ origami_speaker:
       --org-row-height: calc(var(--control-height-list) + 2px);
       --org-icon-size: var(--icon-size-xs);
       --org-tile-size: calc(var(--org-icon-size) + 2 * var(--ha-space-1));
-      --org-inset: calc((var(--org-row-height) - var(--org-tile-size)) / 2);
+      --org-chip-inset: calc((var(--org-row-height) - var(--org-tile-size)) / 2);
       --org-name-size: var(--ha-font-size-m);
       --org-color: var(--state-media_player-active-color);
       --org-chip-bg: ${card._orgSp.audible ? "var(--org-field)" : "var(--fill-subtle)"};
@@ -102,8 +102,8 @@ origami_speaker:
     }
     ha-card .bubble-icon-container {
       min-height: 0px !important;
-      margin: 0px var(--ha-space-1) 0px var(--org-inset) !important;
-      border-radius: max(var(--radius-small), calc(var(--ha-card-border-radius, var(--bubble-border-radius, 24px)) - var(--org-inset))) !important;
+      margin: 0px var(--ha-space-1) 0px var(--org-chip-inset) !important;
+      border-radius: max(var(--radius-small), calc(var(--ha-card-border-radius, var(--bubble-border-radius, 24px)) - var(--org-chip-inset))) !important;
       position: relative;
       overflow: visible !important;
     }

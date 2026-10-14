@@ -1,22 +1,22 @@
-<img alt="Origami, a calm theme and dashboard for Home Assistant" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
+# ◪ Origami
 
-<p>
-<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme"><img height="28" alt="HACS: Custom" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/badge-hacs.webp"></a>
-<a href="https://www.home-assistant.io"><img height="28" alt="Home Assistant 2026.10" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/badge-ha.webp"></a>
-</p>
+<a href="https://github.com/hazymorning/origami/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/hazymorning/origami?label=Release&color=6A8778&labelColor=181715"></a>
+<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme"><img alt="HACS custom repository" src="https://img.shields.io/badge/HACS-Custom-6A8778?labelColor=181715"></a>
 
-A calm Home Assistant theme, and a phone dashboard folded out of [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card). Plus a set of Bubble Card modules made for the theme.
+A calm theme for Home Assistant, and the phone dashboard I built with it, mostly from [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card). Plus Bubble Card modules in the same style.
+
+<img alt="The Origami dashboard on two phones, one in light and one in dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
 
 | | |
 | --- | --- |
-| **Theme** | Soft, warm surfaces in light and dark, and colour only where something is on. Works with any dashboard. |
-| **Dashboard** | Weather, favorites, rooms and a navbar for phones. Nothing jumps while it loads. |
+| **Theme** | Soft, warm surfaces in light and dark. Colour mostly marks what is on. Works with any dashboard. |
+| **Dashboard** | Weather, favorites, rooms and a navbar, made for phones. Nothing jumps around while it loads. |
 | **Bubble modules** | The theme's look for Bubble Card. Still experimental. |
 
 > [!NOTE]
-> This is a personal dashboard that has grown over years. Some things are done in very specific ways, mostly to avoid layout shifts. A desktop layout is still in the works. Take what you like.
+> This is my own dashboard, grown over years. The entities are from my home: swap them for yours and leave out what you don't need. Some parts are built in unusual ways so nothing jumps while the page loads, see [Under the hood](#under-the-hood). A desktop layout is still in the works.
 
-[Setup](#setup) · [Dashboard](#dashboard) · [Bubble modules](#bubble-modules) · [Under the hood](#under-the-hood) · [Help](#help)
+[Setup](#setup) · [Dashboard](#dashboard) · [Pop-ups](#pop-ups) · [Bubble modules](#bubble-modules) · [Under the hood](#under-the-hood) · [Help](#help)
 
 ## Setup
 
@@ -32,12 +32,12 @@ A calm Home Assistant theme, and a phone dashboard folded out of [Paper Buttons 
      themes: !include_dir_merge_named themes
    ```
 
-2. Open the theme in HACS, confirm with **Add** if asked, then **Download**.
+2. Open Origami in HACS, confirm with **Add** if asked, then **Download**.
 
    [![Open your Home Assistant instance and open this repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme)
 
 3. Run [`frontend.reload_themes`](https://my.home-assistant.io/redirect/developer_call_service/?service=frontend.reload_themes) and pick **Origami** in your [profile](https://my.home-assistant.io/redirect/profile/).
-4. For the full look, copy [`www/fonts`](https://github.com/hazymorning/origami/tree/main/www/fonts) to `/config/www/fonts` and add `/local/fonts/montserrat.css` as **Stylesheet** in [Resources](https://my.home-assistant.io/redirect/lovelace_resources/).
+4. For the font, copy [`www/fonts`](https://github.com/hazymorning/origami/tree/main/www/fonts) to `/config/www/fonts` and add `/local/fonts/montserrat.css` as **Stylesheet** in [Resources](https://my.home-assistant.io/redirect/lovelace_resources/). Restart once if `www` is new.
 
 </details>
 
@@ -46,7 +46,7 @@ A calm Home Assistant theme, and a phone dashboard folded out of [Paper Buttons 
 
 <br>
 
-Tested with Home Assistant 2026.10. You need [HACS](https://hacs.xyz) and access to `/config`, for example through the Samba share or Studio Code Server app.
+Tested with Home Assistant 2026.10. You need [HACS](https://hacs.xyz) and access to `/config`, for example through the Samba share or the Studio Code Server app.
 
 <details>
 <summary>1. Copy three folders</summary>
@@ -59,7 +59,7 @@ Download this repository (**Code**, **Download ZIP**) and copy into `/config`:
 | --- | --- |
 | `www/fonts` | The font |
 | `bubble_card/modules` | The Bubble modules |
-| `packages` | The helper sensors |
+| `packages` | The helpers: template sensors, toggles, a speaker select, a timer, scripts and an automation |
 
 </details>
 
@@ -90,11 +90,11 @@ Open each one, confirm with **Add** if asked, then **Download**.
 | | For | |
 | --- | --- | --- |
 | [Origami](https://github.com/hazymorning/origami) | The theme | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme) |
-| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Greeting, menu, climate table and room cards | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
-| [Bubble Card](https://github.com/Clooos/Bubble-Card) | Favorites and section headers | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card&category=plugin) |
+| [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) | Greeting, server card, room cards, climate table, the TV remote and the fan pop-up | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=jcwillox&repository=lovelace-paper-buttons-row&category=plugin) |
+| [Bubble Card](https://github.com/Clooos/Bubble-Card) | Favorites, section headers and the pop-ups | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card&category=plugin) |
 | [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools) | Loads the Bubble modules | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Clooos&repository=Bubble-Card-Tools&category=integration) |
 | [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) | The bar at the bottom | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=joseluis9595&repository=lovelace-navbar-card&category=plugin) |
-| [Origami Notifications](https://github.com/hazymorning/origami_notifications) | Notifications next to the greeting | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_notifications&category=plugin) |
+| [Origami Notifications](https://github.com/hazymorning/origami_notifications) | The notifications next to the greeting | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_notifications&category=plugin) |
 | [Origami Weather](https://github.com/hazymorning/origami_weather) | The weather card | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_weather&category=plugin) |
 
 Restart once more, then [add Bubble Card Tools](https://my.home-assistant.io/redirect/config_flow_start/?domain=bubble_card_tools) as an integration.
@@ -112,44 +112,47 @@ Restart once more, then [add Bubble Card Tools](https://my.home-assistant.io/red
 </details>
 
 <details>
-<summary>5. Add the dashboard</summary>
+<summary>5. Optional: Origami Header</summary>
+
+<br>
+
+It removes Home Assistant's header completely, with no flicker while the page loads. In its place you get a menu that opens from the top when you tap **More** in the navbar. It's a bit experimental, but no other way I've found hides the header this cleanly. The dashboard works fine without it.
+
+1. [Open it in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_header&category=plugin), confirm with **Add** if asked, then **Download**. It needs Home Assistant 2026.9 or newer.
+2. Add the `extra_module_url` lines under the `frontend:` you already have in `configuration.yaml`, then restart:
+
+   ```yaml
+   frontend:
+     themes: !include_dir_merge_named themes
+     extra_module_url:
+       - /hacsfiles/origami_header/origami-header.js
+   ```
+
+Edit mode is then in the menu, or add `?edit=1` to the address.
+
+</details>
+
+<details>
+<summary>6. Add the dashboard</summary>
 
 <br>
 
 1. Open [Dashboards](https://my.home-assistant.io/redirect/lovelace_dashboards/), **Add dashboard**, **New dashboard from scratch**, and open it.
 2. From the three dots, choose **Edit dashboard**, then **Raw configuration editor**.
-3. Replace everything with [`dashboard.yaml`](dashboard/dashboard.yaml) and save.
-
-Without Origami Header, delete the card under `# Fold-out menu` and the route under `# Opens the Origami Header menu` first.
-
-</details>
-
-<details>
-<summary>6. Use your entities</summary>
-
-<br>
-
-The dashboard uses examples like `light.living_room`. In the raw editor, Ctrl+F (⌘F on a Mac) finds and replaces them. Each part below lists what it reads. Rename the same entities in `/config/packages/origami.yaml`, then restart.
+3. Replace everything with [`dashboard.yaml`](dashboard/dashboard.yaml).
+4. Without Origami Header, delete the card under `# Menu (Origami Header)` and the route under `# Opens the Origami Header menu`.
+5. Save.
 
 </details>
 
 <details>
-<summary>Optional: Origami Header</summary>
+<summary>7. Make it yours</summary>
 
 <br>
 
-It hides Home Assistant's header and turns it into a menu that folds out from the top, opened by **More** in the navbar. It's a bit experimental, but it's the only way I've found to hide the header completely, without a flicker. The dashboard works fine without it.
+The dashboard is set up for my home. In the raw editor, Ctrl+F (⌘F on a Mac) finds an entity like `light.living_room`, so you can replace it with yours, also in the pop-ups at the end. Delete what you don't have, like a tile, a room or a navbar route. Each part below lists the entities it uses.
 
-1. [Open it in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami_header&category=plugin) and choose **Download**. It needs Home Assistant 2026.9 or newer.
-2. Add the `extra_module_url` lines to `configuration.yaml` and restart:
-
-   ```yaml
-   frontend:
-     extra_module_url:
-       - /hacsfiles/origami_header/origami-header.js
-   ```
-
-Edit mode is then in its menu, or add `?edit=1` to the address.
+Then change the same entities in `/config/packages/origami.yaml`: temperature and humidity sensors, windows, the front door, lights, speakers, the scenes and the fan. The helpers it creates, like `sensor.climate_living_room`, are read by the dashboard, so rename those in both files or not at all. Restart.
 
 </details>
 
@@ -157,65 +160,100 @@ Edit mode is then in its menu, or add `?edit=1` to the address.
 
 ## Dashboard
 
-One sections view, made for phones. Each part starts with a comment in [`dashboard.yaml`](dashboard/dashboard.yaml), like `# Favorites`.
+One sections view, made for phones. Each part starts with a comment in [`dashboard.yaml`](dashboard/dashboard.yaml), like `# Favorites`. Some taps open a [pop-up](#pop-ups). The living room, the TV and the fan pop-ups are included. The others, like music, lights or the other rooms, aren't yet, so those taps do nothing for now.
 
 <img width="760" alt="The Origami dashboard on a phone, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/dashboard.webp">
 
-### Greeting and menu
+### Greeting and notifications
 
-The next event, a greeting and the notifications. With the optional Origami Header, **More** in the navbar slides a menu down from the top, over the dashboard.
+A greeting that changes with the time of day, with the next calendar event above it. Next to it is the Origami Notifications card.
 
 <img width="800" alt="The next event, the greeting and the notifications card" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/header.webp">
-
-<img width="800" alt="Tap More in the navbar and the menu slides down from the top, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/menu.webp">
 
 <details>
 <summary>How it works</summary>
 
 <br>
 
-- The greeting is a Paper Buttons Row with the next calendar entry above it.
-- [Origami Notifications](https://github.com/hazymorning/origami_notifications) turns through what needs attention. A tap opens the list.
-- The menu holds a server card and buttons for files, automations, the sidebar and edit mode. **More** in the navbar opens it.
-- The server chip is green when all is good, accent coloured with updates, and orange or red when disk, memory, processor or backup need a look.
+- The greeting and the line above it are a Paper Buttons Row. The line shows the current or next event of `calendar.household`, from its `message` attribute. For another entity, change the entity and remove `attribute: message`. Or delete the line and keep only the greeting.
+- [Origami Notifications](https://github.com/hazymorning/origami_notifications) shows Home Assistant's notifications, repairs and updates without any setup. Each entity you add shows only while it matters, like a timer while it runs. Here it watches weather warnings, a calendar, a pizza timer, the oven, the vacuum and dinner.
+- Because `hide_when_empty` is `false` here, the weather and the next events turn by after the entries, and fill the card when nothing is going on. With `true`, the card's default, it hides when there is nothing to show.
+- With several entries, it switches between them every 3 seconds. A tap opens the list.
 
 </details>
 
 <details>
-<summary>What it needs</summary>
+<summary>What it uses here</summary>
 
 <br>
 
 | Entity | For |
 | --- | --- |
-| `calendar.household` | The next entry |
-| `sensor.greetings` | The greeting |
-| `weather.home` | Rain ahead in the notifications |
-| `sensor.system_monitor_*` | Processor, memory, disk and last boot, from [System Monitor](https://www.home-assistant.io/integrations/systemmonitor/) |
-| `sensor.backup_last_successful_automatic_backup` | The last backup |
+| `sensor.greetings` | The greeting, from the [helpers](#under-the-hood) |
+| `calendar.household` | The event above the greeting. The notifications show it from a day ahead. |
+| `weather.home` | Rain, snow, thunder and frost ahead, and the current weather |
+| `sensor.dwd_*`, `timer.pizza`, `sensor.oven_ready_in`, `vacuum.robot`, `sensor.dinner` | Examples. The card takes almost any entity, see its [README](https://github.com/hazymorning/origami_notifications) |
+
+All of them are optional.
 
 </details>
 
-### Weather
+### Menu
 
-An [Origami Weather](https://github.com/hazymorning/origami_weather) card with a calm colour per condition.
+Needs the optional [Origami Header](#setup). Home Assistant's header is gone, and **More** in the navbar opens this menu from the top of the screen.
 
-<img width="800" alt="The weather card in daylight and at night" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/weather.webp">
+<img width="800" alt="Tap More in the navbar and the menu opens from the top, in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/menu.webp">
 
 <details>
 <summary>How it works</summary>
 
 <br>
 
-- Each condition has its own colour for light and dark, set in `background_thresholds`. No sun, moon, clouds or other effects.
-- Top left is the next sunset, or sunrise while the sun is down.
-- The temperature comes from the weather entity. For an outdoor sensor of your own, give that text an `entity` instead of the `attribute`.
-- The house sits 20 px from the top, right and bottom. It's the card's demo house, a picture of your own home needs its own offsets, see [layouts](https://github.com/hazymorning/origami_weather#layouts).
+- The menu is an Origami Header card with `mode: menu`. What goes in it is up to you. Here it's a server card and buttons for the File editor app, automations, the sidebar and edit mode. Without the File editor app, change or delete **Files**.
+- The server card shows a status, the uptime, CPU and RAM. A tap on CPU or RAM opens its details, a tap anywhere else opens the server pop-up.
+- The chip next to the status shows how things are, and the text says why, like **Backup due**:
+
+  | Chip | When |
+  | --- | --- |
+  | Green check | All good |
+  | Arrow in the accent colour | Updates are waiting |
+  | Orange | Disk over 80 %, RAM over 85 %, CPU over 80 %, the last automatic backup older than 3 days, or no System Monitor data |
+  | Red | Disk over 90 %, RAM or CPU over 95 %, the backup older than 7 days |
 
 </details>
 
 <details>
-<summary>What it needs</summary>
+<summary>What it uses here</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `sensor.system_monitor_*` | CPU, memory, disk and uptime, from [System Monitor](https://www.home-assistant.io/integrations/systemmonitor/). Without it, the status says **No data**. |
+| `sensor.backup_last_successful_automatic_backup` | The backup check. Without it, backups aren't checked. |
+
+</details>
+
+### Weather
+
+An [Origami Weather](https://github.com/hazymorning/origami_weather) card. It can show a lot more than this, like an animated sky, forecasts, gauges or your own pictures. Here it's set up calm, with one colour per condition.
+
+<img width="800" alt="The weather card in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/weather.webp">
+
+<details>
+<summary>How it's set up here</summary>
+
+<br>
+
+- `background_mode: color`, with a colour for each condition in light and dark mode, set in `background_thresholds`.
+- Sun, moon, clouds, stars, birds, balloons and planes are off. Rain, snow, hail and thunderstorms still show, because `precipitation_effects` is on by default.
+- The house is the card's demo house. Its README shows how to get [your own home](https://github.com/hazymorning/origami_weather#layouts) in the same style.
+- Top left is the next sunset, or the next sunrise while the sun is down. Bottom left are the temperature and the condition of the weather entity. For a temperature sensor of your own, make it the button's `entity` and delete `attribute: temperature`.
+
+</details>
+
+<details>
+<summary>What it uses here</summary>
 
 <br>
 
@@ -228,7 +266,7 @@ An [Origami Weather](https://github.com/hazymorning/origami_weather) card with a
 
 ### Favorites
 
-Shortcuts that only show up while they matter, made with Bubble Card's [Header](bubble_card/README.md#header) and [Tiles](bubble_card/README.md#tiles) modules.
+Tiles for what matters right now. Most of them only show at certain times or states. Made with Bubble Card and the [Header](bubble_card/README.md#header) and [Tiles](bubble_card/README.md#tiles) modules.
 
 <img width="800" alt="Six favorite tiles in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/favorites.webp">
 
@@ -237,15 +275,16 @@ Shortcuts that only show up while they matter, made with Bubble Card's [Header](
 
 <br>
 
-- Each tile is a sub-button of one Bubble card. Visibility conditions decide when it shows, and hidden tiles leave no gap.
-- The oven comes first while it's on. The vacuum moves up while it cleans and shows its progress.
-- The fan shows in warm weather, music late in the evening, dinner in the afternoon with the recipe photo.
-- Bath and printer count down the minutes left.
+- All tiles are sub-buttons of one Bubble card. A tile with visibility conditions shows only while they hold, and a hidden tile leaves no gap.
+- In my home, the oven shows while `sensor.oven` isn't `Off` and always comes first. The fan shows while it runs, or when the living room or bedroom is above 24°. Music shows from 22:00 to 4:00, dinner from 14:00 to 21:00 with the recipe photo, and the bath from 11:00 to 23:00 and whenever it runs.
+- The vacuum and the printer always show. The vacuum shows its progress while it cleans and moves up. Bath and printer show the minutes left while they run.
+- A tap toggles the fan, the bath and the printer. Music, oven and vacuum open pop-ups, dinner opens Tandoor. Holding a tile opens its entity.
+- For your own tile, copy one and change its entity and visibility.
 
 </details>
 
 <details>
-<summary>What it needs</summary>
+<summary>What it uses here</summary>
 
 <br>
 
@@ -253,17 +292,19 @@ Shortcuts that only show up while they matter, made with Bubble Card's [Header](
 | --- | --- |
 | Oven | `sensor.oven` |
 | Vacuum | `vacuum.robot`, `number.robot_cleaning_progress` |
-| Fan | `fan.bedroom` |
+| Fan | `fan.bedroom`, `sensor.living_room_temperature`, `sensor.bedroom_temperature` |
 | Dinner | `sensor.dinner` with a `recipe.image` attribute, like from [Tandoor](https://tandoor.dev) |
 | Music | `media_player.bedroom` |
 | Bath | `input_boolean.bath_time`, `input_datetime.bath_time_end` |
 | Printer | `switch.printer`, `input_datetime.printer_end` |
 
+All examples from my home. Without a progress entity, delete the vacuum's `name` template, or the tile reads **Error**.
+
 </details>
 
 ### Rooms
 
-A card per room. The first four always show, **All rooms** shows the rest.
+A card for each room. The first four always show, **All rooms** shows the rest.
 
 <img width="800" alt="The rooms header and four room cards" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/rooms.webp">
 
@@ -272,33 +313,32 @@ A card per room. The first four always show, **All rooms** shows the rest.
 
 <br>
 
-- Each room card is one Paper Buttons Row, and the whole card opens the room's pop-up.
-- The chip lights up while the room's lights are on, the dot shows the comfort colour.
-- The window icon only shows with a window contact, and has its own tap.
-- The header shows the home's average and the open windows.
+- Each room card is one Paper Buttons Row. A tap anywhere on it opens the room's [pop-up](#room).
+- The icon lights up while the room's light is on.
+- Below the name: a dot coloured by the room's temperature, from blue when cold to red when hot. Then a window icon if the room has a window contact, and temperature and humidity.
+- The rooms header shows the average temperature and how many windows are open. A tap on either, or on the arrow, opens or closes the climate table.
+- For another room, copy a card and change its entities, name, icon and pop-up. Add a `sensor.climate_<room>` for it in `packages/origami.yaml` and add the room to the lists there. Rooms after the fourth are conditional cards that show while `input_boolean.all_rooms` is on.
 
 </details>
 
 <details>
-<summary>What it needs</summary>
+<summary>What it uses here</summary>
 
 <br>
 
 | Entity | For |
 | --- | --- |
-| `sensor.climate_<room>` | Temperature, humidity and comfort colour per room |
+| `light.<room>` | The icon |
+| `sensor.climate_<room>` | Dot colour, temperature and humidity, from the [helpers](#under-the-hood) |
+| `binary_sensor.<room>_window` | The window icon. The living room has a balcony door. |
 | `sensor.climate_home` | Average and open windows in the header |
-| `binary_sensor.<room>_window` | Window contacts |
-| `light.<room>` | The lit chip |
 | `input_boolean.all_rooms` | **All rooms** |
-
-The sensors and toggles are in the [helpers](#under-the-hood).
 
 </details>
 
 ### Climate table
 
-Every room's climate at a glance. It folds out under the rooms header.
+All rooms in one table. It opens under the rooms header.
 
 <img width="800" alt="The rooms header with the climate table open" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/climate.webp">
 
@@ -307,30 +347,33 @@ Every room's climate at a glance. It folds out under the rooms header.
 
 <br>
 
-- A tap on a chip or the arrow in the rooms header opens and closes it.
-- The table is one Paper Buttons Row as a six-column grid: comfort dot and name, window, thermostat, temperature, humidity. Keep the names short, so it fits on a phone.
-- A heating thermostat and an open window tint. Arrows mark the warmest, coldest, most humid and driest room.
-- The zebra stripes are one gradient, sized to the fixed row height.
+- The arrow or a chip in the rooms header opens and closes it.
+- One line per room: the coloured dot and name, window, thermostat, temperature and humidity. The living room also has the front door.
+- An open window or door turns cyan, a thermostat that heats turns deep orange. Arrows mark the warmest and coldest room, and the most and least humid.
+- A tap opens the room's thermostat. Window and door open their contact.
+- It's one Paper Buttons Row laid out as a grid. Keep the room names short, so it fits on a phone. For another room, copy a line and raise the 6 in `repeat(6, …)`.
 
 </details>
 
 <details>
-<summary>What it needs</summary>
+<summary>What it uses here</summary>
 
 <br>
 
 | Entity | For |
 | --- | --- |
-| `sensor.climate_<room>` | Temperature, humidity, rank and comfort colour per room |
-| `binary_sensor.<room>_window` | Window contacts |
-| `climate.<room>` | Thermostats |
-| `input_boolean.room_climate_card` | Opens the table |
+| `sensor.climate_<room>` | Temperature, humidity, arrows and dot colour |
+| `binary_sensor.<room>_window`, `binary_sensor.front_door` | Windows and the door |
+| `climate.<room>` | Target temperature and heating |
+| `input_boolean.room_climate_card` | Open or closed |
+
+For a room without a thermostat or window contact, delete that button. The cell stays empty, like in the office line.
 
 </details>
 
 ### Navbar
 
-Music, TV, lights, favorites and the menu, with what plays right above.
+A [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card) with music, TV, lights, favorites and the menu. What's playing shows above it.
 
 <img width="800" alt="The navbar with the now playing card" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/navbar.webp">
 
@@ -339,27 +382,150 @@ Music, TV, lights, favorites and the menu, with what plays right above.
 
 <br>
 
-- A [Navbar Card](https://github.com/joseluis9595/lovelace-navbar-card). Routes light up in their domain's colour while something is on, badges count playing speakers and lights.
-- Holding **Lights** opens the scenes, the active one is amber.
-- The now playing card shows the speaker that matters right now, picked by `sensor.active_speaker`.
-- Navbar Card templates are JavaScript: `states['sensor.x'].state`, not `states('sensor.x')`.
+- Music and TV turn light blue while a speaker plays or the TV is on, Lights turns amber while a light is on. Badges on Music and Lights count them.
+- Hold **Music** to play or pause the active speaker, unless it plays the TV. A tap on **TV** opens the [TV pop-up](#tv), hold it for the TV's own controls.
+- Hold **Lights** for a menu: all lights on or off, and the living room scenes. The active scene is amber.
+- **More** opens the menu from Origami Header. Admins see a dot on it while updates are waiting.
+- The card above shows the speaker that matters right now, from `sensor.active_speaker`, or the TV.
+- In Navbar Card's `[[[ ]]]` templates, read a state with `states['sensor.x'].state`. `states('sensor.x')` only works in Jinja and in the Bubble modules' `${ }`.
 
-<img width="600" alt="The scenes that open from the lights route" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/navbar-scenes.webp">
+<img width="600" alt="The light scenes, opened by holding Lights" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/navbar-scenes.webp">
 
 </details>
 
 <details>
-<summary>What it needs</summary>
+<summary>What it uses here</summary>
 
 <br>
 
 | Entity | For |
 | --- | --- |
-| `sensor.active_speaker_count`, `sensor.lights_on_count` | The badges |
-| `sensor.active_speaker` | The now playing card |
-| `media_player.living_room_tv`, `media_player.tv_ump` | The TV route and its now playing card |
-| `light.all_lights`, `script.lights_toggle` | The all lights button in the scenes |
-| `scene.living_room_*`, `sensor.living_room_scene` | The scenes and the active one |
+| `sensor.active_speaker_count`, `sensor.lights_on_count` | The counts, from the [helpers](#under-the-hood) |
+| `sensor.active_speaker` | The card above, from the helpers |
+| `media_player.living_room_tv`, `media_player.tv_ump` | The TV button and the TV in the card above |
+| `light.all_lights`, `script.lights_toggle` | All lights on or off |
+| `scene.living_room_*`, `sensor.living_room_scene` | The scenes and which one is active |
+
+All examples from my home, apart from the helpers. Delete the routes and scenes you don't need.
+
+</details>
+
+## Pop-ups
+
+Three [Bubble Card](https://github.com/Clooos/Bubble-Card) pop-ups: a room, the TV and the fan. They're at the end of [`dashboard.yaml`](dashboard/dashboard.yaml), under `# Pop-ups`. A pop-up opens when a tap navigates to its hash, like `#popup_tv`, and closes with the cross or a swipe down. The scripts and helpers they use are in the [package](packages/origami.yaml).
+
+### Room
+
+Each room can get the same pop-up, opened by its room card. Top to bottom: what plays in the room, the lights, the climate. The living room is the example, copy it for the other rooms.
+
+<img width="800" alt="The living room pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-room.webp">
+
+<details>
+<summary>How it works</summary>
+
+<br>
+
+- The hash, `#popup_living_room`, is what the living room card navigates to.
+- **Media.** The TV while it's on, the speaker otherwise. A tap on the TV card opens the TV pop-up. Below it go small things of the room, here a plug as a compact row with a switch.
+- **Lights.** The header counts the lights of the room's light group that are on. **All** switches the whole group, the arrow next to it shows the scenes. The scene that was turned on last lights up.
+- **Climate.** The header shows temperature and humidity, with the dot in the room's comfort colour. A tap on the fan card opens the [fan pop-up](#fan). Plus and minus move the thermostat by half a degree.
+- **Everything off** turns off the lights, fans, media players and switches in the room's [area](https://www.home-assistant.io/docs/organizing/areas/). The list is in `script.room_off`.
+- When you close the pop-up, the scenes are hidden again.
+
+</details>
+
+<details>
+<summary>What it uses here</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `media_player.living_room_tv`, `media_player.living_room_tv_cast` | The TV card, see [TV](#tv) |
+| `media_player.living_room` | The speaker and both volume sliders |
+| `switch.living_room_console` | The plug |
+| `light.living_room` | A light group of the room. The header counts its members. |
+| `scene.living_room_*`, `sensor.living_room_scene` | The scenes, and which one was turned on last |
+| `input_boolean.living_room_scenes` | Shows the scenes |
+| `sensor.climate_living_room` | Temperature, humidity and the comfort colour |
+| `fan.living_room`, `climate.living_room` | The fan and the thermostat |
+| `script.thermostat_step`, `script.room_off` | The thermostat steps and everything off |
+
+The entities are examples from my home. The scripts, the toggle and `sensor.living_room_scene` are in the package, with the scene list inside the sensor.
+
+For another room, copy the pop-up and give it the hash its room card opens, like `#popup_bedroom`. Then change the name, the entities and the `area` for **Everything off**. Its scenes need their own toggle and scene sensor, or leave them out. Another fan needs its own [fan pop-up](#fan).
+
+</details>
+
+### TV
+
+A remote for the TV, opened by **TV** in the navbar or the TV card in the room.
+
+<img width="800" alt="The TV pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-tv.webp">
+
+<details>
+<summary>How it works</summary>
+
+<br>
+
+- **Top.** The TV with what's on, its power button and the volume of the speaker it plays through. The picture of what's playing shows blurred behind the pop-up.
+- **Sound.** The input button, then **TV**, which switches the speaker to the TV's sound. It's raised while the speaker is on that input. Minus and plus change the volume by 1 %, by 5 % on a double tap and by 10 % when held. A tap on the number mutes.
+- **Apps.** They scroll sideways, the running one is filled. A tap starts it with `media_player.select_source`.
+- **Remote.** Back, home and a round pad with OK. Holding an arrow repeats it.
+
+The commands, like `DPAD_UP`, `DPAD_CENTER` and `TV_INPUT`, are the ones of the [Android TV Remote](https://www.home-assistant.io/integrations/androidtv_remote/) integration. Other remotes use their own names, and the apps need the names of your TV's sources.
+
+</details>
+
+<details>
+<summary>What it uses here</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `media_player.living_room_tv` | The TV and its apps, from Android TV Remote |
+| `remote.living_room_tv` | The remote, from Android TV Remote |
+| `media_player.living_room_tv_cast` | What's playing and its picture, from Google Cast |
+| `media_player.living_room` | The speaker the TV plays through, for the volume |
+| `script.volume` | Volume in steps and mute, from the package |
+
+The speaker's TV input is called `Optical In` here. Without a separate speaker, point the volume buttons and the slider at the TV and delete the **TV** button.
+
+</details>
+
+### Fan
+
+A pop-up for one fan: speed, oscillation, a mode and a timer. It opens with a tap on the fan card in the room.
+
+<img width="800" alt="The fan pop-up in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/popup-fan.webp">
+
+<details>
+<summary>How it works</summary>
+
+<br>
+
+- The title is the fan's name. The power button and the fan button switch it on and off, the fan spins while it runs.
+- The arrows turn the fan's head with `fan.set_direction`, on fans that use it for that, like Xiaomi's. The middle button switches oscillation.
+- The slider sets any speed. The leaf and the wind pick the presets `nature` and `normal`, 1 to 3 set 33, 66 and 100 %.
+- The timer button shows the timer row: off, 1, 3 or 5 hours. When the timer runs out, an automation in the package turns the fan off.
+- What's raised or filled comes from small templates in the buttons, like the speed range the fan is in.
+
+</details>
+
+<details>
+<summary>What it uses here</summary>
+
+<br>
+
+| Entity | For |
+| --- | --- |
+| `fan.living_room` | The fan, an example from my home |
+| `timer.living_room_fan` | The timer, with the automation that turns the fan off |
+| `input_boolean.fan_popup_timer` | Shows the timer row |
+| `script.fan_oscillation` | Switches oscillation on or off |
+
+The timer, the toggle, the script and the automation are in the package. To use your own fan, replace `fan.living_room` in the pop-up and in the automation. If its presets have other names, change `nature` and `normal`. Buttons your fan can't use, like the arrows, can go. A second fan needs its own copy, with its own hash, timer, toggle and automation.
 
 </details>
 
@@ -376,9 +542,9 @@ Eleven modules give Bubble Card the Origami look. They're still experimental. Op
 
 | Module | For |
 | --- | --- |
-| [Base](bubble_card/README.md#base) | Frame, type and colour of every card |
+| [Base](bubble_card/README.md#base) | Frame, text and colour for button and media player cards |
 | [Light](bubble_card/README.md#light), [Fan](bubble_card/README.md#fan), [Climate](bubble_card/README.md#climate) | Lights, fans with speed keys, thermostats |
-| [Media](bubble_card/README.md#media), [Speaker Select](bubble_card/README.md#speaker-select) | Speakers and TVs, speaker rows for a music pop-up |
+| [Media](bubble_card/README.md#media), [Speaker Select](bubble_card/README.md#speaker-select) | Speakers and TVs, speaker rows for a music pop-up. Written for LinkPlay speakers. |
 | [Slider](bubble_card/README.md#slider), [Button](bubble_card/README.md#button) | A slider on its own, rows and grids of buttons |
 | [Header](bubble_card/README.md#header), [Tiles](bubble_card/README.md#tiles), [Popup](bubble_card/README.md#popup) | Section headers, tile grids, pop-ups |
 
@@ -391,7 +557,13 @@ Eleven modules give Bubble Card the Origami look. They're still experimental. Op
 
 <br>
 
-Template sensors do the thinking, the cards only show the result. They're all in [`packages/origami.yaml`](packages/origami.yaml).
+Most of the logic is in template sensors, so most cards only show a result. They're all in [`packages/origami.yaml`](packages/origami.yaml), with the scripts the pop-ups use. To use them in your home:
+
+- Copy one `Climate | <room>` block per room and set its two source sensors.
+- The peaks and averages build sensor names from a list of rooms, like `sensor.<room>_temperature`. Name your sensors that way, or change those templates.
+- Put your lights, window contacts and speakers into the counters, `sensor.active_target`, `sensor.active_speaker` and `input_select.selected_speaker`.
+- Put your scenes into `sensor.living_room_scene`, and your fan into the automation **Living room fan timer**.
+- Give your devices an [area](https://www.home-assistant.io/docs/organizing/areas/), so **Everything off** in a room pop-up finds them.
 
 | Helper | Gives |
 | --- | --- |
@@ -401,7 +573,11 @@ Template sensors do the thinking, the cards only show the result. They're all in
 | `sensor.windows_open_count`, `sensor.lights_on_count`, `sensor.active_speaker_count` | Counters |
 | `sensor.greetings` | The greeting |
 | `sensor.active_target`, `sensor.active_speaker` | The speaker that matters and what it plays |
-| `input_boolean.room_climate_card`, `input_boolean.all_rooms`, `input_select.selected_speaker` | Toggles and the fallback speaker |
+| `input_boolean.room_climate_card`, `input_boolean.all_rooms`, `input_select.selected_speaker` | Toggles, and the speaker to show when nothing plays |
+| `sensor.living_room_scene`, `input_boolean.living_room_scenes` | The scene turned on last, and the scenes in the room pop-up |
+| `timer.living_room_fan`, `input_boolean.fan_popup_timer` | The fan pop-up's timer and its row |
+| `script.fan_oscillation`, `script.volume`, `script.thermostat_step`, `script.room_off` | Buttons in the pop-ups |
+| The automation **Living room fan timer** | Turns the fan off when its timer runs out |
 
 <details>
 <summary>Room climate sensor</summary>
@@ -444,9 +620,9 @@ template:
             rgba({{ (scale | selectattr(0, '>=', t) | first)[1] }}, 0.7)
 ```
 
-- A missing source gives `?`, so the card keeps its size instead of collapsing.
-- The comfort colour runs from blue at 12° to red above 32°, with some transparency for both modes.
-- The peaks sensors return `none` while all rooms read the same, so two rooms don't fight over the arrow.
+- If the source sensor is missing, temperature and humidity show `?`, so the card keeps its size. The comfort dot then shows the colour for 20°.
+- The comfort colour goes from blue at 12° to red above 32°, a little transparent so it works in both modes.
+- The peaks sensors return `none` when fewer than two rooms report or all read the same. Then no room gets an arrow.
 
 </details>
 
@@ -455,17 +631,19 @@ template:
 
 <br>
 
-The navbar reads one sensor that already picked the interesting speaker: a playing one, then the TV or Bluetooth, then a paused one, then `input_select.selected_speaker`. A playing group leader wins over its members.
+`sensor.active_target` picks the speaker to show: one that plays, then one on a TV input or Bluetooth, then a paused one, then `input_select.selected_speaker`. If the playing speaker is grouped, the group leader wins. `sensor.active_speaker` has the same state and adds what it plays. The navbar reads that one.
 
 | Attribute | |
 | --- | --- |
-| `chip` | `playing_art`, `playing_plain`, `paused_art`, `paused_plain`, `tv_art`, `tv_plain` or `off` |
-| `title` | `Title \| Artist`, never empty and never stale |
+| `chip` | `playing_art`, `playing_plain`, `paused_art`, `paused_plain`, `tv_art`, `tv_plain` or `off`. `_art` means there is a Music Assistant cover. |
+| `title` | `Title \| Artist` while music plays, otherwise a short text like `Bluetooth`, `TV`, `Paused` or `Nothing playing`. Never empty. |
 | `speaker` | Short name, with a count while grouped, like `Living +1` |
 | `group` | `yes` or `no` |
 | `artwork` | The cover or TV artwork, `none` without |
 
-Written for LinkPlay speakers with a Music Assistant twin (`media_player.<name>_mass`). Music Assistant also reports playing for the speaker's own sources like Bluetooth, so its title and cover only count without one. Other speakers use their own. `sensor.tv_source` is optional and names what the TV plays over optical.
+My speakers are LinkPlay speakers, each with a Music Assistant twin (`media_player.<name>_mass`). The twin gives title and cover while the speaker plays from Music Assistant. Music Assistant also reports playing while the speaker plays Bluetooth or one of its own streaming sources, so the twin is ignored then. Without a twin, the speaker's own title and cover are used, and `chip` stays `_plain`.
+
+The TV input and Bluetooth are found by name in the speaker's `source`: optical, coax, HDMI or line in for the TV. Other brands may name them differently. `sensor.tv_source` is optional, its `display` and `artwork` attributes name and show what plays on the TV input.
 
 </details>
 
@@ -476,14 +654,14 @@ Written for LinkPlay speakers with a Music Assistant twin (`media_player.<name>_
 
 <br>
 
-Paper Buttons Row and Bubble Card get folded into cards and layouts. The same few ideas repeat everywhere.
+A few ideas that come up again and again in the dashboard.
 
 <details>
-<summary>The row is the card</summary>
+<summary>Paper Buttons Row as a card</summary>
 
 <br>
 
-Paper Buttons Row draws no card by itself. Give the row a background, radius and padding and it becomes a card. Add `display: grid` and it becomes a layout. The room cards, the climate table and the server card are each one row.
+Used as a card, Paper Buttons Row has no background of its own. Give the row a background, radius and padding and it looks like a card. With `display: grid` you can place the buttons in rows and columns, like in the climate table. The room cards, the climate table and the server card are each one row.
 
 ```yaml
 type: custom:paper-buttons-row
@@ -498,11 +676,11 @@ buttons:
 </details>
 
 <details>
-<summary>Dumb cards, smart sensors</summary>
+<summary>Logic in sensors, not in cards</summary>
 
 <br>
 
-Cards don't calculate. A sensor turns everything into one word, and the card maps the word to a look:
+Where it can, a sensor turns the numbers into one word, and the card picks a look for that word:
 
 ```yaml
 - entity: sensor.climate_living_room
@@ -525,56 +703,63 @@ Cards don't calculate. A sensor turns everything into one word, and the card map
 <br>
 
 - **Fixed heights.** A long text never pushes anything.
-- **States swap colours, not sizes.**
-- **Helpers always return a value**, `?` instead of an empty string.
-- **Elements that come and go** leave no gap, or keep their box and scale.
-- **Values in the browser.** JavaScript in `${ }` is there on the first frame, Jinja waits for the server.
-- **Animations only on user action**, never on page load.
-- **A local font**, because a font that loads late reflows all text.
-- **Grid instead of stack cards** where a wrapper is needed.
+- **States change colours, not sizes.**
+- **Room helpers return `?`** instead of an empty value.
+- **Things that appear and disappear** either take no space while hidden, or keep their space and scale in and out.
+- **Browser templates where possible.** `${ }` in the Header and Tiles modules and `[[[ ]]]` in Navbar Card show on the first frame. Jinja templates wait for the server.
+- **A local font.** A font that loads late redraws all text.
+- **Grid cards instead of stack cards** where a wrapper is needed.
 
 </details>
 
 <details>
-<summary>Whole card tap targets</summary>
+<summary>One tap target per card</summary>
 
 <br>
 
-One invisible button stretches over the whole card and catches the tap. Everything else gets `pointer-events: none`, and single elements can take taps again with `pointer-events: all`.
+Give the row `position: relative`. An invisible button covers it and catches the tap, and the other buttons get `pointer-events: none`.
 
 ```yaml
-- entity: light.living_room
-  layout: name
-  name: false
-  tap_action:
-    action: navigate
-    navigation_path: '#popup_living_room'
+type: custom:paper-buttons-row
+styles:
+  position: relative
+base_config:
   styles:
     button:
-      position: absolute
-      inset: 0px
-      z-index: 3
-      pointer-events: all
-      border-radius: var(--ha-card-border-radius)
+      pointer-events: none
+buttons:
+  - entity: light.living_room
+    layout: name
+    name: false
+    tap_action:
+      action: navigate
+      navigation_path: '#popup_living_room'
+    styles:
+      button:
+        position: absolute
+        inset: 0px
+        z-index: 3
+        pointer-events: all
+        border-radius: var(--ha-card-border-radius)
 ```
 
 </details>
 
 <details>
-<summary>Visibility instead of logic</summary>
+<summary>Show only what matters</summary>
 
 <br>
 
-What only matters sometimes only exists sometimes. Favorites use Bubble's visibility conditions, the extra rooms and the climate table a visibility condition on a toggle. A hidden tile leaves no gap.
+Favorites use Bubble Card's visibility conditions. The extra rooms and the climate table show while a toggle is on. Nothing hidden leaves a gap.
 
 </details>
 
 <details>
-<summary>Sorting with order</summary>
+<summary>Sorting tiles</summary>
 
 <br>
 
-Grid items sort with plain CSS `order`. The oven goes first with `order: -2`, the vacuum follows while it cleans:
+Tiles sort with plain CSS `order`. The oven goes first with `order: -2`, the vacuum follows while it cleans:
 
 ```yaml
 origami_tiles:
@@ -589,7 +774,7 @@ origami_tiles:
 
 <br>
 
-One repeating gradient on the table's background, sized to the fixed row height:
+One repeating gradient on the table's background, sized to the fixed row height. The 6 is the number of rooms.
 
 ```yaml
 styles:
@@ -602,18 +787,21 @@ styles:
 </details>
 
 <details>
-<summary>Morphing with scale</summary>
+<summary>Show and hide with scale</summary>
 
 <br>
 
-To show and hide something without moving anything, scale it instead of removing it. The navbar writes the group state into a variable, and the badge scales with it:
+To show and hide something without moving anything else, scale it instead of removing it. CSS can't read entity states, so a navbar template writes the group state into a variable:
 
 ```js
 document.documentElement.style.setProperty('--navbar-player-group', a.group === 'yes' ? '1' : '0');
 ```
 
+The group badge on the cover scales with it:
+
 ```css
-.media-player::before {
+.media-player::before,
+.media-player::after {
   scale: var(--navbar-player-group, 0);
   transition: scale var(--duration-normal) var(--ease-standard);
 }
@@ -628,16 +816,18 @@ document.documentElement.style.setProperty('--navbar-player-group', a.group === 
 
 <br>
 
-The theme is made of tokens. Home Assistant reads them, and so do the cards and modules. Restyling means changing a few of them in [`origami.yaml`](themes/origami.yaml).
+The theme is a set of tokens. Home Assistant reads them, and so do the cards and modules. To restyle, change a few of them in [`origami.yaml`](themes/origami.yaml). A HACS update replaces that file, so keep your changes in a copy of the theme with another name.
 
 <details>
 <summary>Colour</summary>
 
 <br>
 
-Colour means a device is on, and it sits in the glyph. The field behind it, `tint`, is the same colour thinned out. Which colour a device gets is Home Assistant's own mapping, re-toned per mode: lamps amber, heating deep orange, media light blue, open windows cyan, anything else that is on green. To change a domain, add its `state-<domain>-active-color` line.
+Colour mostly means something is on. It goes into the icon, and the field behind it, `tint`, is that colour mixed into the card background: 14 % in light mode, 4 % in dark mode. `tint` uses `currentColor`, so set `color` on the same element.
 
-Amber dark enough for a glyph on a light page turns brown, so lamps use `lamp-ink` on `lamp-field` instead.
+Which colour a device gets is Home Assistant's own choice, like deep orange for heating or light blue for media. Origami re-tones those colours and changes two of them: switches and anything else that is simply on are green instead of amber, and open windows are cyan.
+
+To change a colour, add `state-<domain>-active-color`. Domains with a colour per state need `state-<domain>-<state>-color`, like `state-climate-heat-color`.
 
 </details>
 
@@ -646,7 +836,7 @@ Amber dark enough for a glyph on a light page turns brown, so lamps use `lamp-in
 
 <br>
 
-Paper Buttons Row is where the name comes from: origami is folding paper. It has its own colour variables, `pbs-button-*`. The theme points them at the text colour, so a row starts out in ink, and colour comes from the styles you give it. The `rgb` ones need a triplet like `var(--rgb-primary-text-color)`, a hex value breaks the colour.
+Origami is named after Paper Buttons Row: origami is folded paper. Paper Buttons Row has its own colour variables, `pbs-button-*`, and the theme points them at the text colour. Entity buttons that are on still take their state colour, `active: []` turns that off, like in the room cards. The `rgb` ones need a triplet like `var(--rgb-primary-text-color)`, a hex value breaks the colour.
 
 </details>
 
@@ -658,23 +848,24 @@ Paper Buttons Row is where the name comes from: origami is folding paper. It has
 | Token | |
 | --- | --- |
 | `ha-space-1` … `ha-space-5` | Spacing, 4 to 20 px |
-| `ha-card-border-radius` | Card corners, 22 px. `radius-inner` follows it, `radius-small` is 8 px. |
+| `ha-card-border-radius` | Card corners, 22 px. `radius-inner` is that divided by 1.3, about 17 px. `radius-small` is 8 px. |
 | `border-width`, `border-contrast` | Card outlines, off by default |
-| `card-shadow`, `card-shadow-flat`, `shadow-elevated` | Elevation per mode, flat for cards in pop-ups |
+| `card-shadow`, `card-shadow-flat`, `shadow-elevated` | Shadows per mode, flat for cards in pop-ups |
 | `fill-subtle`, `fill-strong`, `fill-loud` | Neutral surfaces, mixed from `fill-base` so they stay warm |
-| `fill-active`, `toggle-on` | Ink, for switches and emphasis |
-| `tile-background`, `tile-chip-background` | The quiet tile and its raised chip |
-| `opacity-disabled` … `opacity-strong` | 0.3, 0.45, 0.6, 0.8 |
-| `control-height-mini` … `control-height-lg` | Fixed control heights, 32 to 64 px |
+| `fill-contrast` | How strong `fill-subtle` is, 8 % light and 5 % dark |
+| `fill-active`, `toggle-on` | Text colour at 85 % on the card background, for switch tracks and emphasis |
+| `tile-background`, `tile-chip-background` | The quiet tile and its raised icon chip |
+| `opacity-disabled`, `opacity-quiet`, `opacity-muted`, `opacity-strong` | 0.3, 0.45, 0.6, 0.8 |
+| `control-height-mini`, `-icon`, `-row`, `-list`, `-sm`, `control-height`, `-lg` | Fixed control heights: 32, 40, 44, 48, 52, 56 and 64 px |
 | `tile-size`, `tile-size-lg`, `dot-size` | Icon chips, 48 and 80 px, dots 12 px |
 | `icon-size-2xs` … `icon-size-xl` | Icons, 14 to 48 px |
-| `ha-font-size-xs` … `ha-font-size-xxl` | Type, 14 to 26 px |
+| `ha-font-size-xs` … `ha-font-size-xxl` | Text, 14 to 26 px |
 | `primary-font-family` | Montserrat, weights 500 and 700 |
 | `duration-fast`, `duration-normal`, `duration-slow`, `ease-standard` | Motion |
-| `press-scale` | How far a button shrinks on press |
+| `press-scale` | How far a button shrinks when pressed |
 | `blur-soft`, `blur-strong` | Header, dialogs, navbar |
-| `tint-strength`, `fill-strength` | How strong tint and fills are, per mode |
-| `amber-color`, `green-color`, … | Home Assistant's named colours, re-toned per mode |
+| `tint-strength`, `fill-strength` | How much state colour goes into `tint` (14 % light, 4 % dark) and into coloured fills like slider fills (32 %, 30 %) |
+| `amber-color`, `green-color`, … | Home Assistant's named colours, re-toned |
 
 </details>
 
@@ -683,11 +874,20 @@ Paper Buttons Row is where the name comes from: origami is folding paper. It has
 ## Help
 
 <details>
-<summary>HACS doesn't offer the theme</summary>
+<summary>Origami isn't in the theme list</summary>
 
 <br>
 
-HACS only handles themes once Home Assistant loads them. Add the `themes` line to `configuration.yaml` and restart.
+Home Assistant only loads themes when `configuration.yaml` has the `themes` line. Add it, restart, then pick Origami in your profile.
+
+</details>
+
+<details>
+<summary>HACS can't find Origami</summary>
+
+<br>
+
+It isn't in the HACS store. Use the **Open in HACS** button under [Setup](#setup), it adds the repository for you.
 
 </details>
 
@@ -705,7 +905,7 @@ The card isn't installed, or the browser still runs the old page. Install it and
 
 <br>
 
-Open `/local/fonts/montserrat.css` on your Home Assistant's address, it should show two `@font-face` rules. If not, check that the files are in `/config/www/fonts`, and restart once if `www` is new.
+Open `/local/fonts/montserrat.css` on your Home Assistant, like `http://homeassistant.local:8123/local/fonts/montserrat.css`. It should show two `@font-face` rules. If not, check that the files are in `/config/www/fonts`, and restart once if `www` is new. If it does, check that the file is in Resources as **Stylesheet** and that Origami is your theme, then reload.
 
 </details>
 
@@ -719,11 +919,20 @@ The modules aren't loaded. Check that Bubble Card Tools is added as an integrati
 </details>
 
 <details>
+<summary>A tap doesn't open a pop-up</summary>
+
+<br>
+
+The pop-up has to be in the same view as the button, and its `hash` has to match the tap's `navigation_path`, like `#popup_tv`. The included pop-ups are at the end of `dashboard.yaml`, under `# Pop-ups`. Bubble Card has to be installed.
+
+</details>
+
+<details>
 <summary>A value shows ?</summary>
 
 <br>
 
-A helper can't find its source sensor. Rename the entities in `/config/packages/origami.yaml` to yours, then reload **Template entities** under [YAML configuration reloading](https://my.home-assistant.io/redirect/server_controls/).
+A helper can't find its source sensor. Replace the example sensors in `/config/packages/origami.yaml` with yours, then reload **Template entities** under [YAML configuration reloading](https://my.home-assistant.io/redirect/server_controls/).
 
 </details>
 
@@ -732,7 +941,7 @@ A helper can't find its source sensor. Rename the entities in `/config/packages/
 
 <br>
 
-Add `https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap` as the stylesheet instead. No files to copy, but the font loads from Google every time and arrives a moment late, which redraws all text.
+Add `https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap` as the stylesheet instead. There are no files to copy, but the font then comes from Google's servers. It can arrive after the page, and then all text redraws.
 
 </details>
 
@@ -740,7 +949,8 @@ Add `https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=sw
 
 - [x] Theme, dashboard and helpers
 - [x] Bubble modules, still experimental
-- [ ] Pop-ups: rooms, music, TV, favorites, lights and the rest
+- [x] Pop-ups: a room, the TV and the fan
+- [ ] More pop-ups: music, lights, favorites, the server and the rest
 - [ ] Desktop layout
 
 ## License
