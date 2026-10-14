@@ -1,11 +1,9 @@
-# ◪ Origami
+<img alt="Origami, a chill and clean dashboard for Home Assistant, on two phones in light and dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
 
 <a href="https://github.com/hazymorning/origami/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/hazymorning/origami?label=Release&color=6A8778&labelColor=181715"></a>
 <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=hazymorning&repository=origami&category=theme"><img alt="HACS custom repository" src="https://img.shields.io/badge/HACS-Custom-6A8778?labelColor=181715"></a>
 
-Origami is a Home Assistant theme with a matching phone dashboard. The dashboard is built mainly with [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card). The repository also contains modules that give Bubble cards the Origami look.
-
-<img alt="The Origami dashboard on two phones, one in light mode and one in dark mode" src="https://raw.githubusercontent.com/hazymorning/origami/main/images/hero.webp">
+Origami is a Home Assistant theme with a matching phone dashboard. The dashboard is built mainly with [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card), and everything else uses what Home Assistant already offers, such as themes, template sensors and scripts. The repository also contains modules that give Bubble cards the Origami look.
 
 | Part | Description |
 | --- | --- |

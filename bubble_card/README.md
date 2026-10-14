@@ -323,12 +323,12 @@ The Media options go under `origami_media:`.
 
 | Option | Description |
 | --- | --- |
-| `compact` | A slim row. On media cards, use this option instead of Base's `compact` option. |
+| `compact` | A slim row like Base's compact row, without the state line. On media cards, use this option instead of Base's `compact` option. |
 | `collapse` | The slider at the bottom is hidden while the speaker is not playing. It stays visible while the speaker is on or uses Bluetooth or the optical input. In TV mode, it is hidden while the TV is off. |
 | `art_entity` | A media player that adds the title, the app and a picture while it is playing, such as a Chromecast |
 | `app_entity` | A media player that reports the running app, such as Android TV Remote. The card also uses this entity when its own entity is unavailable. |
 
-Either of the last two options turns on TV mode.
+Either of the last two options turns on TV mode. Set `scrolling_effect: false` on media cards. Otherwise, Bubble Card's scrolling text can replace the text that the module writes.
 
 ```yaml
 type: custom:bubble-card
@@ -370,6 +370,7 @@ sub_button:
       always_visible: true
 rows: '2.2'
 state_content: state
+scrolling_effect: false
 ```
 
 ```yaml
@@ -377,6 +378,15 @@ state_content: state
 origami_media:
   art_entity: media_player.tv_cast
   app_entity: media_player.tv_remote
+```
+
+```yaml
+# Compact row, like the kitchen speaker in the picture
+origami_base:
+  tile: true
+origami_media:
+  compact: true
+rows: 1
 ```
 
 The module was written for LinkPlay speakers. In speaker mode, the cover comes from the LinkPlay sensor `sensor.linkplay_<name>`, and group members show their group leader's state. The state of `sensor.linkplay_master` is the group leader's entity ID. The icon is hidden while `media_player.<name>_dlna` has a picture and reports DLNA as its source. The icon stays visible while the speaker itself has a picture or uses the optical input. The code shortens a few speaker names in a list called `names`. Replace these names with your own.
