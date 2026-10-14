@@ -8,8 +8,8 @@ Origami is a Home Assistant theme with a matching phone dashboard. The dashboard
 | Part | Description |
 | --- | --- |
 | Theme | The theme uses muted, warm colors in light and dark mode. Strong colors are used mainly for devices that are on. It works with any dashboard. |
-| Dashboard | The dashboard shows the weather, favorites, rooms and a navigation bar. Its cards keep their size while the page loads. |
-| Bubble Card modules | The modules give Bubble cards the Origami look. They are still experimental. The [module reference](bubble_card/README.md) explains them. |
+| Dashboard | The dashboard shows the weather, favorites, rooms and a navigation bar. |
+| Bubble Card modules | The modules give Bubble cards the Origami look. They are still a bit experimental. The [module reference](bubble_card/README.md) explains them. |
 
 > [!NOTE]
 > The dashboard comes from a real home, so all entities are examples. Replace them with your own and remove the parts you do not need. Some cards are built in an unusual way so that nothing moves while the page loads. The [Techniques](#techniques) section explains how. The desktop layout is not finished yet.
