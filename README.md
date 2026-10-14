@@ -824,7 +824,7 @@ The name Origami comes from Paper Buttons Row, because origami is folded paper. 
 | `control-height-mini`, `-icon`, `-row`, `-list`, `-sm`, `control-height`, `-lg` | Fixed control heights of 32, 40, 44, 48, 52, 56 and 64 px |
 | `tile-size`, `tile-size-lg`, `dot-size` | Icon backgrounds of 48 and 80 px, and dots of 12 px |
 | `icon-size-2xs` … `icon-size-xl` | Icon sizes from 14 to 48 px |
-| `ha-font-size-xs` … `ha-font-size-xxl` | Text sizes from 14 to 26 px |
+| `ha-font-size-xs` … `ha-font-size-xl` | Text sizes from 14 to 22 px |
 | `primary-font-family` | Montserrat in weights 500 and 700 |
 | `duration-fast`, `duration-normal`, `duration-slow`, `ease-standard` | Animation timing |
 | `press-scale` | How much a button shrinks when you press it |

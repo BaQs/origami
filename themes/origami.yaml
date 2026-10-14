@@ -68,7 +68,6 @@ Origami:
   icon-size-m: 'var(--ha-space-6, 24px)'
   icon-size-l: 'var(--ha-space-7, 28px)'
   icon-size-xl: 'var(--ha-space-12, 48px)'
-  ha-font-size-xxl: '26px'
   ha-font-size-xl: '22px'
   ha-font-size-l: '18px'
   ha-font-size-m: '16px'

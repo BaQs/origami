@@ -8,7 +8,7 @@ Origami 2.0 turns the theme into a complete dashboard for your phone. Version 1.
 
 ### New in 2.0
 
-- The whole phone dashboard is one file, [`dashboard/dashboard.yaml`](https://github.com/hazymorning/origami/blob/main/dashboard/dashboard.yaml). It contains the greeting, notifications, weather, favorites, rooms, climate table and navigation bar.
+- The whole phone dashboard is one file, [`dashboard/dashboard.yaml`](https://github.com/hazymorning/origami/blob/main/dashboard/dashboard.yaml). It contains the greeting, notifications, menu, weather, favorites, rooms, climate table and navigation bar.
 - Three pop-ups open from the dashboard. The room pop-up controls a whole room, the TV pop-up is a remote control, and the fan pop-up has speeds, modes, oscillation and a timer.
 - The helpers come as a package, [`packages/origami.yaml`](https://github.com/hazymorning/origami/blob/main/packages/origami.yaml). It contains the template sensors and scripts for room climate, averages, counters, the greeting, the active speaker and the pop-ups.
 - Eleven modules give Bubble cards the Origami look. They are still experimental.
@@ -19,8 +19,8 @@ Origami 2.0 turns the theme into a complete dashboard for your phone. Version 1.
 ### Better than before
 
 - The colors that Home Assistant uses for device states have new tones for light and dark mode. The icon shows the color, and the area behind it shows a faint tint of the same color.
-- Switches and other entities without a color of their own are green instead of amber when they are on. Open windows are cyan.
-- Shadows and fills are set for each mode and mixed from a warm base color.
+- Switches and other entities without a color of their own are now green when they are on, and open windows are cyan.
+- Shadows and fills are set for each mode, and the fills are mixed from a warm base color.
 - Spacing and text sizes use the same token names as Home Assistant, such as `ha-space-*` and `ha-font-size-*`.
 - The new [README](https://github.com/hazymorning/origami#readme) explains the setup step by step and lists the entities that each part uses.
 
@@ -40,7 +40,7 @@ Some tokens from version 1.0 no longer exist. If your own cards use them, replac
 | `gap-xs`, `gap`, `gap-lg`, `section-gap` | `ha-space-1`, `ha-space-2`, `ha-space-3`, `ha-space-5` |
 | `card-padding-lg` | `ha-space-4` |
 | `font-weight-regular`, `font-weight-medium`, `font-weight-bold`, `font-weight-heavy` | `ha-font-weight-medium`, `ha-font-weight-bold` |
-| `font-size-title`, `font-size-display` | `ha-font-size-xl`, `ha-font-size-3xl` |
+| `font-size-title`, `font-size-display` | `ha-font-size-xl`, and `ha-font-size-3xl` from Home Assistant |
 | `text-color`, `card-background` | `primary-text-color`, `ha-card-background` |
 | `fill-accent-quiet` | `accent-color-background` |
 | `shadow-color` | `shadow-tint`, as an RGB triplet such as `60, 50, 40` |
