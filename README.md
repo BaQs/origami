@@ -5,8 +5,6 @@
 
 Origami is a Home Assistant theme with a matching phone dashboard. The dashboard is built mainly with [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card), and everything else uses what Home Assistant already offers, such as themes, template sensors and scripts. The repository also contains modules that give Bubble cards the Origami look.
 
-Origami lets Home Assistant and Bubble Card do as much as possible. New parts use Bubble Card's card types, the Origami modules, the other cards in the dashboard or Home Assistant's own features.
-
 | Part | Description |
 | --- | --- |
 | Theme | The theme uses muted, warm colors in light and dark mode. Strong colors are used mainly for devices that are on. It works with any dashboard. |
