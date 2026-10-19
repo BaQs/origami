@@ -1,5 +1,13 @@
 # Origami
 
+## Building
+
+A new custom card is often the easiest path for an AI, but it is rarely the right one here. Home Assistant and Bubble Card should do as much as possible.
+
+- Build with Bubble Card's card types and the Origami modules, the other cards that the dashboard already uses and Home Assistant's own features, such as template sensors and scripts. If Bubble cards need a new look or behavior, write or extend a module, even when a custom card would be faster.
+- Custom cards like Origami Weather and Origami Notifications exist only for specific gaps that nothing else can fill. Before building a new one, explain to the user why the existing cards cannot do the job. Never use card-mod.
+- Before changing a part, read its README section, the Techniques section and, for Bubble cards, `bubble_card/README.md`. Do not guess options or entity IDs.
+
 ## Names
 
 Anything Claude names itself in this repo gets a small paper or origami reference. One or two words, never at the cost of clarity.
