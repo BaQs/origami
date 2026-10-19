@@ -65,7 +65,7 @@ Controls stay neutral. An active control uses `fill-active`, which is the text c
 
 <br>
 
-The modules write a few words into the cards, such as On, Off or Heating. These words are German when your Home Assistant user's language is German, and English otherwise. Most modules keep their words in one list in their code. The Media module has several lists. The words `External Input` in the Media module and `offline` in the Speaker Select module are always English.
+The modules write a few words into the cards, such as On, Off or Heating. These words are German when your Home Assistant user's language is German, French when it is French, and English otherwise. Most modules keep their words in one list in their code. The Media module has several lists. The words `External Input` in the Media module and `offline` in the Speaker Select module are French for French users and English for everyone else.
 
 </details>
 

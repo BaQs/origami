@@ -242,9 +242,11 @@ origami_speaker:
       if (!el) return "";
       const m = card._orgSp;
       const w = String(hass.locale?.language ?? hass.language ?? "").startsWith("de")
-        ? { group: "Gruppe", playing: "läuft", paused: "pausiert", idle: "inaktiv" }
-        : { group: "group", playing: "playing", paused: "paused", idle: "idle" };
-      const next = m.dead ? "offline"
+        ? { group: "Gruppe", playing: "läuft", paused: "pausiert", idle: "inaktiv", offline: "offline" }
+        : String(hass.locale?.language ?? hass.language ?? "").startsWith("fr")
+        ? { group: "groupe", playing: "lecture", paused: "en pause", idle: "inactive", offline: "hors ligne" }
+        : { group: "group", playing: "playing", paused: "paused", idle: "idle", offline: "offline" };
+      const next = m.dead ? w.offline
         : m.slave ? ("\u2192 " + (m.masterName ?? w.group))
         : m.bt ? "Bluetooth"
         : m.tv ? "TV"

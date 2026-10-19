@@ -51,6 +51,8 @@ origami_fan:
       const pct = Math.round(Number(st?.attributes?.percentage) || 0);
       const w = String(hass.locale?.language ?? hass.language ?? "").startsWith("de")
         ? { on: "An", off: "Aus", error: "Fehler" }
+        : String(hass.locale?.language ?? hass.language ?? "").startsWith("fr")
+        ? { on: "Allumé", off: "Éteint", error: "Erreur" }
         : { on: "On", off: "Off", error: "Error" };
       const next = !st || ["unavailable", "unknown"].includes(st.state) ? w.error
         : st.state !== "on" ? w.off

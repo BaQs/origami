@@ -385,6 +385,8 @@ origami_base:
       const st = hass.states[entity];
       const w = String(hass.locale?.language ?? hass.language ?? "").startsWith("de")
         ? { on: "An", off: "Aus", error: "Fehler" }
+        : String(hass.locale?.language ?? hass.language ?? "").startsWith("fr")
+        ? { on: "Allumé", off: "Éteint", error: "Erreur" }
         : { on: "On", off: "Off", error: "Error" };
       const next = !st || ["unavailable", "unknown"].includes(st.state) ? w.error
         : card._orgOn ? w.on : w.off;

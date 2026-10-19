@@ -38,15 +38,19 @@ origami_climate:
       if (!el) return "";
       const c = card._orgCl;
       const de = String(hass.locale?.language ?? hass.language ?? "").startsWith("de");
+      const fr = String(hass.locale?.language ?? hass.language ?? "").startsWith("fr");
       const words = de ? {
         heating: "Heizt", preheating: "Heizt vor", cooling: "Kühlt",
         drying: "Trocknet", fan: "Lüftet", defrosting: "Taut ab"
+      } : fr ? {
+        heating: "Chauffe", preheating: "Préchauffage", cooling: "Refroidit",
+        drying: "Assèche", fan: "Ventilation", defrosting: "Dégivrage"
       } : {
         heating: "Heating", preheating: "Preheating", cooling: "Cooling",
         drying: "Drying", fan: "Fan", defrosting: "Defrosting"
       };
-      const next = c.dead ? (de ? "Fehler" : "Error")
-        : c.off ? (de ? "Aus" : "Off")
+      const next = c.dead ? (de ? "Fehler" : fr ? "Erreur" : "Error")
+        : c.off ? (de ? "Aus" : fr ? "Éteint" : "Off")
         : words[c.act] ?? "Auto";
       if (el.innerText !== next) card.querySelector('.bubble-state').innerText = next;
       return "";

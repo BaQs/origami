@@ -52,6 +52,7 @@ origami_media:
       card._orgMC = !!cfg.compact;
       card._orgM = {
         de: String(hass.locale?.language ?? hass.language ?? "").startsWith("de"),
+        fr: String(hass.locale?.language ?? hass.language ?? "").startsWith("fr"),
         ent,
         base,
         src,
@@ -215,11 +216,14 @@ origami_media:
       const map = m.de ? {
         playing: "Wiedergabe", paused: "Aus", idle: "Aus", off: "Aus",
         standby: "Aus", unavailable: "Fehler", unknown: "Fehler"
+      } : m.fr ? {
+        playing: "Lecture", paused: "Éteint", idle: "Éteint", off: "Éteint",
+        standby: "Éteint", unavailable: "Erreur", unknown: "Erreur"
       } : {
         playing: "Playing", paused: "Off", idle: "Off", off: "Off",
         standby: "Off", unavailable: "Error", unknown: "Error"
       };
-      const next = m.entSrc === "optical" ? (m.de ? "TV-Eingang" : "TV input")
+      const next = m.entSrc === "optical" ? (m.de ? "TV-Eingang" : m.fr ? "Entrée TV" : "TV input")
         : m.entSrc === "bluetooth" ? "Bluetooth"
         : map[m.ent.state] ?? m.ent.state ?? "";
       if (el.innerText !== next) el.innerText = next;
@@ -252,11 +256,14 @@ origami_media:
       const map = m.de ? {
         playing: "Wiedergabe", paused: "Pausiert", buffering: "Puffert", on: "An",
         off: "Aus", idle: "Inaktiv", standby: "Standby", unavailable: "Nicht verfügbar"
+      } : m.fr ? {
+        playing: "Lecture", paused: "En pause", buffering: "Chargement", on: "Allumé",
+        off: "Éteint", idle: "Inactif", standby: "Veille", unavailable: "Indisponible"
       } : {
         playing: "Playing", paused: "Paused", buffering: "Buffering", on: "On",
         off: "Off", idle: "Idle", standby: "Standby", unavailable: "Unavailable"
       };
-      const next = m.physical ? (a.source ?? "External Input")
+      const next = m.physical ? (a.source ?? (m.fr ? "Entrée externe" : "External Input"))
         : m.base.state === "playing" && a.media_artist ? a.media_artist
         : map[m.base.state] ?? m.base.state ?? "";
       if (el.innerText !== next) el.innerText = next;
@@ -298,6 +305,7 @@ origami_media:
       const castTitle = m.castActive ? m.artEnt?.attributes?.media_title : null;
       const w = m.de
         ? { on: "An", off: "Aus", error: "Fehler", paused: "Pause" }
+        : m.fr ? { on: "Allumé", off: "Éteint", error: "Erreur", paused: "En pause" }
         : { on: "On", off: "Off", error: "Error", paused: "Paused" };
       const next = m.power === null ? w.error
         : !m.power ? w.off
