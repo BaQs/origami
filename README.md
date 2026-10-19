@@ -5,6 +5,8 @@
 
 Origami is a Home Assistant theme with a matching phone dashboard. The dashboard is built mainly with [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) and [Bubble Card](https://github.com/Clooos/Bubble-Card), and everything else uses what Home Assistant already offers, such as themes, template sensors and scripts. The repository also contains modules that give Bubble cards the Origami look.
 
+Origami lets Home Assistant and Bubble Card do as much as possible. New parts use Bubble Card's card types, the Origami modules, the other cards in the dashboard or Home Assistant's own features. A custom card is built only for a specific gap that nothing else can fill, such as [Origami Weather](https://github.com/hazymorning/origami_weather) or [Origami Notifications](https://github.com/hazymorning/origami_notifications). The dashboard does not use card-mod.
+
 | Part | Description |
 | --- | --- |
 | Theme | The theme uses muted, warm colors in light and dark mode. Strong colors are used mainly for devices that are on. It works with any dashboard. |
@@ -14,7 +16,10 @@ Origami is a Home Assistant theme with a matching phone dashboard. The dashboard
 > [!NOTE]
 > The dashboard comes from a real home, so all entities are examples. Replace them with your own and remove the parts you do not need. Some cards are built in an unusual way so that nothing moves while the page loads. The [Techniques](#techniques) section explains how. The desktop layout is not finished yet.
 
-[Setup](#setup) · [Dashboard](#dashboard) · [Pop-ups](#pop-ups) · [Helpers](#helpers) · [Techniques](#techniques) · [Theme](#theme) · [Troubleshooting](#troubleshooting)
+> [!TIP]
+> If you use an AI assistant to adapt the dashboard, read the [AI assistants](#ai-assistants) section first.
+
+[Setup](#setup) · [Dashboard](#dashboard) · [Pop-ups](#pop-ups) · [Helpers](#helpers) · [Techniques](#techniques) · [Theme](#theme) · [Troubleshooting](#troubleshooting) · [AI assistants](#ai-assistants)
 
 ## Setup
 
@@ -4513,6 +4518,16 @@ A helper cannot find its source sensor. Replace the example sensors in `/config/
 Instead of copying the font files, you can add `https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap` as the stylesheet. In that case, the font loads from Google's servers. It may arrive after the page, and then all text redraws.
 
 </details>
+
+## AI assistants
+
+Origami was built by hand over many years. Many of its details have reasons that the YAML alone does not show, so an AI assistant that guesses instead of reading usually gets them wrong. The repository is also large, and adapting it to your home takes time, even with AI.
+
+- Use the most capable model that you have access to, and turn on extended thinking if your app offers it.
+- Give the assistant the files from this repository, not only a link or a screenshot. Before it writes anything, it should read the README section of the part that you want to change and the [Techniques](#techniques) section.
+- Ask it to work with Bubble Card, the Origami modules and the other cards in the dashboard. Otherwise, it often writes a new custom card or uses card-mod, because that is easier than learning how these cards work.
+- Give it your real entity IDs. The assistant cannot see your Home Assistant, so it invents any ID that you do not give it.
+- Ask for the changed cards only, and save a copy of your configuration before you paste anything.
 
 ## Status
 
