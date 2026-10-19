@@ -4514,6 +4514,14 @@ Instead of copying the font files, you can add `https://fonts.googleapis.com/css
 
 </details>
 
+## More cards
+
+These cards follow the Origami style but are separate projects with their own repositories.
+
+- [Origami Energy](https://github.com/BaQs/origami_energy) shows today's energy cost and use from the energy dashboard and has a details view for a pop-up.
+- [Origami Music](https://github.com/BaQs/origami_music) shows what is playing and the recently played albums for Music Assistant, with a music pop-up for speaker groups and the library.
+- [Origami Security](https://github.com/BaQs/origami_security) shows an alarm, cameras, doors and recent events in a security pop-up.
+
 ## Status
 
 - [x] Theme, dashboard and helpers
