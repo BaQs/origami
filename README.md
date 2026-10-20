@@ -17,7 +17,20 @@ Origami is a Home Assistant theme with a matching phone dashboard. The dashboard
 > [!TIP]
 > If you use an AI assistant to adapt the dashboard, read the [AI assistants](#ai-assistants) section first.
 
-[Setup](#setup) · [Dashboard](#dashboard) · [Pop-ups](#pop-ups) · [Helpers](#helpers) · [Techniques](#techniques) · [Theme](#theme) · [Troubleshooting](#troubleshooting) · [AI assistants](#ai-assistants)
+[How Origami is built](#how-origami-is-built) · [Setup](#setup) · [Dashboard](#dashboard) · [Pop-ups](#pop-ups) · [Helpers](#helpers) · [Techniques](#techniques) · [Theme](#theme) · [Troubleshooting](#troubleshooting) · [AI assistants](#ai-assistants)
+
+## How Origami is built
+
+Origami builds on what Home Assistant and Bubble Card already do well and adds as few parts as possible. Fewer parts mean less code, fewer things that can break and a dashboard that follows the theme everywhere. Bubble Card handles the layout, the actions, the pop-ups and the editor, so an Origami module only adds what is missing.
+
+Each new part uses the first option in this list that works for it:
+
+1. Bubble Card's own card types and options come first.
+2. When those are not enough, an Origami module changes how a Bubble card looks or behaves.
+3. Logic goes into a template sensor or a script in the [package](packages/origami.yaml). A script can also give a Bubble card new actions, such as the plus and minus buttons on the thermostat card.
+4. A separate card is built only for a gap that nothing else can fill, as with Origami Weather, Origami Notifications and Origami Header.
+
+The [Techniques](#techniques) section shows these building blocks in the dashboard. Origami 3 continues in this direction, as the [Status](#status) section describes.
 
 ## Setup
 
@@ -4141,7 +4154,7 @@ cards:
 
 ## Helpers
 
-Most of the logic is in template sensors, so the cards usually only display a result. All helpers are in [`packages/origami.yaml`](packages/origami.yaml), together with the scripts that the pop-ups use. To use the helpers in your home, make these changes.
+Most of the logic is in template sensors, so the cards usually only display a result. All helpers are in [`packages/origami.yaml`](packages/origami.yaml), together with the scripts that the pop-ups use. The scripts give Bubble cards actions that Bubble Card does not have on its own, as the [Techniques](#techniques) section shows. To use the helpers in your home, make these changes.
 
 - Copy one `Climate | <room>` block for each room and set its two source sensors.
 - The peak and average sensors build sensor names from a list of rooms, such as `sensor.<room>_temperature`. Name your sensors in the same way, or change these templates.
@@ -4233,24 +4246,30 @@ The sensor finds the TV input and Bluetooth by name in the speaker's `source`. I
 
 ## Techniques
 
-These techniques appear in several places in the dashboard.
+These techniques appear in several places in the dashboard. The first three are the building blocks from [How Origami is built](#how-origami-is-built). The last three apply to the cards that still use Paper Buttons Row, which Origami 3 will replace with Bubble cards in most places.
 
 <details>
-<summary>Paper Buttons Row as a card</summary>
+<summary>A Bubble card with a module</summary>
 
 <br>
 
-Paper Buttons Row has no background when you use it as a card. To make it look like a card, give the row a background, a corner radius and padding. With `display: grid`, you can arrange the buttons in rows and columns, as in the climate table. The room cards, the climate table and the server card are each a single Paper Buttons Row.
+The favorites, the section headers and the pop-ups are Bubble cards. Bubble Card does most of the work, and the Origami modules change the look and add what is missing. The light card in the room pop-up uses only Bubble Card's own options and two modules. Base sets the frame and the colors, and Light writes the brightness into the state line. These are the card's first lines.
 
 ```yaml
-type: custom:paper-buttons-row
-styles:
-  padding: var(--ha-space-4)
-  background-color: var(--fill-subtle)
-  border-radius: var(--ha-card-border-radius)
-buttons:
-  - entity: light.living_room
+type: custom:bubble-card
+card_type: button
+button_type: switch
+entity: light.living_room
+name: All
+icon: mdi:lightbulb-multiple
+modules:
+  - origami_base
+  - origami_light
+origami_base:
+  tile: true
 ```
+
+The [module reference](bubble_card/README.md) explains every module and its options.
 
 </details>
 
@@ -4277,6 +4296,50 @@ Where possible, a sensor turns numbers into a single word, and the card changes 
 </details>
 
 <details>
+<summary>Actions in scripts</summary>
+
+<br>
+
+When a card needs an action that Bubble Card does not have, a script in the [package](packages/origami.yaml) adds it. The minus and plus buttons on the thermostat card call `script.thermostat_step`, which moves the target temperature by half a degree. **Everything off** at the bottom of the room pop-up calls `script.room_off`, which turns off the lights, fans, media players and switches in the room's area.
+
+```yaml
+- icon: mdi:plus
+  show_background: true
+  tap_action:
+    action: perform-action
+    perform_action: script.thermostat_step
+    data:
+      thermostat: climate.living_room
+      step: 0.5
+```
+
+</details>
+
+<details>
+<summary>Hidden until needed</summary>
+
+<br>
+
+The favorites use Bubble Card's visibility conditions. The extra rooms and the climate table appear while a toggle is on. Hidden elements leave no gap.
+
+</details>
+
+<details>
+<summary>Sorting tiles</summary>
+
+<br>
+
+The tiles are sorted with the CSS `order` property. The oven comes first with `order: -2`, and the vacuum follows while it is cleaning.
+
+```yaml
+origami_tiles:
+  order:
+    cleaning: -1
+```
+
+</details>
+
+<details>
 <summary>No layout shifts</summary>
 
 <br>
@@ -4288,6 +4351,48 @@ Where possible, a sensor turns numbers into a single word, and the card changes 
 - Templates run in the browser where possible. The `${ }` templates in the Header and Tiles modules and the `[[[ ]]]` templates in Navbar Card render in the first frame. Jinja templates have to wait for the server.
 - The font loads from Home Assistant itself. A font that loads late makes all text redraw.
 - The main view uses grid cards instead of stack cards where it needs a wrapper.
+
+</details>
+
+<details>
+<summary>Scaling instead of hiding</summary>
+
+<br>
+
+To show and hide an element without moving anything else, scale it instead of removing it. CSS cannot read entity states, so a Navbar Card template writes the group state into a CSS variable.
+
+```js
+document.documentElement.style.setProperty('--navbar-player-group', a.group === 'yes' ? '1' : '0');
+```
+
+The group badge on the cover scales with this variable.
+
+```css
+.media-player::before,
+.media-player::after {
+  scale: var(--navbar-player-group, 0);
+  transition: scale var(--duration-normal) var(--ease-standard);
+}
+```
+
+</details>
+
+<details>
+<summary>Paper Buttons Row as a card</summary>
+
+<br>
+
+Paper Buttons Row has no background when you use it as a card. To make it look like a card, give the row a background, a corner radius and padding. With `display: grid`, you can arrange the buttons in rows and columns, as in the climate table. The room cards, the climate table and the server card are each a single Paper Buttons Row.
+
+```yaml
+type: custom:paper-buttons-row
+styles:
+  padding: var(--ha-space-4)
+  background-color: var(--fill-subtle)
+  border-radius: var(--ha-card-border-radius)
+buttons:
+  - entity: light.living_room
+```
 
 </details>
 
@@ -4325,30 +4430,6 @@ buttons:
 </details>
 
 <details>
-<summary>Hidden until needed</summary>
-
-<br>
-
-The favorites use Bubble Card's visibility conditions. The extra rooms and the climate table appear while a toggle is on. Hidden elements leave no gap.
-
-</details>
-
-<details>
-<summary>Sorting tiles</summary>
-
-<br>
-
-The tiles are sorted with the CSS `order` property. The oven comes first with `order: -2`, and the vacuum follows while it is cleaning.
-
-```yaml
-origami_tiles:
-  order:
-    cleaning: -1
-```
-
-</details>
-
-<details>
 <summary>Striped rows</summary>
 
 <br>
@@ -4361,29 +4442,6 @@ styles:
   background-image: >-
     repeating-linear-gradient(to bottom, transparent, transparent var(--control-height-icon),
     var(--fill-subtle) var(--control-height-icon), var(--fill-subtle) calc(var(--control-height-icon) * 2))
-```
-
-</details>
-
-<details>
-<summary>Scaling instead of hiding</summary>
-
-<br>
-
-To show and hide an element without moving anything else, scale it instead of removing it. CSS cannot read entity states, so a Navbar Card template writes the group state into a CSS variable.
-
-```js
-document.documentElement.style.setProperty('--navbar-player-group', a.group === 'yes' ? '1' : '0');
-```
-
-The group badge on the cover scales with this variable.
-
-```css
-.media-player::before,
-.media-player::after {
-  scale: var(--navbar-player-group, 0);
-  transition: scale var(--duration-normal) var(--ease-standard);
-}
 ```
 
 </details>
@@ -4522,8 +4580,8 @@ Instead of copying the font files, you can add `https://fonts.googleapis.com/css
 Origami was built by hand over many years. Many of its details have reasons that the YAML alone does not show, so an AI assistant that guesses instead of reading usually gets them wrong. The repository is also large, and adapting it to your home takes time, even with AI.
 
 - Use the most capable model that you have access to, and turn on extended thinking if your app offers it.
-- Give the assistant the files from this repository, not only a link or a screenshot. Before it writes anything, it should read the README section of the part that you want to change and the [Techniques](#techniques) section.
-- Ask it to work with Bubble Card, the Origami modules and the other cards in the dashboard. Otherwise, it often writes a new custom card or uses card-mod, because that is easier than learning how these cards work.
+- Give the assistant the files from this repository, not only a link or a screenshot. Before it writes anything, it should read [How Origami is built](#how-origami-is-built), the README section of the part that you want to change and the [Techniques](#techniques) section.
+- Ask it to follow the order in [How Origami is built](#how-origami-is-built). Otherwise, it often writes a new custom card or uses card-mod, because that is easier than learning how Bubble Card and the modules work.
 - Give it your real entity IDs. The assistant cannot see your Home Assistant, so it invents any ID that you do not give it.
 - Ask for the changed cards only, and save a copy of your configuration before you paste anything.
 
@@ -4534,6 +4592,8 @@ Origami was built by hand over many years. Many of its details have reasons that
 - [x] Pop-ups for a room, the TV and the fan
 - [ ] More pop-ups, such as those for music, lights, favorites and the server
 - [ ] Desktop layout
+
+Origami 3 continues the approach from [How Origami is built](#how-origami-is-built). Most cards that still use Paper Buttons Row will become Bubble cards, and the modules will move to Bubble Card's [Module Store](https://github.com/Clooos/Bubble-Card#modules).
 
 ## License
 
