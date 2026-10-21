@@ -1,9 +1,9 @@
 origami_speaker:
   name: "Origami • Speaker Select"
-  version: "4.1.4"
+  version: "4.2.0"
   supported:
     - media-player
-  description: "The Speaker Select module creates the speaker rows for a music pop-up and works with Base. The Media module is not needed. The speaker's name is always visible, followed by what it is playing. Album art fills the icon and appears blurred behind the row. A crown marks the group leader, and a link marks its members. When a speaker is selected in input_select.lautsprecher_wahlen, its row has a stronger fill. If the volume sub-button has css_class set to readout, the module writes the volume into it as a percentage. In a sections view, set rows to 1. The example in bubble_card/README.md shows the other card options."
+  description: "The Speaker Select module creates the speaker rows for a music pop-up and works with Base. The Media module is not needed. The speaker's name is always visible, followed by what it is playing. Album art fills the icon and appears blurred behind the row. A crown marks the group leader, and a link marks its members. The groups come from LinkPlay sensors or, without them, from the speaker's group_members attribute. When a speaker is selected in input_select.lautsprecher_wahlen, its row has a stronger fill. If the volume sub-button has css_class set to readout, the module writes the volume into it as a percentage. In a sections view, set rows to 1. The example in bubble_card/README.md shows the other card options."
   code: |
     ${(() => {
       const s = hass.states;
@@ -11,13 +11,16 @@ origami_speaker:
       const a = st?.attributes ?? {};
       const link = s["sensor.linkplay_" + (entity ?? "").split(".")[1]];
       const g = link?.attributes?.group_state;
-      const slave = g === "slave";
-      const masterId = s["sensor.linkplay_master"]?.state;
+      // Without a LinkPlay sensor, as with Music Assistant, every speaker of a group lists the same group_members, with the leader first.
+      const members = link ? [] : (a.group_members ?? []);
+      const leaderId = members.length > 1 ? members[0] : null;
+      const slave = link ? g === "slave" : !!leaderId && leaderId !== entity;
+      const masterId = link ? s["sensor.linkplay_master"]?.state : leaderId;
       const master = slave && masterId ? s[masterId] : null;
       const showId = master ? masterId : (entity ?? "");
       const show = master ?? st;
       const showLink = s["sensor.linkplay_" + showId.split(".")[1]];
-      const src = (showLink?.attributes?.source ?? "").trim().toLowerCase();
+      const src = (showLink?.attributes?.source ?? show?.attributes?.source ?? "").trim().toLowerCase();
       const tvSrc = ["optical", "optical-in", "optical in", "spdif", "coaxial", "co-axial", "coax", "hdmi", "arc", "tv"];
       const artless = ["optical", "optical-in", "optical in", "spdif", "coaxial", "co-axial", "coax", "hdmi", "arc", "tv", "line in", "line-in", "line-in2", "line_in", "aux", "rca", "xlr", "phono", "fm", "cd"];
       const ignore = String(this.config.origami_speaker?.ignore_art ?? "").split(",").map(v => v.trim().toLowerCase()).filter(Boolean);
@@ -50,7 +53,7 @@ origami_speaker:
         show,
         showId,
         slave,
-        grouped: ["master", "slave"].includes(g),
+        grouped: link ? ["master", "slave"].includes(g) : !!leaderId,
         dead: !st || ["unavailable", "unknown", "off", "standby"].includes(st.state),
         chosen: s["input_select.lautsprecher_wahlen"]?.state === entity,
         bt: src === "bluetooth",

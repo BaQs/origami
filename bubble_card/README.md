@@ -391,6 +391,8 @@ rows: 1
 
 The module was written for LinkPlay speakers. In speaker mode, the cover comes from the LinkPlay sensor `sensor.linkplay_<name>`, and group members show their group leader's state. The state of `sensor.linkplay_master` is the group leader's entity ID. The icon is hidden while `media_player.<name>_dlna` has a picture and reports DLNA as its source. The icon stays visible while the speaker itself has a picture or uses the optical input. The code shortens a few speaker names in a list called `names`. Replace these names with your own.
 
+Without the LinkPlay sensor, the module reads the speaker's own attributes. This is the case with Music Assistant. The cover then comes from the speaker while it plays or is paused, and a group member shows the state of the first speaker in its `group_members` attribute, which is the group leader.
+
 </details>
 
 ### Speaker Select
@@ -440,7 +442,7 @@ origami_speaker:
 
 Tapping a row does not select the speaker. Give each row a tap action that sets your speaker selection.
 
-Of all the modules, this one depends most on the example home. The groups come from the LinkPlay sensors `sensor.linkplay_<name>` and `sensor.linkplay_master`, and the selected speaker comes from `input_select.lautsprecher_wahlen`. The package contains `input_select.selected_speaker`, which works in the same way. For your setup, replace `sensor.linkplay_master` and `input_select.lautsprecher_wahlen` in the code.
+Of all the modules, this one depends most on the example home. The groups come from the LinkPlay sensors `sensor.linkplay_<name>` and `sensor.linkplay_master`, and the selected speaker comes from `input_select.lautsprecher_wahlen`. The package contains `input_select.selected_speaker`, which works in the same way. For your setup, replace `sensor.linkplay_master` and `input_select.lautsprecher_wahlen` in the code. Speakers without LinkPlay sensors, such as Music Assistant players, take their groups from the `group_members` attribute. Music Assistant lists the same members on every speaker of a group, and the first entry is the leader.
 
 </details>
 
